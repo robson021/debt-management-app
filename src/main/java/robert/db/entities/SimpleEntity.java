@@ -2,26 +2,29 @@ package robert.db.entities;
 
 import java.util.UUID;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class SimpleEntity {
 
-    @Id
-    @GeneratedValue
-    private Long id;
-
+    @Column(unique = true)
     private String uuid = UUID.randomUUID()
             .toString();
 
-    public Long getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if ( this == o )
+            return true;
+        if ( o == null || getClass() != o.getClass() )
+            return false;
+
+        SimpleEntity that = (SimpleEntity) o;
+        return hashCode() == that.hashCode();
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public int hashCode() {
+        return uuid.hashCode();
     }
-
 }
