@@ -1,7 +1,5 @@
 package robert.db.dao;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import robert.db.entities.Asset;
 import robert.db.entities.User;
 import robert.db.repo.UserRepository;
+import robert.web.rest.dto.UserInfoDTO;
+import robert.web.rest.dto.asm.UserAssembler;
 import robert.web.session.api.UserDataProvider;
 
 @Service
@@ -34,13 +34,13 @@ public class UserDao {
         return saved;
     }
 
-    public void addAssetToUser(String borrowerEmail, String descreption, double ammount, long borrowerId) {
+    public void addAssetToUser(String borrowerEmail, String description, double amount, long borrowerId) {
         User user = userRepository.findOne(userDataProvider.getId());
 
         Asset asset = new Asset();
-        asset.setAmount(ammount);
+        asset.setAmount(amount);
         asset.setBorrowerId(borrowerId);
-        asset.setDescription(descreption);
+        asset.setDescription(description);
 
         user.addAsset(asset);
         asset.setUser(user);
@@ -51,8 +51,23 @@ public class UserDao {
         return userRepository.findOne(id);
     }
 
+    public User saveUser(UserInfoDTO userDTO) throws Exception {
+        User user = UserAssembler.convertDtoToUser(userDTO);
+        user = userRepository.save(user);
+        log.info("Saved new user: " + user.getEmail());
+        return user;
+    }
 
-    @PostConstruct
+    public User findUser(UserInfoDTO userDTO) throws Exception {
+        User user = userRepository.findOneByEmail(userDTO.getEmail());
+        if ( user == null ) {
+            throw new Exception("User not found");
+        }
+        return user;
+    }
+
+
+    /*@PostConstruct
     public void init() throws Exception {
         User user = new User();
         user.setEmail("testadm@t.pl");
@@ -61,5 +76,5 @@ public class UserDao {
         user.setPassword("Passwd.123");
 
         userRepository.save(user);
-    }
+    }*/
 }

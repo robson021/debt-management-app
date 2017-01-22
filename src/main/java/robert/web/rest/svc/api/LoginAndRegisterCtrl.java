@@ -1,13 +1,17 @@
 package robert.web.rest.svc.api;
 
-import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 
 import robert.web.rest.dto.UserInfoDTO;
 
 public interface LoginAndRegisterCtrl {
 
-    HttpEntity<?> registerNewUser(UserInfoDTO userDTO);
+    String REGISTER_URL = "/register/";
 
-    HttpEntity<?> loginUser(UserInfoDTO userDTO);
+    String LOGIN_URL = "/login/";
+
+    ResponseEntity<?> registerNewUser(UserInfoDTO userDTO) throws Exception;
+
+    ResponseEntity<?> loginUser(UserInfoDTO userDTO) throws Exception;
 
 }

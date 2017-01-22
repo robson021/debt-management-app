@@ -3,10 +3,22 @@ package robert;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import robert.db.entities.Asset;
 import robert.db.entities.User;
 
 public class TestUtils {
+
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+    public static String asJsonString(final Object obj) {
+        try {
+            return mapper.writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static User getTestUser() {
         User user = new User();
