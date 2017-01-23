@@ -10,9 +10,12 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.util.AntPathMatcher;
 
 public abstract class BasicAuthFilter implements Filter {
+
+    protected static final Logger log = Logger.getLogger(BasicAuthFilter.class);
 
     protected static final AntPathMatcher matcher = new AntPathMatcher();
 
@@ -26,8 +29,11 @@ public abstract class BasicAuthFilter implements Filter {
             doAuth(request, response);
             filterChain.doFilter(servletRequest, response);
         } catch (Throwable ignored) {
+            if ( log.isDebugEnabled() ) {
+                log.error("Auth failed on uri: " + request.getRequestURI());
+            }
         }
     }
 
-    abstract void doAuth(HttpServletRequest request, HttpServletResponse response);
+    abstract void doAuth(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

@@ -7,25 +7,31 @@ import org.springframework.transaction.annotation.Transactional;
 
 import robert.db.entities.Asset;
 import robert.db.entities.User;
+import robert.db.repo.AssetRepository;
 import robert.db.repo.UserRepository;
+import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.UserInfoDTO;
+import robert.web.rest.dto.asm.PaymentAssembler;
 import robert.web.rest.dto.asm.UserAssembler;
 import robert.web.session.api.UserDataProvider;
 
 @Service
 @Transactional
-public class UserDao {
+public class MainDao {
 
-    private static final Logger log = Logger.getLogger(UserDao.class);
+    private static final Logger log = Logger.getLogger(MainDao.class);
 
     private final UserDataProvider userDataProvider;
 
     private final UserRepository userRepository;
 
+    private final AssetRepository assetRepository;
+
     @Autowired
-    public UserDao(UserDataProvider userDataProvider, UserRepository userRepository) {
+    public MainDao(UserDataProvider userDataProvider, UserRepository userRepository, AssetRepository assetRepository) {
         this.userDataProvider = userDataProvider;
         this.userRepository = userRepository;
+        this.assetRepository = assetRepository;
     }
 
     public User saveUser(User user) {
@@ -45,6 +51,13 @@ public class UserDao {
         user.addAsset(asset);
         asset.setUser(user);
         userRepository.save(user);
+    }
+
+    public void addAssetToTheUser(PaymentDTO paymentDTO) {
+        User user = userRepository.findOne(userDataProvider.getId());
+        Asset asset = PaymentAssembler.addDebtorToTheUser(paymentDTO, user);
+        assetRepository.save(asset);
+        log.info("Added new debtor to the user " + userDataProvider.getEmail());
     }
 
     public User findUser(long id) {

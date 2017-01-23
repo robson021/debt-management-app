@@ -12,7 +12,7 @@ import org.springframework.http.MediaType;
 
 import robert.SpringWebMvcTest;
 import robert.TestUtils;
-import robert.db.dao.UserDao;
+import robert.db.dao.MainDao;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.UserAssembler;
 import robert.web.rest.svc.api.LoginAndRegisterCtrl;
@@ -20,7 +20,7 @@ import robert.web.rest.svc.api.LoginAndRegisterCtrl;
 public class LoginAndRegisterControllerTest extends SpringWebMvcTest {
 
     @Autowired
-    private UserDao userDao;
+    private MainDao mainDao;
 
     @Before
     public void init() throws Exception {
@@ -45,7 +45,7 @@ public class LoginAndRegisterControllerTest extends SpringWebMvcTest {
         UserInfoDTO user = UserAssembler.convertToDto(Collections.singletonList(TestUtils.getTestUser()))
                 .get(0);
 
-        userDao.saveUser(user);
+        mainDao.saveUser(user);
 
         mockMvc.perform(post(LoginAndRegisterCtrl.LOGIN_URL).content(TestUtils.asJsonString(user))
                 .contentType(MediaType.APPLICATION_JSON))

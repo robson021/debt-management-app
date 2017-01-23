@@ -28,7 +28,7 @@ public class Asset extends SimpleEntity {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @Column()
+    @Column(/*nullable = false*/)
     private String borrowerEmail;
 
     @Column(nullable = false)

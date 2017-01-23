@@ -8,20 +8,20 @@ import robert.SpringTest;
 import robert.TestUtils;
 import robert.db.entities.User;
 
-public class UserDaoTest extends SpringTest {
+public class MainDaoTest extends SpringTest {
 
     @Autowired
-    private UserDao userDao;
+    private MainDao mainDao;
 
     @Test
     public void addAssetToUser() throws Exception {
-        User user = userDao.saveUser(TestUtils.getTestUser());
-        User borrower = userDao.saveUser(TestUtils.getTestUser());
+        User user = mainDao.saveUser(TestUtils.getTestUser());
+        User borrower = mainDao.saveUser(TestUtils.getTestUser());
 
         TestUtils.setAssetToUSer(user, borrower);
-        userDao.saveUser(user);
+        mainDao.saveUser(user);
 
-        user = userDao.findUser(user.getId());
+        user = mainDao.findUser(user.getId());
 
         Assertions.assertThat(user.getAssets())
                 .isNotEmpty();
