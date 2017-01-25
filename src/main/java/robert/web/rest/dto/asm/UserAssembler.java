@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import robert.db.entities.User;
+import robert.exeptions.InvalidEmailException;
+import robert.exeptions.InvalidPasswordException;
 import robert.web.rest.dto.UserInfoDTO;
 
 public class UserAssembler {
 
-    public static User convertDtoToUser(UserInfoDTO userDTO) throws Exception {
+    public static User convertDtoToUser(UserInfoDTO userDTO) throws InvalidEmailException, InvalidPasswordException {
         User user = new User();
         user.setName(userDTO.getName());
         user.setSurname(userDTO.getSurname());

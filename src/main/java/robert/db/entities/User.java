@@ -16,6 +16,9 @@ import javax.persistence.Transient;
 
 import org.springframework.util.CollectionUtils;
 
+import robert.exeptions.InvalidEmailException;
+import robert.exeptions.InvalidPasswordException;
+
 @Entity
 @Table(name = "USER")
 public class User extends SimpleEntity {
@@ -76,10 +79,10 @@ public class User extends SimpleEntity {
         return email;
     }
 
-    public void setEmail(String email) throws Exception {
+    public void setEmail(String email) throws InvalidEmailException {
         if ( !VALID_EMAIL_ADDRESS_REGEX.matcher(email)
                 .find() ) {
-            throw new Exception("Invalid email");
+            throw new InvalidEmailException();
         }
         this.email = email;
     }
@@ -88,10 +91,10 @@ public class User extends SimpleEntity {
         return password;
     }
 
-    public void setPassword(String password) throws Exception {
+    public void setPassword(String password) throws InvalidPasswordException {
         if ( !VALID_PASSWORD_REGEX.matcher(password)
                 .find() ) {
-            throw new Exception("Invalid password");
+            throw new InvalidPasswordException();
         }
         this.password = password;
     }

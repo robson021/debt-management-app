@@ -9,6 +9,9 @@ import robert.db.entities.Asset;
 import robert.db.entities.User;
 import robert.db.repo.AssetRepository;
 import robert.db.repo.UserRepository;
+import robert.exeptions.InvalidEmailException;
+import robert.exeptions.InvalidPasswordException;
+import robert.exeptions.UserNotFoundException;
 import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
@@ -64,17 +67,18 @@ public class MainDao {
         return userRepository.findOne(id);
     }
 
-    public User saveUser(UserInfoDTO userDTO) throws Exception {
+    public User saveUser(UserInfoDTO userDTO) throws InvalidEmailException, InvalidPasswordException {
         User user = UserAssembler.convertDtoToUser(userDTO);
         user = userRepository.save(user);
         log.info("Saved new user: " + user.getEmail());
         return user;
     }
 
-    public User findUser(UserInfoDTO userDTO) throws Exception {
-        User user = userRepository.findOneByEmail(userDTO.getEmail());
+    public User findUser(UserInfoDTO userDTO) throws UserNotFoundException {
+        String email = userDTO.getEmail();
+        User user = userRepository.findOneByEmail(email);
         if ( user == null ) {
-            throw new Exception("User not found");
+            throw new UserNotFoundException(email);
         }
         return user;
     }

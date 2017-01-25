@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import robert.db.dao.MainDao;
 import robert.db.entities.User;
+import robert.exeptions.InvalidEmailException;
+import robert.exeptions.InvalidPasswordException;
+import robert.exeptions.UserNotFoundException;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.svc.api.LoginAndRegisterCtrl;
 import robert.web.session.api.UserDataProvider;
@@ -29,7 +32,7 @@ public class LoginAndRegisterController implements LoginAndRegisterCtrl {
 
     @Override
     @RequestMapping(value = REGISTER_URL, method = RequestMethod.POST)
-    public ResponseEntity<?> registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
+    public ResponseEntity<?> registerNewUser(@RequestBody UserInfoDTO userDTO) throws InvalidEmailException, InvalidPasswordException {
         User user = mainDao.saveUser(userDTO);
         loginUser(user);
         return new ResponseEntity<>("User has been registered and logged in.", HttpStatus.OK);
@@ -37,7 +40,7 @@ public class LoginAndRegisterController implements LoginAndRegisterCtrl {
 
     @Override
     @RequestMapping(value = LOGIN_URL, method = RequestMethod.POST)
-    public ResponseEntity<?> loginUser(@RequestBody UserInfoDTO userDTO) throws Exception {
+    public ResponseEntity<?> loginUser(@RequestBody UserInfoDTO userDTO) throws UserNotFoundException {
         User user = mainDao.findUser(userDTO);
         loginUser(user);
         return new ResponseEntity<>("User has been logged in.", HttpStatus.OK);
