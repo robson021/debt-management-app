@@ -3,20 +3,13 @@ package robert.db.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "ASSET")
-public class Asset extends SimpleEntity {
-
-    @Id
-    @GeneratedValue
-    @Column(name = "ID")
-    private Long id;
+public class Asset extends BasicEntity {
 
     @Column(nullable = false)
     private Double amount;
@@ -33,14 +26,6 @@ public class Asset extends SimpleEntity {
 
     @Column(nullable = false)
     private Long borrowerId;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Double getAmount() {
         return amount;

@@ -8,8 +8,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -21,7 +19,7 @@ import robert.exeptions.InvalidPasswordException;
 
 @Entity
 @Table(name = "USER")
-public class User extends SimpleEntity {
+public class User extends BasicEntity {
 
     @Transient
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX = //
@@ -30,11 +28,6 @@ public class User extends SimpleEntity {
     @Transient
     private static final Pattern VALID_PASSWORD_REGEX = //
             Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$");
-
-    @Id
-    @GeneratedValue
-    @Column(name = "ID")
-    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -50,14 +43,6 @@ public class User extends SimpleEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Asset> assets = null;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
