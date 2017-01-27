@@ -4,17 +4,27 @@ public class PaymentDTO {
 
     private long borrowerId;
 
+	private String borrowerName;
+
     private double amount;
 
     private String description;
 
-    public Long getBorrowerId() {
-        return borrowerId;
+	public long getBorrowerId() {
+		return borrowerId;
     }
 
-    public void setBorrowerId(Long borrowerId) {
-        this.borrowerId = borrowerId;
+	public void setBorrowerId(long borrowerId) {
+		this.borrowerId = borrowerId;
     }
+
+	public String getBorrowerName() {
+		return borrowerName;
+	}
+
+	public void setBorrowerName(String borrowerName) {
+		this.borrowerName = borrowerName;
+	}
 
     public double getAmount() {
         return amount;

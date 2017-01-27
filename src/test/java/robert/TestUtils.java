@@ -1,12 +1,12 @@
 package robert;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import org.mockito.Mockito;
 import robert.db.entities.Asset;
 import robert.db.entities.User;
+import robert.web.session.api.UserDataProvider;
 
 public class TestUtils {
 
@@ -43,4 +43,9 @@ public class TestUtils {
         asset.setUser(lender);
         return lender;
     }
+
+	public static void mockUserDataProvider(UserDataProvider udp, User user) {
+		Mockito.when(udp.getId()).thenReturn(user.getId());
+		Mockito.when(udp.getEmail()).thenReturn(user.getEmail());
+	}
 }

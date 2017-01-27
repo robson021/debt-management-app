@@ -10,22 +10,21 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    /*
-     * custom protection is done via filters
-     */
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/**")
-                .fullyAuthenticated();
+	/*
+	 * custom protection is done via filters
+	 */
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		//http.authorizeRequests().antMatchers("/**").fullyAuthenticated();
+		http.authorizeRequests().antMatchers("/**").permitAll();
 
-        http.csrf()
-                .disable();
+		http.csrf()
+				.disable();
 
-        http.sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.NEVER)
-                .and()
-                .httpBasic();
-    }
+		http.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.NEVER)
+				.and()
+				.httpBasic();
+	}
 
 }

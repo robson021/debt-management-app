@@ -1,69 +1,69 @@
 package robert.db.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.text.DecimalFormat;
 
 @Entity
 @Table(name = "ASSET")
 public class Asset extends BasicEntity {
 
-    @Column(nullable = false)
-    private Double amount;
+	@Transient
+	private static final DecimalFormat decimalMoneyFormat = new DecimalFormat("#.##");
 
-    @Column(nullable = false)
-    private String description;
+	@Column(nullable = false)
+	private Double amount;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "USER_ID")
-    private User user;
+	@Column(nullable = false)
+	private String description;
 
-    @Column(/*nullable = false*/)
-    private String borrowerEmail;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "USER_ID")
+	private User user;
 
-    @Column(nullable = false)
-    private Long borrowerId;
+	@Column(/*nullable = false*/)
+	private String borrowerEmail;
 
-    public Double getAmount() {
-        return amount;
-    }
+	@Column(nullable = false)
+	private Long borrowerId;
 
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
+	public Double getAmount() {
+		return amount;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public void setAmount(Double amount) {
+		this.amount = Double.valueOf(decimalMoneyFormat.format(amount)
+				.replace(',', '.'));
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public User getUser() {
-        return user;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public User getUser() {
+		return user;
+	}
 
-    public String getBorrowerEmail() {
-        return borrowerEmail;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-    public void setBorrowerEmail(String borrowerEmail) {
-        this.borrowerEmail = borrowerEmail;
-    }
+	public String getBorrowerEmail() {
+		return borrowerEmail;
+	}
 
-    public Long getBorrowerId() {
-        return borrowerId;
-    }
+	public void setBorrowerEmail(String borrowerEmail) {
+		this.borrowerEmail = borrowerEmail;
+	}
 
-    public void setBorrowerId(Long borrowerId) {
-        this.borrowerId = borrowerId;
-    }
+	public Long getBorrowerId() {
+		return borrowerId;
+	}
+
+	public void setBorrowerId(Long borrowerId) {
+		this.borrowerId = borrowerId;
+	}
 }

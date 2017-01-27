@@ -1,21 +1,20 @@
 package robert.web.rest.svc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.Collections;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-
 import robert.SpringWebMvcTest;
 import robert.TestUtils;
 import robert.db.dao.MainDao;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.UserAssembler;
 import robert.web.rest.svc.api.LoginAndRegisterCtrl;
+
+import java.util.Collections;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class LoginAndRegisterControllerTest extends SpringWebMvcTest {
 
@@ -42,8 +41,8 @@ public class LoginAndRegisterControllerTest extends SpringWebMvcTest {
 
     @Test
     public void loginUser() throws Exception {
-        UserInfoDTO user = UserAssembler.convertToDto(Collections.singletonList(TestUtils.getTestUser()))
-                .get(0);
+		UserInfoDTO user = UserAssembler.convertToUserInfoDTOs(Collections.singletonList(TestUtils.getTestUser()))
+				.get(0);
 
         mainDao.saveUser(user);
 
