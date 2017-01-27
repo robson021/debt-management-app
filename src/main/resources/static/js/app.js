@@ -1,17 +1,18 @@
-const POST = "POST";
-const GET = "GET";
+const POST = "post";
+const GET = "get";
 
-function sendByAjax (url_, method_, data_, successCallback, errorCallback) {
-  $.ajax({
+function sendByAjax (url_, method_, data_) {
+  let promise = $.ajax({
     type: method_,
     url: url_,
-    //data: JSON.stringify({ Markers: data_ }),
     data: JSON.stringify(data_),
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    success: successCallback,
-    failure: errorCallback
+    contentType: "application/json",
+    dataType: "html or json"
   });
+  promise.always(function (data) {
+    console.info(data.status + ': ' + data.responseText);
+  });
+  return promise;
 }
 
 function loginUser () {
@@ -20,11 +21,10 @@ function loginUser () {
     "password": $('#passwordField').val()
   };
 
-  sendByAjax('/login/', POST, json, function (success) {
-    console.info('logged in');
-    window.location.href = '/my-debts/';
-  }, function (error) {
-    alert('error');
-    console.info(error);
+  let promise = sendByAjax('/user/login/', POST, json);
+  promise.always(function (data) {
+    if (data.status === 200) {
+      window.location.href = '/my-debts';
+    }
   });
 }

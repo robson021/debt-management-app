@@ -1,14 +1,14 @@
 package robert.web.security.filters;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import robert.exeptions.UserAuthException;
+import robert.web.session.api.UserDataProvider;
+
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import robert.web.session.api.UserDataProvider;
 
 @Component
 public class UserFilter extends BasicAuthFilter {
@@ -31,7 +31,7 @@ public class UserFilter extends BasicAuthFilter {
     }
 
     @Override
-    void doAuth(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    void doAuth(HttpServletRequest request, HttpServletResponse response) throws UserAuthException {
         if ( isUriPublic(request.getRequestURI()) )
             return;
         checkIfUserIsLoggedIn();
@@ -49,9 +49,10 @@ public class UserFilter extends BasicAuthFilter {
         return false;
     }
 
-    private void checkIfUserIsLoggedIn() throws Exception {
-        if ( "".equals(userDataProvider.getEmail()) ) {
-            throw new Exception("User is not logged in.");
+    private void checkIfUserIsLoggedIn() throws UserAuthException {
+        String email = userDataProvider.getEmail();
+        if (email == null) {
+            throw new UserAuthException();
         }
     }
 

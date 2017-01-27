@@ -10,4 +10,9 @@ public class ViewsController {
 	public String getHomePage() {
 		return "index";
 	}
+
+	@RequestMapping("/my-debts")
+	public String getMyDebts() {
+		return "my-debts";
+	}
 }

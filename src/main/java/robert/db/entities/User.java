@@ -1,21 +1,13 @@
 package robert.db.entities;
 
+import org.springframework.util.CollectionUtils;
+import robert.exeptions.InvalidEmailException;
+import robert.exeptions.InvalidPasswordPatternException;
+
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import org.springframework.util.CollectionUtils;
-
-import robert.exeptions.InvalidEmailException;
-import robert.exeptions.InvalidPasswordException;
 
 @Entity
 @Table(name = "USER")
@@ -76,11 +68,11 @@ public class User extends BasicEntity {
         return password;
     }
 
-    public void setPassword(String password) throws InvalidPasswordException {
-        if ( !VALID_PASSWORD_REGEX.matcher(password)
+	public void setPassword(String password) throws InvalidPasswordPatternException {
+		if ( !VALID_PASSWORD_REGEX.matcher(password)
                 .find() ) {
-            throw new InvalidPasswordException();
-        }
+			throw new InvalidPasswordPatternException();
+		}
         this.password = password;
     }
 

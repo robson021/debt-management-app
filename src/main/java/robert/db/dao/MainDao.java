@@ -9,7 +9,7 @@ import robert.db.entities.User;
 import robert.db.repo.AssetRepository;
 import robert.db.repo.UserRepository;
 import robert.exeptions.InvalidEmailException;
-import robert.exeptions.InvalidPasswordException;
+import robert.exeptions.InvalidPasswordPatternException;
 import robert.exeptions.UserNotFoundException;
 import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.UserInfoDTO;
@@ -74,7 +74,7 @@ public class MainDao {
 		return userRepository.findOne(id);
 	}
 
-	public User saveUser(UserInfoDTO userDTO) throws InvalidEmailException, InvalidPasswordException {
+	public User saveUser(UserInfoDTO userDTO) throws InvalidEmailException, InvalidPasswordPatternException {
 		User user = UserAssembler.convertDtoToUser(userDTO);
 		user = userRepository.save(user);
 		log.info("Saved new user: " + user.getEmail());

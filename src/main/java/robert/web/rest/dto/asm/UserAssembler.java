@@ -3,7 +3,7 @@ package robert.web.rest.dto.asm;
 import org.springframework.util.CollectionUtils;
 import robert.db.entities.User;
 import robert.exeptions.InvalidEmailException;
-import robert.exeptions.InvalidPasswordException;
+import robert.exeptions.InvalidPasswordPatternException;
 import robert.web.rest.dto.UserInfoDTO;
 
 import java.util.Collection;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class UserAssembler {
 
-	public static User convertDtoToUser(UserInfoDTO userDTO) throws InvalidEmailException, InvalidPasswordException {
+	public static User convertDtoToUser(UserInfoDTO userDTO) throws InvalidEmailException, InvalidPasswordPatternException {
 		User user = new User();
 		user.setName(userDTO.getName());
 		user.setSurname(userDTO.getSurname());
