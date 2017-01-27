@@ -25,10 +25,10 @@ public abstract class BasicAuthFilter implements Filter {
 			doAuth(request, response);
 			filterChain.doFilter(servletRequest, response);
 		} catch (UserAuthException ignored) {
-			log.error("Auth failed on uri: " + request.getRequestURI());
 			response.sendRedirect("/not-logged-in.html");
+			log.debug("Auth failed on uri: " + request.getRequestURI());
 		} catch (Throwable ignored) {
-			response.sendRedirect("/not-logged-in.html");
+			response.sendRedirect("/unknown-error.html");
 		}
 	}
 
