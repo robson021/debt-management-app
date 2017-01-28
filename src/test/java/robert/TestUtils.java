@@ -38,6 +38,8 @@ public class TestUtils {
         long id = borrower.getId();
         asset.setBorrowerId(id);
         asset.setDescription(RandomStringUtils.randomAlphanumeric(20));
+        asset.setBorrowerName(borrower.getName());
+        asset.setBorrowerSurname(borrower.getSurname());
 
         lender.addAsset(asset);
         asset.setUser(lender);

@@ -36,8 +36,8 @@ public class ViewsController {
 	@RequestMapping("/my-debts")
 	public String getMyDebts(Model model) {
 		List<PaymentDTO> myDebts = PaymentAssembler.convertToPaymentDTOs(dao.getMyDebts());
-		//model.addAttribute("myDebts", Collections.singletonList(getExampleDTO()));
-		model.addAttribute("myDebts", myDebts);
+		model.addAttribute("myDebts", Collections.singletonList(getExampleDTO()));
+		//model.addAttribute("myDebts", myDebts);
 		return "my-debts";
 	}
 
@@ -51,7 +51,8 @@ public class ViewsController {
 		PaymentDTO paymentDTO = new PaymentDTO();
 		paymentDTO.setAmount(33.45);
 		paymentDTO.setDescription("dadsada");
-		paymentDTO.setBorrowerName("robert");
+		paymentDTO.setBorrowerName("Robert");
+		paymentDTO.setBorrowerSurname("Trebor");
 		return paymentDTO;
 	}
 }

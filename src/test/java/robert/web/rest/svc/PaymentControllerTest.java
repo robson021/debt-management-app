@@ -1,8 +1,5 @@
 package robert.web.rest.svc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +7,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-
 import robert.SpringWebMvcTest;
 import robert.TestConfig;
 import robert.TestUtils;
@@ -18,6 +14,9 @@ import robert.db.dao.MainDao;
 import robert.db.entities.User;
 import robert.web.rest.dto.PaymentDTO;
 import robert.web.session.api.UserDataProvider;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Import(TestConfig.class)
 public class PaymentControllerTest extends SpringWebMvcTest {
@@ -48,6 +47,8 @@ public class PaymentControllerTest extends SpringWebMvcTest {
         paymentDTO.setBorrowerId(borrower.getId());
         paymentDTO.setDescription("Test test");
         paymentDTO.setAmount(55.);
+        paymentDTO.setBorrowerName(borrower.getName());
+        paymentDTO.setBorrowerSurname(borrower.getSurname());
 
         mockMvc.perform(post(PaymentController.ADD_ASSET_TO_THE_USER_URL).content(TestUtils.asJsonString(paymentDTO))
                 .contentType(MediaType.APPLICATION_JSON))

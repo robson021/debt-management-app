@@ -32,7 +32,7 @@
         <tr th:each="debt : ${myDebtors}">
             <td th:text="${debt.amount}">PLN</td>
             <td th:text="${debt.description}"></td>
-            <td th:text="${debt.borrowerName}"></td>
+            <td th:text="${debt.borrowerName} + ' ' + ${debt.borrowerSurname}"></td>
             <td>
                 <button class="btn btn-warn">
                     Cancel

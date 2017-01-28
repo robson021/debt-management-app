@@ -32,7 +32,7 @@
         <tr th:each="debt : ${myDebts}">
             <td th:text="${debt.amount}">PLN</td>
             <td th:text="${debt.description}"></td>
-            <td th:text="${debt.borrowerName}"></td>
+            <td th:text="${debt.borrowerName} + ' ' + ${debt.borrowerSurname}"></td>
         </tr>
         </tbody>
     </table>

@@ -24,6 +24,12 @@ public class Asset extends BasicEntity {
 	private String borrowerEmail;
 
 	@Column(nullable = false)
+	private String borrowerName;
+
+	@Column(nullable = false)
+	private String borrowerSurname;
+
+	@Column(nullable = false)
 	private Long borrowerId;
 
 	public Double getAmount() {
@@ -65,5 +71,21 @@ public class Asset extends BasicEntity {
 
 	public void setBorrowerId(Long borrowerId) {
 		this.borrowerId = borrowerId;
+	}
+
+	public String getBorrowerName() {
+		return borrowerName;
+	}
+
+	public void setBorrowerName(String borrowerName) {
+		this.borrowerName = borrowerName.trim();
+	}
+
+	public String getBorrowerSurname() {
+		return borrowerSurname;
+	}
+
+	public void setBorrowerSurname(String borrowerSurname) {
+		this.borrowerSurname = borrowerSurname.trim();
 	}
 }

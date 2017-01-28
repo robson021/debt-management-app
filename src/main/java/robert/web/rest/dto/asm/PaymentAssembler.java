@@ -17,6 +17,8 @@ public class PaymentAssembler {
 		asset.setDescription(paymentDTO.getDescription());
 		asset.setAmount(paymentDTO.getAmount());
 		asset.setBorrowerId(paymentDTO.getBorrowerId());
+		asset.setBorrowerName(paymentDTO.getBorrowerName());
+		asset.setBorrowerSurname(paymentDTO.getBorrowerSurname());
 
 		asset.setUser(user);
 		//user.addAsset(asset);
@@ -26,7 +28,8 @@ public class PaymentAssembler {
 
 	public static PaymentDTO convertToPaymentDTO(Asset asset) {
 		PaymentDTO dto = new PaymentDTO();
-		dto.setBorrowerName(asset.getBorrowerEmail());
+		dto.setBorrowerName(asset.getBorrowerName());
+		dto.setBorrowerSurname(asset.getBorrowerSurname());
 		dto.setBorrowerId(asset.getBorrowerId());
 		dto.setAmount(asset.getAmount());
 		dto.setDescription(asset.getDescription());
