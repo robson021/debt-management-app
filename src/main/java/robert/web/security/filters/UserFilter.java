@@ -50,9 +50,8 @@ public class UserFilter extends BasicAuthFilter {
     }
 
     private void checkIfUserIsLoggedIn() throws UserAuthException {
-        String email = userDataProvider.getEmail();
-        if (email == null) {
-            throw new UserAuthException();
+		if (userDataProvider.getId() < 0) {
+			throw new UserAuthException();
         }
     }
 

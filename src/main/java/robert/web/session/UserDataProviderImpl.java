@@ -5,14 +5,13 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
-
 import robert.web.session.api.UserDataProvider;
 
 @Component
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserDataProviderImpl implements UserDataProvider {
 
-    private long id;
+	private long id = -1;
 
     private String email;
 
