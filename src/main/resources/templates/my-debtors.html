@@ -34,7 +34,7 @@
             <td th:text="${debt.description}"></td>
             <td th:text="${debt.borrowerName} + ' ' + ${debt.borrowerSurname}"></td>
             <td>
-                <button class="btn btn-warn">
+                <button class="btn btn-warn" th:value="${debt.id}" onclick="cancelDebt(this.id)">
                     Cancel
                 </button>
             </td>

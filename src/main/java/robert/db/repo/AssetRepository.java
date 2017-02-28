@@ -7,5 +7,4 @@ import robert.db.entities.Asset;
 
 @Repository
 public interface AssetRepository extends CrudRepository<Asset, Long> {
-
 }

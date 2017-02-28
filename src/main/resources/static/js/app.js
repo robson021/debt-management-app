@@ -1,5 +1,6 @@
 const POST = "post";
 const GET = "get";
+const DELETE = "delete";
 
 function sendByAjax (url_, method_, data_) {
   let promise = $.ajax({
@@ -15,6 +16,16 @@ function sendByAjax (url_, method_, data_) {
   return promise;
 }
 
+function validateFields () {
+  return $('#passwordField').val() != '' && ($('#passwordField').val() === $('#repasswordField').val());
+}
+
+function checkResponseAndRedirect (response) {
+  if (response.status === 200) {
+    window.location.href = '/my-debts';
+  }
+}
+
 function loginUser () {
   let json = {
     "email": $('#emailField').val(),
@@ -23,8 +34,27 @@ function loginUser () {
 
   let promise = sendByAjax('/user/login/', POST, json);
   promise.always(function (data) {
-    if (data.status === 200) {
-      window.location.href = '/my-debts';
-    }
+    checkResponseAndRedirect(data);
   });
+}
+
+function register () {
+  if (!validateFields()) return;
+  let json = {
+    "email": $('#emailField').val(),
+    "password": $('#passwordField').val(),
+    "name": $('#nameField').val(),
+    "surname": $('#surnameField').val()
+  };
+
+  let promise = sendByAjax('/user/register/', POST, json);
+  promise.always(function (data) {
+    checkResponseAndRedirect(data);
+  });
+}
+
+function cancelDebt (assetId) {
+  let uri = '/cancel-debt/' + assetId + '/';
+  let promise = sendByAjax(uri, DELETE, null);
+  console.info('done');
 }

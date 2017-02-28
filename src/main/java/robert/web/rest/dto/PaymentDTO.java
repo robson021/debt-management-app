@@ -2,6 +2,8 @@ package robert.web.rest.dto;
 
 public class PaymentDTO {
 
+    private long id;
+
     private long borrowerId;
 
 	private String borrowerName;
@@ -11,6 +13,14 @@ public class PaymentDTO {
     private double amount;
 
     private String description;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
 	public long getBorrowerId() {
 		return borrowerId;

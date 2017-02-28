@@ -1,25 +1,18 @@
 package robert.db.entities;
 
-import org.springframework.util.CollectionUtils;
-import robert.exeptions.InvalidEmailException;
-import robert.exeptions.InvalidPasswordPatternException;
-
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Pattern;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "USER")
 public class User extends BasicEntity {
-
-    @Transient
-    private static final Pattern VALID_EMAIL_ADDRESS_REGEX = //
-            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-
-    @Transient
-    private static final Pattern VALID_PASSWORD_REGEX = //
-            Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$");
 
     @Column(nullable = false)
     private String name;
@@ -56,11 +49,7 @@ public class User extends BasicEntity {
         return email;
     }
 
-    public void setEmail(String email) throws InvalidEmailException {
-        if ( !VALID_EMAIL_ADDRESS_REGEX.matcher(email)
-                .find() ) {
-            throw new InvalidEmailException();
-        }
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -68,11 +57,7 @@ public class User extends BasicEntity {
         return password;
     }
 
-	public void setPassword(String password) throws InvalidPasswordPatternException {
-		if ( !VALID_PASSWORD_REGEX.matcher(password)
-                .find() ) {
-			throw new InvalidPasswordPatternException();
-		}
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -85,7 +70,7 @@ public class User extends BasicEntity {
     }
 
     public void addAsset(Asset asset) {
-        if ( CollectionUtils.isEmpty(this.assets) ) {
+        if ( this.assets == null ) {
             this.assets = new HashSet<>(1);
         }
         this.assets.add(asset);

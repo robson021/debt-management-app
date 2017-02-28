@@ -30,13 +30,14 @@
         <p class="text-center">
             Login to your account or create the new one.
         </p>
-        <div class="container text-center jumbotron">
-            <div class="form-group col-lg-12 text-center">
-                <div>
+        <form>
+            <div class="container text-center">
+                <div class="form-group col-lg-12 text-center">
+                    <div>
                         <label>E-mail:</label>
                         <input id="emailField" type="email" class="form-control"/>
                     </div>
-                <div>
+                    <div>
                         <label>Password:</label>
                         <input id="passwordField" type="password" class="form-control"/>
                     </div>
@@ -46,11 +47,12 @@
                     <button class="btn btn-default" onclick="loginUser()">
                         Log me in
                     </button>
-                    <button class="btn btn-default">
+                    <a class="btn btn-default" href="register">
                         Register new account
-                    </button>
+                    </a>
                 </div>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
 </body>

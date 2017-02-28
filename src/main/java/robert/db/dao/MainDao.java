@@ -1,11 +1,19 @@
 package robert.db.dao;
 
+import java.util.List;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import robert.db.entities.Asset;
 import robert.db.entities.User;
+import robert.db.entities.Validation;
 import robert.db.repo.AssetRepository;
 import robert.db.repo.UserRepository;
 import robert.exeptions.InvalidEmailException;
@@ -17,99 +25,123 @@ import robert.web.rest.dto.asm.PaymentAssembler;
 import robert.web.rest.dto.asm.UserAssembler;
 import robert.web.session.api.UserDataProvider;
 
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import java.util.List;
-import java.util.Set;
-
 @Service
 @Transactional
 public class MainDao {
 
-	private static final Logger log = Logger.getLogger(MainDao.class);
+    private static final Logger log = Logger.getLogger(MainDao.class);
 
-	private final UserDataProvider userDataProvider;
+    private final UserDataProvider userDataProvider;
 
-	private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
-	private final AssetRepository assetRepository;
+    private final AssetRepository assetRepository;
 
-	private final EntityManager em;
+    private final EntityManager em;
 
-	@Autowired
-	public MainDao(UserDataProvider userDataProvider, UserRepository userRepository, AssetRepository assetRepository, EntityManager em) {
-		this.userDataProvider = userDataProvider;
-		this.userRepository = userRepository;
-		this.assetRepository = assetRepository;
-		this.em = em;
-	}
+    @Autowired
+    public MainDao(UserDataProvider userDataProvider, UserRepository userRepository, AssetRepository assetRepository, EntityManager em) {
+        this.userDataProvider = userDataProvider;
+        this.userRepository = userRepository;
+        this.assetRepository = assetRepository;
+        this.em = em;
+    }
 
-	public User saveUser(User user) {
-		User saved = this.userRepository.save(user);
-		log.info("Saved new user: " + saved.getEmail());
-		return saved;
-	}
+    @PostConstruct
+    public void init() throws Exception {
+        User user = new User();
+        user.setEmail("test@t.pl");
+        user.setName("Admin");
+        user.setSurname("Adm");
+        user.setPassword("Passwd.123");
 
-	public void addAssetToUser(String borrowerEmail, String description, double amount, long borrowerId) {
-		User user = userRepository.findOne(userDataProvider.getId());
+        userRepository.save(user);
+    }
 
-		Asset asset = new Asset();
-		asset.setAmount(amount);
-		asset.setBorrowerId(borrowerId);
-		asset.setDescription(description);
+    public User saveUser(User user) {
+        User saved = this.userRepository.save(user);
+        log.info("Saved new user: " + saved.getEmail());
+        return saved;
+    }
 
-		user.addAsset(asset);
-		asset.setUser(user);
-		userRepository.save(user);
-	}
+    public void addAssetToUser(String borrowerEmail, String description, double amount, long borrowerId) {
+        User user = userRepository.findOne(userDataProvider.getId());
 
-	public void addAssetToTheUser(PaymentDTO paymentDTO) {
-		User user = userRepository.findOne(userDataProvider.getId());
-		Asset asset = PaymentAssembler.addDebtorToTheUser(paymentDTO, user);
-		assetRepository.save(asset);
-		log.info("Added new debtor to the user " + userDataProvider.getEmail());
-	}
+        Asset asset = new Asset();
+        asset.setAmount(amount);
+        asset.setBorrowerId(borrowerId);
+        asset.setDescription(description);
+        asset.setBorrowerEmail(borrowerEmail);
 
-	public User findUser(long id) {
-		return userRepository.findOne(id);
-	}
+        user.addAsset(asset);
+        asset.setUser(user);
+        userRepository.save(user);
+    }
 
-	public User saveUser(UserInfoDTO userDTO) throws InvalidEmailException, InvalidPasswordPatternException {
-		User user = UserAssembler.convertDtoToUser(userDTO);
-		user = userRepository.save(user);
-		log.info("Saved new user: " + user.getEmail());
-		return user;
-	}
+    public void addAssetToTheUser(PaymentDTO paymentDTO) {
+        User user = userRepository.findOne(userDataProvider.getId());
+        Asset asset = PaymentAssembler.addDebtorToTheUser(paymentDTO, user);
+        assetRepository.save(asset);
+        log.info("Added new debtor to the user " + userDataProvider.getEmail());
+    }
 
-	public User findUser(UserInfoDTO userDTO) throws UserNotFoundException {
-		String email = userDTO.getEmail();
-		User user = userRepository.findOneByEmail(email);
-		if (user == null) {
-			throw new UserNotFoundException(email);
-		}
-		return user;
-	}
+    public User findUser(long id) {
+        return userRepository.findOne(id);
+    }
 
-	public Set<Asset> getMyDebtors() {
-		return userRepository.findOne(userDataProvider.getId())
-				.getAssets();
-	}
+    public User saveUser(UserInfoDTO userDTO) throws InvalidEmailException, InvalidPasswordPatternException {
+        User user = UserAssembler.convertDtoToUser(userDTO);
+        validateUser(user);
+        user = userRepository.save(user);
+        log.info("Saved new user: " + user.getEmail());
+        return user;
+    }
 
-	public List<Asset> getMyDebts() {
-		return em.createQuery("from Asset as a where a.borrowerId = :id", Asset.class)
-				.setParameter("id", userDataProvider.getId())
-				.getResultList();
-	}
+    public User findUser(UserInfoDTO userDTO) throws UserNotFoundException {
+        String email = userDTO.getEmail();
+        User user = userRepository.findOneByEmail(email);
+        if ( user == null ) {
+            throw new UserNotFoundException(email);
+        }
+        return user;
+    }
 
+    public Set<Asset> getMyDebtors() {
+        return userRepository.findOne(userDataProvider.getId())
+                .getAssets();
+    }
 
-	@PostConstruct
-	public void init() throws Exception {
-		User user = new User();
-		user.setEmail("test@t.pl");
-		user.setName("Admin");
-		user.setSurname("Adm");
-		user.setPassword("Passwd.123");
+    public List<Asset> getMyDebts() {
+        return em.createQuery("from Asset as a where a.borrowerId = :id", Asset.class)
+                .setParameter("id", userDataProvider.getId())
+                .getResultList();
+    }
 
-		userRepository.save(user);
-	}
+    public void cancelDebt(Long assetId) throws Exception {
+        validateAssetLender(assetId);
+        assetRepository.delete(assetId);
+        log.info(userDataProvider.getEmail() + " canceled debt with id: " + assetId);
+    }
+
+    private void validateAssetLender(Long assetId) throws Exception {
+        String email = assetRepository.findOne(assetId)
+                .getUser()
+                .getEmail();
+        if ( !userDataProvider.getEmail()
+                .equals(email) ) {
+            throw new Exception("User tried to cancel not his asset");
+        }
+    }
+
+    private void validateUser(User user) throws InvalidEmailException, InvalidPasswordPatternException {
+        if ( !Validation.VALID_EMAIL_ADDRESS_REGEX.matcher(user.getEmail())
+                .find() ) {
+            throw new InvalidEmailException();
+        }
+        if ( !Validation.VALID_PASSWORD_REGEX.matcher(user.getPassword())
+                .find() ) {
+            throw new InvalidPasswordPatternException();
+        }
+    }
+
 }

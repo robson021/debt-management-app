@@ -1,14 +1,15 @@
 package robert.web.rest.dto.asm;
 
-import org.springframework.util.CollectionUtils;
-import robert.db.entities.Asset;
-import robert.db.entities.User;
-import robert.web.rest.dto.PaymentDTO;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.util.CollectionUtils;
+
+import robert.db.entities.Asset;
+import robert.db.entities.User;
+import robert.web.rest.dto.PaymentDTO;
 
 public class PaymentAssembler {
 
@@ -28,7 +29,8 @@ public class PaymentAssembler {
 
 	public static PaymentDTO convertToPaymentDTO(Asset asset) {
 		PaymentDTO dto = new PaymentDTO();
-		dto.setBorrowerName(asset.getBorrowerName());
+        dto.setId(asset.getId());
+        dto.setBorrowerName(asset.getBorrowerName());
 		dto.setBorrowerSurname(asset.getBorrowerSurname());
 		dto.setBorrowerId(asset.getBorrowerId());
 		dto.setAmount(asset.getAmount());
