@@ -5,17 +5,30 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import robert.db.entities.User;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 public class JwtUtils {
 
 	private static final String KEY = "secretkey";
 
-	public static Claims getUserClaims(String authHeader) throws Exception {
+	public static Claims getUserClaims(String authHeaderValue) throws Exception {
 		return Jwts.parser()
 				.setSigningKey(KEY)
-				.parseClaimsJws(authHeader.substring(7)) // get the part after "Bearer "
+				.parseClaimsJws(authHeaderValue.substring(7)) // get the part after "Bearer "
 				.getBody();
+	}
+
+	public static Claims getUserClaims(HttpServletRequest request) {
+		return (Claims) request.getAttribute("claims");
+	}
+
+	public static Long getUserId(HttpServletRequest request) {
+		return Long.parseLong(getUserClaims(request).getSubject());
+	}
+
+	public static boolean isAdmin(HttpServletRequest request) {
+		return getUserClaims(request).getSubject().equals("admin");
 	}
 
 	public static String generateToken(User user) {
@@ -26,4 +39,5 @@ public class JwtUtils {
 				.signWith(SignatureAlgorithm.HS256, KEY)
 				.compact();
 	}
+
 }

@@ -21,7 +21,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
 		String authHeaderValue = request.getHeader("Authorization");
 
-		if (authHeaderValue != null)
+		if (authHeaderValue != null) // user is logged in
 			validateUserToken(authHeaderValue, request);
 
 		chain.doFilter(request, response);
