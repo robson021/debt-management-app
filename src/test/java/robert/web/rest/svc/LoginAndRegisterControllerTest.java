@@ -1,5 +1,6 @@
 package robert.web.rest.svc;
 
+import io.jsonwebtoken.Claims;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +11,7 @@ import robert.SpringWebMvcTest;
 import robert.TestUtils;
 import robert.db.entities.User;
 import robert.db.repo.UserRepository;
+import robert.web.security.JwtUtils;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -54,6 +56,14 @@ public class LoginAndRegisterControllerTest extends SpringWebMvcTest {
 				.isNotEmpty();
 
 		System.out.println("received token:\n\t" + token);
+		Claims userClaims = JwtUtils.getUserClaims("Bearer " + token);
+
+		Assertions.assertThat(Long.parseLong(userClaims.getSubject()))
+				.isEqualTo(user.getId());
+
+		Assertions.assertThat(user.getRole())
+				.isEqualTo(user.getRole());
+
 	}
 
 }

@@ -45,6 +45,7 @@ public class LoginAndRegisterController {
 		User u = userRepository.findOneByEmail(user.getEmail());
 		if (!u.getPassword().equals(user.getPassword()))
 			throw new UserAuthException();
+
 		return JwtUtils.generateToken(u);
 	}
 }
