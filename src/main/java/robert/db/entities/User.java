@@ -1,79 +1,83 @@
 package robert.db.entities;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "USER")
 public class User extends BasicEntity {
 
-    @Column(nullable = false)
-    private String name;
+	@Column(nullable = false)
+	private String name;
 
-    @Column(nullable = false)
-    private String surname;
+	@Column(nullable = false)
+	private String surname;
 
-    @Column(name = "EMAIL", unique = true)
-    private String email;
+	@Column(name = "EMAIL", unique = true, nullable = false)
+	private String email;
 
-    @Column(nullable = false)
-    private String password;
+	@Column(nullable = false)
+	private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Set<Asset> assets = null;
+	@Column
+	private String role = "user";
 
-    public String getName() {
-        return name;
-    }
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private Set<Asset> assets = null;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getSurname() {
-        return surname;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
+	public String getSurname() {
+		return surname;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public Set<Asset> getAssets() {
-        return assets;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setAssets(Set<Asset> assets) {
-        this.assets = assets;
-    }
+	public Set<Asset> getAssets() {
+		return assets;
+	}
 
-    public void addAsset(Asset asset) {
-        if ( this.assets == null ) {
-            this.assets = new HashSet<>(1);
-        }
-        this.assets.add(asset);
-    }
+	public void setAssets(Set<Asset> assets) {
+		this.assets = assets;
+	}
 
+	public void addAsset(Asset asset) {
+		if (this.assets == null) {
+			this.assets = new HashSet<>(1);
+		}
+		this.assets.add(asset);
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 }

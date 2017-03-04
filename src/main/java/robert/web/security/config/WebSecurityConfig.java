@@ -1,30 +1,62 @@
 package robert.web.security.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+@SuppressWarnings("SpringJavaAutowiringInspection")
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	/*
-	 * custom protection is done via filters
-	 */
+	private final JwtFilter jwtFilter;
+
+	private final robert.web.security.config.ErrorHandler errorHandler;
+
+	@Autowired
+	public WebSecurityConfig(JwtFilter jwtFilter, robert.web.security.config.ErrorHandler errorHandler) {
+		this.jwtFilter = jwtFilter;
+		this.errorHandler = errorHandler;
+	}
+
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		//http.authorizeRequests().antMatchers("/**").fullyAuthenticated();
-		http.authorizeRequests().antMatchers("/**").permitAll();
+	protected void configure(HttpSecurity httpSecurity) throws Exception {
+		httpSecurity
+				.csrf().disable()
 
-		http.csrf()
-				.disable();
+				.exceptionHandling().authenticationEntryPoint(errorHandler).and()
 
-		http.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.NEVER)
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
-				.httpBasic();
+				.authorizeRequests()
+				.antMatchers(
+						HttpMethod.GET,
+						"/",
+						"/auth/**",
+						"/test/**",
+						"/*.html",
+						"/favicon.ico",
+						"/**/*.html",
+						"/**/*.css",
+						"/**/*.js"
+				).permitAll()
+				.antMatchers("/auth/**").permitAll()
+				.anyRequest().authenticated();
+
+		httpSecurity.headers().cacheControl();
+
+		httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
 	}
 
 }

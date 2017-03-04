@@ -2,59 +2,49 @@ package robert.web.rest.svc;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import robert.db.dao.MainDao;
 import robert.db.entities.User;
-import robert.exeptions.InvalidEmailException;
-import robert.exeptions.InvalidPasswordPatternException;
+import robert.db.repo.UserRepository;
 import robert.exeptions.UserAuthException;
-import robert.exeptions.UserNotFoundException;
 import robert.web.rest.dto.UserInfoDTO;
-import robert.web.rest.svc.api.LoginAndRegisterCtrl;
-import robert.web.session.api.UserDataProvider;
+import robert.web.rest.dto.asm.UserAssembler;
+import robert.web.security.JwtUtils;
 
 @RestController
-public class LoginAndRegisterController implements LoginAndRegisterCtrl {
+@RequestMapping("/auth")
+public class LoginAndRegisterController {
 
 	private static final Logger log = Logger.getLogger(LoginAndRegisterController.class);
 
-	private final MainDao mainDao;
-
-	private final UserDataProvider userDataProvider;
+	private final UserRepository userRepository;
 
 	@Autowired
-	public LoginAndRegisterController(MainDao mainDao, UserDataProvider userDataProvider) {
-		this.mainDao = mainDao;
-		this.userDataProvider = userDataProvider;
+	public LoginAndRegisterController(UserRepository userRepository) {
+		this.userRepository = userRepository;
 	}
 
-	@Override
-	@RequestMapping(value = REGISTER_URL, method = RequestMethod.POST)
-	public ResponseEntity<?> registerNewUser(@RequestBody UserInfoDTO userDTO) throws InvalidEmailException, InvalidPasswordPatternException {
-		User user = mainDao.saveUser(userDTO);
-		loginUser(user);
-		return new ResponseEntity<>("User has been registered and logged in.", HttpStatus.OK);
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public ResponseEntity<?> registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
+		userRepository.save(UserAssembler.convertDtoToUser(userDTO));
+		log.info("Registered new user: " + userDTO.getEmail());
+		return ResponseEntity.ok("You have been registered.");
 	}
 
-	@Override
-	@RequestMapping(value = LOGIN_URL, method = RequestMethod.POST)
-	public ResponseEntity<?> loginUser(@RequestBody UserInfoDTO userDTO) throws UserNotFoundException, UserAuthException {
-		User user = mainDao.findUser(userDTO);
-		if (user.getPassword().equals(userDTO.getPassword())) {
-			loginUser(user);
-		} else {
-			throw new UserAuthException(user.getEmail());
-		}
-		return new ResponseEntity<>("User has been logged in.", HttpStatus.OK);
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ResponseEntity<?> loginUser(@RequestBody UserInfoDTO userDTO) throws Exception {
+		String token = tryToLogUserIn(userDTO);
+		log.info("Logged user in: " + userDTO.getEmail() + " with token: " + token);
+		return ResponseEntity.ok(token);
 	}
 
-	private void loginUser(User user) {
-		userDataProvider.setIdAndEmail(user.getId(), user.getEmail());
-		log.info(user.getEmail() + " has been logged in.");
+	private String tryToLogUserIn(UserInfoDTO user) throws UserAuthException {
+		User u = userRepository.findOneByEmail(user.getEmail());
+		if (!u.getPassword().equals(user.getPassword()))
+			throw new UserAuthException();
+		return JwtUtils.generateToken(u);
 	}
 }
