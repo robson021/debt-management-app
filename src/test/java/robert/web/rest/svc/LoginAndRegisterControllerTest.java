@@ -61,7 +61,7 @@ public class LoginAndRegisterControllerTest extends SpringWebMvcTest {
 		Assertions.assertThat(Long.parseLong(userClaims.getSubject()))
 				.isEqualTo(user.getId());
 
-		Assertions.assertThat(user.getRole())
+		Assertions.assertThat(Boolean.valueOf(userClaims.get("role").toString()))
 				.isEqualTo(user.getRole());
 
 	}

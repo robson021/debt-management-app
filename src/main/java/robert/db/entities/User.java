@@ -21,7 +21,7 @@ public class User extends BasicEntity {
 	private String password;
 
 	@Column
-	private String role = "user";
+	private Boolean role = false;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<Asset> assets = null;
@@ -73,11 +73,11 @@ public class User extends BasicEntity {
 		this.assets.add(asset);
 	}
 
-	public String getRole() {
+	public Boolean getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Boolean role) {
 		this.role = role;
 	}
 }

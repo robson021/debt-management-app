@@ -28,13 +28,13 @@ public class JwtUtils {
 	}
 
 	public static boolean isAdmin(HttpServletRequest request) {
-		return getUserClaims(request).getSubject().equals("admin");
+		return Boolean.valueOf(getUserClaims(request).get("role").toString());
 	}
 
 	public static String generateToken(User user) {
 		return Jwts.builder()
 				.setSubject(String.valueOf(user.getId()))
-				.claim("roles", user.getRole())
+				.claim("role", user.getRole())
 				.setIssuedAt(new Date())
 				.signWith(SignatureAlgorithm.HS256, KEY)
 				.compact();
