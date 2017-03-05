@@ -19,12 +19,8 @@ public class JwtUtils {
 				.getBody();
 	}
 
-	public static Claims getUserClaims(HttpServletRequest request) {
-		return (Claims) request.getAttribute("claims");
-	}
-
 	public static Long getUserId(HttpServletRequest request) {
-		return Long.parseLong(getUserClaims(request).getSubject());
+		return Long.parseLong(getUserClaims(request).getId());
 	}
 
 	public static boolean isAdmin(HttpServletRequest request) {
@@ -33,11 +29,16 @@ public class JwtUtils {
 
 	public static String generateToken(User user) {
 		return Jwts.builder()
-				.setSubject(String.valueOf(user.getId()))
+				.setSubject(user.getEmail())
+				.setId(String.valueOf(user.getId()))
 				.claim("role", user.getRole())
 				.setIssuedAt(new Date())
 				.signWith(SignatureAlgorithm.HS256, KEY)
 				.compact();
+	}
+
+	private static Claims getUserClaims(HttpServletRequest request) {
+		return (Claims) request.getAttribute("claims");
 	}
 
 }

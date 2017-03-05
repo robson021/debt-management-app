@@ -1,6 +1,8 @@
 package robert.web.security.config;
 
+import io.jsonwebtoken.Claims;
 import org.apache.log4j.Logger;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import robert.web.security.JwtUtils;
@@ -33,12 +35,18 @@ public class JwtFilter extends OncePerRequestFilter {
 		}
 
 		try {
-			request.setAttribute("claims", JwtUtils.getUserClaims(authHeaderValue));
-			//SecurityContextHolder.getContext().setAuthentication(new ); TODO
+			Claims userClaims = JwtUtils.getUserClaims(authHeaderValue);
+			request.setAttribute("claims", userClaims);
+			setUserAuthentication(userClaims);
 		} catch (Exception e) {
 			if (log.isDebugEnabled()) log.error(e.getMessage());
 			throw new ServletException("Invalid token.");
 		}
+	}
+
+	private void setUserAuthentication(Claims userClaims) {
+		AuthenticationImpl auth = new AuthenticationImpl(userClaims.getSubject());
+		SecurityContextHolder.getContext().setAuthentication(auth);
 	}
 
 }

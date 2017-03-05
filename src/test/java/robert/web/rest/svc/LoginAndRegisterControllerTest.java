@@ -58,11 +58,14 @@ public class LoginAndRegisterControllerTest extends SpringWebMvcTest {
 		System.out.println("received token:\n\t" + token);
 		Claims userClaims = JwtUtils.getUserClaims("Bearer " + token);
 
-		Assertions.assertThat(Long.parseLong(userClaims.getSubject()))
+		Assertions.assertThat(Long.parseLong(userClaims.getId()))
 				.isEqualTo(user.getId());
 
 		Assertions.assertThat(Boolean.valueOf(userClaims.get("role").toString()))
 				.isEqualTo(user.getRole());
+
+		Assertions.assertThat(userClaims.getSubject())
+				.isEqualTo(user.getEmail());
 
 	}
 

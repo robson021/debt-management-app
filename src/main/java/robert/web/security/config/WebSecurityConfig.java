@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import robert.web.security.ErrorHandler;
 
 @SuppressWarnings("SpringJavaAutowiringInspection")
 @Configuration
@@ -18,10 +19,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final JwtFilter jwtFilter;
 
-	private final robert.web.security.config.ErrorHandler errorHandler;
+	private final ErrorHandler errorHandler;
 
 	@Autowired
-	public WebSecurityConfig(JwtFilter jwtFilter, robert.web.security.config.ErrorHandler errorHandler) {
+	public WebSecurityConfig(JwtFilter jwtFilter, ErrorHandler errorHandler) {
 		this.jwtFilter = jwtFilter;
 		this.errorHandler = errorHandler;
 	}
