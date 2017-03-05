@@ -37,7 +37,7 @@ public class LoginAndRegisterController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<?> loginUser(@RequestBody UserInfoDTO userDTO) throws Exception {
 		String token = tryToLogUserIn(userDTO);
-		log.info("Logged user in: " + userDTO.getEmail() + " with token: " + token);
+		log.info(userDTO.getEmail() + " logged in.");
 		return ResponseEntity.ok(token);
 	}
 

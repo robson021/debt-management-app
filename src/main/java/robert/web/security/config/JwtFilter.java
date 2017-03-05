@@ -34,6 +34,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
 		try {
 			request.setAttribute("claims", JwtUtils.getUserClaims(authHeaderValue));
+			//SecurityContextHolder.getContext().setAuthentication(new ); TODO
 		} catch (Exception e) {
 			if (log.isDebugEnabled()) log.error(e.getMessage());
 			throw new ServletException("Invalid token.");
