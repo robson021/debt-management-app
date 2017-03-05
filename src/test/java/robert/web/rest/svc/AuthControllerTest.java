@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-public class LoginAndRegisterControllerTest extends SpringWebMvcTest {
+public class AuthControllerTest extends SpringWebMvcTest {
 
 	@Autowired
 	private UserRepository userRepository;

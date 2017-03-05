@@ -16,14 +16,14 @@ import robert.web.security.JwtUtils;
 
 @RestController
 @RequestMapping("/auth")
-public class LoginAndRegisterController {
+public class AuthController {
 
-	private static final Logger log = Logger.getLogger(LoginAndRegisterController.class);
+	private static final Logger log = Logger.getLogger(AuthController.class);
 
 	private final UserRepository userRepository;
 
 	@Autowired
-	public LoginAndRegisterController(UserRepository userRepository) {
+	public AuthController(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
 
