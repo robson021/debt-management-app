@@ -6,14 +6,15 @@
 
     <script src="libs/jquery.js"></script>
     <script src="libs/bootstrap/js/bootstrap.js"></script>
-    <script src="libs/angular.js"></script>
+    <script src="libs/angular/angular.min.js"></script>
+    <script src="libs/angular/angular-ui-router.min.js"></script>
     <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
-<body style="background-color: #0f0f0f">
 
-<!--ui router-->
-<div class="container" style="padding: 25px;">
+<body ng-app="ngApp">
+
+<div class="container-fluid main-body">
     <ui-view></ui-view>
 </div>
 
@@ -29,5 +30,8 @@
 
 <script src="js/app.js"></script>
 <script src="js/controllers/login.ctr.js"></script>
+<script src="js/controllers/register.ctr.js"></script>
+<script src="js/controllers/my-debts.ctr.js"></script>
+<script src="js/controllers/my-debtors.ctr.js"></script>
 </body>
 </html>

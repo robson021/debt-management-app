@@ -1,5 +1,5 @@
-var app = angular
-  .module("ngApp", [ 'ui.router', 'ngDialog' ])
+angular
+  .module("ngApp", [ 'ui.router' ])
   .config(function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider
@@ -7,6 +7,21 @@ var app = angular
         url: '/',
         templateUrl: 'partials/login-page.html',
         controller: 'login-ctrl'
+      })
+      .state('register', {
+        url: '/register',
+        templateUrl: 'partials/register-page.html',
+        controller: 'register-ctrl'
+      })
+      .state('my-debts', {
+        url: '/my-debts',
+        templateUrl: 'partials/my-debts.html',
+        controller: 'my-debts-ctrl'
+      })
+      .state('my-debtors', {
+        url: '/my-debtors',
+        templateUrl: 'partials/my-debtors.html',
+        controller: 'my-debtors-ctrl'
       });
 
     $urlRouterProvider.otherwise("/");

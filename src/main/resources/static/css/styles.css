@@ -1,10 +1,13 @@
 footer {
-    background: #fff;
-    background: rgba(255, 255, 255, 0.9);
+    background: #999999;
     max-height: 25px;
 }
 
 footer p {
     margin: 0;
     padding: 50px 0;
+}
+
+.main-body {
+    padding-bottom: 3%
 }

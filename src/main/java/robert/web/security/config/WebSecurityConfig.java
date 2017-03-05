@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 import robert.web.security.ErrorHandler;
 
 @SuppressWarnings("SpringJavaAutowiringInspection")
@@ -17,47 +18,45 @@ import robert.web.security.ErrorHandler;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private final JwtFilter jwtFilter;
+    private final JwtFilter jwtFilter;
 
-	private final ErrorHandler errorHandler;
+    private final ErrorHandler errorHandler;
 
-	@Autowired
-	public WebSecurityConfig(JwtFilter jwtFilter, ErrorHandler errorHandler) {
-		this.jwtFilter = jwtFilter;
-		this.errorHandler = errorHandler;
-	}
+    @Autowired
+    public WebSecurityConfig(JwtFilter jwtFilter, ErrorHandler errorHandler) {
+        this.jwtFilter = jwtFilter;
+        this.errorHandler = errorHandler;
+    }
 
-	@Override
-	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity
-				.csrf().disable()
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.csrf()
+                .disable()
 
-				.exceptionHandling().authenticationEntryPoint(errorHandler).and()
+                .exceptionHandling()
+                .authenticationEntryPoint(errorHandler)
+                .and()
 
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
 
-				.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				.and()
-				.authorizeRequests()
-				.antMatchers(
-						HttpMethod.GET,
-						"/",
-						"/auth/**",
-						"/test/**",
-						"/*.html",
-						"/favicon.ico",
-						"/**/*.html",
-						"/**/*.css",
-						"/**/*.js"
-				).permitAll()
-				.antMatchers("/auth/**").permitAll()
-				.anyRequest().authenticated();
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/", "/register/**", "/auth/**", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js")
+                .permitAll()
+                .antMatchers("/auth/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated();
 
-		httpSecurity.headers().cacheControl();
+        httpSecurity.headers()
+                .cacheControl();
 
-		httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-	}
+    }
 
 }

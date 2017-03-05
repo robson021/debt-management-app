@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import robert.db.entities.User;
 import robert.db.repo.UserRepository;
 import robert.exeptions.UserAuthException;
+import robert.web.rest.dto.SimpleMessageDTO;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.UserAssembler;
 import robert.web.security.JwtUtils;
@@ -35,11 +37,11 @@ public class AuthController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<?> loginUser(@RequestBody UserInfoDTO userDTO) throws Exception {
-		String token = tryToLogUserIn(userDTO);
+    public SimpleMessageDTO loginUser(@RequestBody UserInfoDTO userDTO) throws Exception {
+        String token = tryToLogUserIn(userDTO);
 		log.info(userDTO.getEmail() + " logged in.");
-		return ResponseEntity.ok(token);
-	}
+        return new SimpleMessageDTO(token);
+    }
 
 	private String tryToLogUserIn(UserInfoDTO user) throws UserAuthException {
 		User u = userRepository.findOneByEmail(user.getEmail());

@@ -1,5 +1,5 @@
 <div>
-    <div class="text-center">
+    <div class="text-center" ng-show="debtors">
         <table class="table table-hover table-striped">
             <thead>
             <tr>
@@ -9,21 +9,21 @@
             </tr>
             </thead>
             <tbody>
-            <!--<tr th:each="debt : ${myDebtors}">-->
-            <!--<td th:text="${debt.amount}">PLN</td>-->
-            <!--<td th:text="${debt.description}"></td>-->
-            <!--<td th:text="${debt.borrowerName} + ' ' + ${debt.borrowerSurname}"></td>-->
-            <!--<td>-->
-            <!--<button class="btn btn-warn">-->
-            <!--Cancel-->
-            <!--</button>-->
-            <!--</td>-->
-            <!--</tr>-->
+            <tr ng-repeat="debt in debtors">
+                <td>{{debt.amount}}</td>
+                <td>{{debt.description}}</td>
+                <td>{{debt.borrowerName}} {{debt.borrowerSurname}}</td>
+            </tr>
             </tbody>
         </table>
     </div>
+
+    <div class="text-center" ng-hide="debtors">
+        <h1>You do not have any debtors.</h1>
+    </div>
+
     <div class="text-center">
-        <button class="btn btn-primary" onclick="window.location.href='/my-debts';">
+        <button class="btn btn-primary" ui-sref="my-debts">
             Back to my debts
         </button>
     </div>
