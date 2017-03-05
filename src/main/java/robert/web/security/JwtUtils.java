@@ -1,16 +1,19 @@
 package robert.web.security;
 
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.RandomStringUtils;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import robert.db.entities.User;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-
 public class JwtUtils {
 
-	private static final String KEY = "secretkey";
+	public static final String KEY = RandomStringUtils.randomAlphanumeric(16);
 
 	public static Claims getUserClaims(String authHeaderValue) throws Exception {
 		return Jwts.parser()

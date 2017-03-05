@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import robert.web.security.JwtUtils;
+
 @SpringBootApplication
 @EntityScan(basePackages = "robert.db.entities")
 @EnableJpaRepositories
@@ -14,5 +16,6 @@ public class DebtManagementApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(DebtManagementApplication.class, args);
+        System.out.println("Generated key:\t" + JwtUtils.KEY);
     }
 }
