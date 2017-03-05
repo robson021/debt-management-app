@@ -1,25 +1,27 @@
 <div>
-    <!--<div class="text-center" th:if="${not #lists.isEmpty(myDebts)}">-->
-    <!--<table class="table table-hover table-striped">-->
-    <!--<thead>-->
-    <!--<tr>-->
-    <!--<th>AMOUNT</th>-->
-    <!--<th>DESCRIPTION</th>-->
-    <!--<th>OWNER</th>-->
-    <!--</tr>-->
-    <!--</thead>-->
-    <!--<tbody>-->
-    <!--<tr th:each="debt : ${myDebts}">-->
-    <!--<td th:text="${debt.amount}">PLN</td>-->
-    <!--<td th:text="${debt.description}"></td>-->
-    <!--<td th:text="${debt.borrowerName} + ' ' + ${debt.borrowerSurname}"></td>-->
-    <!--</tr>-->
-    <!--</tbody>-->
-    <!--</table>-->
-    <!--</div>-->
-    <!--<div class="text-center" th:if="${#lists.isEmpty(myDebts)}">-->
-    <!--<h1>You do not have any debts.</h1>-->
-    <!--</div>-->
+    <div class="text-center">
+        <table class="table table-hover table-striped">
+            <thead>
+            <tr>
+                <th>AMOUNT</th>
+                <th>DESCRIPTION</th>
+                <th>OWNER</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--<tr th:each="debt : ${myDebts}">-->
+            <!--<td th:text="${debt.amount}">PLN</td>-->
+            <!--<td th:text="${debt.description}"></td>-->
+            <!--<td th:text="${debt.borrowerName} + ' ' + ${debt.borrowerSurname}"></td>-->
+            <!--</tr>-->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center">
+        <h1>You do not have any debts.</h1>
+    </div>
+
     <div class="text-center">
         <button class="btn btn-primary" onclick="window.location.href='/my-debtors';">
             My debtors

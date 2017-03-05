@@ -2,44 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<!-- login form -->
-<div class="box">
-    <div class="col-lg-12">
-        <hr>
-        <h2 class="intro-text text-center">
-            <strong>Login</strong>
-        </h2>
-        </hr>
-        <p class="text-center">
-            Login to your account or create the new one.
-        </p>
-        <form>
-            <div class="container text-center">
-                <div class="form-group col-lg-12 text-center">
-                    <div>
-                        <label>E-mail:</label>
-                        <input id="emailField" type="email" class="form-control"/>
-                    </div>
-                    <div>
-                        <label>Password:</label>
-                        <input id="passwordField" type="password" class="form-control"/>
-                    </div>
-                </div>
+    <title>Debt Management Application</title>
 
-                <div class="form-group col-lg-12 text-center">
-                    <button class="btn btn-default">
-                        Log me in
-                    </button>
-                    <a class="btn btn-default" href="register">
-                        Register new account
-                    </a>
-                </div>
-            </div>
-        </form>
-    </div>
+    <script src="libs/jquery.js"></script>
+    <script src="libs/bootstrap/js/bootstrap.js"></script>
+    <script src="libs/angular.js"></script>
+    <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body style="background-color: #0f0f0f">
+
+<!--ui router-->
+<div class="container" style="padding: 25px;">
+    <ui-view></ui-view>
 </div>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <a href="https://github.com/robson021">My GitHub</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script src="js/controllers/login.ctr.js"></script>
 </body>
 </html>
