@@ -11,3 +11,17 @@ footer p {
 .main-body {
     padding: 1%
 }
+
+div {
+    padding-bottom: 2%;
+}
+
+.float-to-left {
+    float: left;
+    padding-right: 2%;
+}
+
+.float-to-right {
+    float: right;
+    padding-left: 2%;
+}

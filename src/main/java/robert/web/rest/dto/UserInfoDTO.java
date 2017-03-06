@@ -2,6 +2,8 @@ package robert.web.rest.dto;
 
 public class UserInfoDTO {
 
+    private long id;
+
     private String name;
 
     private String surname;
@@ -9,6 +11,14 @@ public class UserInfoDTO {
     private String email;
 
     private String password;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

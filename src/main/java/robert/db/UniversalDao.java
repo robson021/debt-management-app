@@ -3,7 +3,6 @@ package robert.db;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
 import org.apache.log4j.Logger;
@@ -44,7 +43,7 @@ public class UniversalDao {
         this.em = em;
     }
 
-    @PostConstruct
+    /*@PostConstruct
     public void init() {
         User user = new User();
         user.setEmail("test@t.pl");
@@ -53,7 +52,7 @@ public class UniversalDao {
         user.setPassword("Passwd.123");
 
         userRepository.save(user);
-    }
+    }*/
 
     public <T> T saveEntity(BasicEntity entity, Class<T> castClass) {
         BasicEntity saved = universalRepository.save(entity);
@@ -92,11 +91,16 @@ public class UniversalDao {
         assetRepository.save(asset);
     }
 
-    private boolean isAssetUsers(Long assetId, Long userId) {
-        return assetRepository.findOne(assetId)
-                .getUser()
-                .getId()
-                .equals(userId);
+    public List<User> findOtherUsersExceptGiven(Long userId) {
+        return em.createQuery("from User u where u.id != :id", User.class)
+                .setParameter("id", userId)
+                .getResultList();
     }
 
+    private boolean isAssetUsers(Long assetId, Long userId) {
+        Long id = assetRepository.findOne(assetId)
+                .getUser()
+                .getId();
+        return id.equals(userId);
+    }
 }

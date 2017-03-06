@@ -13,7 +13,11 @@
                 <td>{{debt.amount}}</td>
                 <td>{{debt.description}}</td>
                 <td>{{debt.borrowerName}} {{debt.borrowerSurname}}</td>
-                <td><span class="button">Cancel</span></td>
+                <td>
+                    <button class="btn btn-warning" ng-click="cancelDebt(debt.id)">
+                        Cancel
+                    </button>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -23,9 +27,25 @@
         <h1>You do not have any debtors.</h1>
     </div>
 
-    <div class="text-center">
-        <button class="btn btn-primary" ui-sref="my-debts">
-            Back to my debts
+    <div class="text-center" ng-show="otherUsers">
+        <div class="row-fluid" style="display:inline-flex">
+            <div>
+                <label>Amount:</label>
+                <input type="number" class="form-control" ng-model="newAsset.amount"/>
+            </div>
+            <div>
+                <label>Description:</label>
+                <input type="text" class="form-control" ng-model="newAsset.description"/>
+            </div>
+        </div>
+        <div>
+            <select ng-model="selectedUser">
+                <option ng-repeat="u in otherUsers">{{u.name}} {{u.surname}} {{u.id}}</option>
+            </select>
+        </div>
+        <button class="btn btn-success" ng-click="submitNewAsset()">
+            Submit
         </button>
     </div>
+
 </div>
