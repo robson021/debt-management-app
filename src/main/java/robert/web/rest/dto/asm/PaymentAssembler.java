@@ -8,38 +8,42 @@ import java.util.stream.Collectors;
 import org.springframework.util.CollectionUtils;
 
 import robert.db.entities.Asset;
+import robert.db.entities.User;
 import robert.web.rest.dto.PaymentDTO;
 
 public class PaymentAssembler {
 
     public static Asset paymentDtoToAsset(PaymentDTO paymentDTO) {
         Asset asset = new Asset();
-		asset.setDescription(paymentDTO.getDescription());
-		asset.setAmount(paymentDTO.getAmount());
-		asset.setBorrowerId(paymentDTO.getBorrowerId());
-		asset.setBorrowerName(paymentDTO.getBorrowerName());
-		asset.setBorrowerSurname(paymentDTO.getBorrowerSurname());
+        asset.setDescription(paymentDTO.getDescription());
+        asset.setAmount(paymentDTO.getAmount());
+        asset.setBorrowerId(paymentDTO.getBorrowerId());
+        asset.setBorrowerName(paymentDTO.getBorrowerName());
+        asset.setBorrowerSurname(paymentDTO.getBorrowerSurname());
 
-		return asset;
-	}
+        return asset;
+    }
 
     public static PaymentDTO convertToPaymentDTO(Asset asset) {
-		PaymentDTO dto = new PaymentDTO();
+        PaymentDTO dto = new PaymentDTO();
         dto.setId(asset.getId());
         dto.setBorrowerName(asset.getBorrowerName());
-		dto.setBorrowerSurname(asset.getBorrowerSurname());
-		dto.setBorrowerId(asset.getBorrowerId());
-		dto.setAmount(asset.getAmount());
-		dto.setDescription(asset.getDescription());
-		return dto;
-	}
+        dto.setBorrowerSurname(asset.getBorrowerSurname());
+        dto.setBorrowerId(asset.getBorrowerId());
+        dto.setAmount(asset.getAmount());
+        dto.setDescription(asset.getDescription());
+        User user = asset.getUser();
+        dto.setOwner(user.getName() + " " + user.getSurname());
 
-	public static List<PaymentDTO> convertToPaymentDTOs(Collection<Asset> assets) {
-		if (CollectionUtils.isEmpty(assets))
-			return Collections.emptyList();
+        return dto;
+    }
 
-		return assets.stream()
-				.map(PaymentAssembler::convertToPaymentDTO)
-				.collect(Collectors.toList());
-	}
+    public static List<PaymentDTO> convertToPaymentDTOs(Collection<Asset> assets) {
+        if ( CollectionUtils.isEmpty(assets) )
+            return Collections.emptyList();
+
+        return assets.stream()
+                .map(PaymentAssembler::convertToPaymentDTO)
+                .collect(Collectors.toList());
+    }
 }
