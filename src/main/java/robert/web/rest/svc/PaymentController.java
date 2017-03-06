@@ -31,9 +31,10 @@ public class PaymentController {
     }
 
     @RequestMapping(value = "/add-assets-to-user", method = RequestMethod.POST)
-    public ResponseEntity<?> addAssetToTheUser(@RequestBody PaymentDTO paymentDTO) {
-		return ResponseEntity.ok("Debtor added.");
-	}
+    public ResponseEntity<?> addAssetToTheUser(HttpServletRequest request, @RequestBody PaymentDTO borrowerInfo) {
+        dao.addDebtor(JwtUtils.getUserId(request), borrowerInfo);
+        return ResponseEntity.ok("Debtor added.");
+    }
 
 	@RequestMapping(value = "/my-debtors")
     public List<PaymentDTO> getMyDebtors(HttpServletRequest request) {

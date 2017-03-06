@@ -8,26 +8,22 @@ import java.util.stream.Collectors;
 import org.springframework.util.CollectionUtils;
 
 import robert.db.entities.Asset;
-import robert.db.entities.User;
 import robert.web.rest.dto.PaymentDTO;
 
 public class PaymentAssembler {
 
-	public static Asset addDebtorToTheUser(PaymentDTO paymentDTO, User user) {
-		Asset asset = new Asset();
+    public static Asset paymentDtoToAsset(PaymentDTO paymentDTO) {
+        Asset asset = new Asset();
 		asset.setDescription(paymentDTO.getDescription());
 		asset.setAmount(paymentDTO.getAmount());
 		asset.setBorrowerId(paymentDTO.getBorrowerId());
 		asset.setBorrowerName(paymentDTO.getBorrowerName());
 		asset.setBorrowerSurname(paymentDTO.getBorrowerSurname());
 
-		asset.setUser(user);
-		//user.addAsset(asset);
-
 		return asset;
 	}
 
-	public static PaymentDTO convertToPaymentDTO(Asset asset) {
+    public static PaymentDTO convertToPaymentDTO(Asset asset) {
 		PaymentDTO dto = new PaymentDTO();
         dto.setId(asset.getId());
         dto.setBorrowerName(asset.getBorrowerName());

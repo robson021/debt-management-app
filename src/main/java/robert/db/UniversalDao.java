@@ -12,10 +12,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import robert.db.entities.Asset;
+import robert.db.entities.BasicEntity;
 import robert.db.entities.User;
 import robert.db.repo.AssetRepository;
+import robert.db.repo.UniversalRepository;
 import robert.db.repo.UserRepository;
 import robert.exeptions.BadParameterException;
+import robert.web.rest.dto.PaymentDTO;
+import robert.web.rest.dto.asm.PaymentAssembler;
 
 @SuppressWarnings("ALL")
 @Component
@@ -28,51 +32,16 @@ public class UniversalDao {
 
     private final AssetRepository assetRepository;
 
+    private final UniversalRepository universalRepository;
+
     private final EntityManager em;
 
     @Autowired
-    public UniversalDao(UserRepository userRepository, AssetRepository assetRepository, EntityManager em) {
+    public UniversalDao(UserRepository userRepository, AssetRepository assetRepository, UniversalRepository universalRepository, EntityManager em) {
         this.userRepository = userRepository;
         this.assetRepository = assetRepository;
+        this.universalRepository = universalRepository;
         this.em = em;
-    }
-
-    public List<Asset> findUserDebts(Long borrowerId) {
-        List<Asset> debts = em.createQuery("from Asset a where a.borrowerId = :id", Asset.class)
-                .setParameter("id", borrowerId)
-                .getResultList();
-
-        if ( log.isDebugEnabled() )
-            log.debug("Debts found: " + debts.size());
-
-        return debts;
-    }
-
-    public Set<Asset> findUserDebtors(Long userId) {
-        Set<Asset> assets = userRepository.findOne(userId)
-                .getAssets();
-
-        if ( log.isDebugEnabled() )
-            log.debug("Assets found: " + assets.size());
-
-        return assets;
-    }
-
-    public void cancelDebt(Long assetId, Long userId) throws BadParameterException {
-        if ( !isAssetUsers(assetId, userId) )
-            throw new BadParameterException("User tried to cancel not his debt");
-
-        if ( log.isDebugEnabled() )
-            log.debug("Deleting asset with id = " + assetId);
-
-        assetRepository.delete(assetId);
-    }
-
-    private boolean isAssetUsers(Long assetId, Long userId) {
-        return assetRepository.findOne(assetId)
-                .getUser()
-                .getId()
-                .equals(userId);
     }
 
     @PostConstruct
@@ -84,6 +53,50 @@ public class UniversalDao {
         user.setPassword("Passwd.123");
 
         userRepository.save(user);
+    }
+
+    public <T> T saveEntity(BasicEntity entity, Class<T> castClass) {
+        BasicEntity saved = universalRepository.save(entity);
+        return castClass.cast(saved);
+    }
+
+    public List<Asset> findUserDebts(Long borrowerId) {
+        List<Asset> debts = em.createQuery("from Asset a where a.borrowerId = :id", Asset.class)
+                .setParameter("id", borrowerId)
+                .getResultList();
+
+        return debts;
+    }
+
+    public Set<Asset> findUserDebtors(Long userId) {
+        Set<Asset> assets = userRepository.findOne(userId)
+                .getAssets();
+
+        return assets;
+    }
+
+    public void cancelDebt(Long assetId, Long userId) throws BadParameterException {
+        if ( !isAssetUsers(assetId, userId) )
+            throw new BadParameterException("User tried to cancel not his debt");
+
+        em.createQuery("delete from Asset a where a.id = :id")
+                .setParameter("id", assetId)
+                .executeUpdate();
+    }
+
+    public void addDebtor(Long lenderId, PaymentDTO borrowerInfo) {
+        User lender = userRepository.findOne(lenderId);
+        Asset asset = PaymentAssembler.paymentDtoToAsset(borrowerInfo);
+        //lender.addAsset(asset);
+        asset.setUser(lender);
+        assetRepository.save(asset);
+    }
+
+    private boolean isAssetUsers(Long assetId, Long userId) {
+        return assetRepository.findOne(assetId)
+                .getUser()
+                .getId()
+                .equals(userId);
     }
 
 }
