@@ -1,7 +1,11 @@
 package robert;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+
 import org.apache.commons.lang3.RandomStringUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import robert.db.entities.User;
 
 public class TestUtils {
@@ -11,6 +15,10 @@ public class TestUtils {
 	public static String asJsonString(final Object obj) throws Exception {
 		return mapper.writeValueAsString(obj);
 	}
+
+    public static <T> T jsonToObject(String json, Class<T> clazz) throws IOException {
+        return mapper.readValue(json, clazz);
+    }
 
 	public static User generateNewUser() {
 		User user = new User();

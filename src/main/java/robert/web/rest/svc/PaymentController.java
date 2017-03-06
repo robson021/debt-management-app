@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +22,6 @@ import robert.web.security.JwtUtils;
 @RestController
 @RequestMapping("/payments")
 public class PaymentController {
-
-    private static final Logger log = Logger.getLogger(PaymentController.class);
 
     private final UniversalDao dao;
 
@@ -51,7 +48,8 @@ public class PaymentController {
     }
 
 	@RequestMapping(value = "/cancel-debt/{id}/", method = RequestMethod.DELETE)
-	public HttpStatus cancelDebt(@PathVariable("id") Long assetId) throws Exception {
-		return HttpStatus.OK;
+    public HttpStatus cancelDebt(HttpServletRequest request, @PathVariable("id") Long assetId) throws Exception {
+        dao.cancelDebt(assetId, JwtUtils.getUserId(request));
+        return HttpStatus.OK;
 	}
 }

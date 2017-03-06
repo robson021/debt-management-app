@@ -15,7 +15,9 @@ import robert.db.entities.Asset;
 import robert.db.entities.User;
 import robert.db.repo.AssetRepository;
 import robert.db.repo.UserRepository;
+import robert.exeptions.BadParameterException;
 
+@SuppressWarnings("ALL")
 @Component
 @Transactional
 public class UniversalDao {
@@ -41,7 +43,7 @@ public class UniversalDao {
                 .getResultList();
 
         if ( log.isDebugEnabled() )
-            log.debug("Found " + debts.size() + " debts");
+            log.debug("Debts found: " + debts.size());
 
         return debts;
     }
@@ -51,9 +53,26 @@ public class UniversalDao {
                 .getAssets();
 
         if ( log.isDebugEnabled() )
-            log.debug("Found " + assets.size() + " assets");
+            log.debug("Assets found: " + assets.size());
 
         return assets;
+    }
+
+    public void cancelDebt(Long assetId, Long userId) throws BadParameterException {
+        if ( !isAssetUsers(assetId, userId) )
+            throw new BadParameterException("User tried to cancel not his debt");
+
+        if ( log.isDebugEnabled() )
+            log.debug("Deleting asset with id = " + assetId);
+
+        assetRepository.delete(assetId);
+    }
+
+    private boolean isAssetUsers(Long assetId, Long userId) {
+        return assetRepository.findOne(assetId)
+                .getUser()
+                .getId()
+                .equals(userId);
     }
 
     @PostConstruct

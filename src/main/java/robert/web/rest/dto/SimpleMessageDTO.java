@@ -2,7 +2,10 @@ package robert.web.rest.dto;
 
 public class SimpleMessageDTO {
 
-    private final String message;
+    private String message;
+
+    public SimpleMessageDTO() {
+    }
 
     public SimpleMessageDTO(String message) {
         this.message = message;
