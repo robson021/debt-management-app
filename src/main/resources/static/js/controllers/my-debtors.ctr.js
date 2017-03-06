@@ -7,7 +7,8 @@
     $scope.loadDebtors = function () {
       $http.get('/payments/my-debtors/')
         .then(function (response) {
-          console.info();
+          if (response.data.length > 0)
+            $scope.debtors = response.data;
         });
     };
 

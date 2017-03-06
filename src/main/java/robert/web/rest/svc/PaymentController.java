@@ -1,6 +1,7 @@
 package robert.web.rest.svc;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -38,9 +39,9 @@ public class PaymentController {
 
 	@RequestMapping(value = "/my-debtors")
     public List<PaymentDTO> getMyDebtors(HttpServletRequest request) {
-        dao.findUserDebtors(JwtUtils.getUserId(request));
-        return PaymentAssembler.convertToPaymentDTOs(null);
-	}
+        Set<Asset> debtors = dao.findUserDebtors(JwtUtils.getUserId(request));
+        return PaymentAssembler.convertToPaymentDTOs(debtors);
+    }
 
 	@RequestMapping(value = "/my-debts")
     public List<PaymentDTO> getMyDebts(HttpServletRequest request) {

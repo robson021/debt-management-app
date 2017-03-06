@@ -1,6 +1,6 @@
 (function () {
   "use strict";
-  angular.module("ngApp").controller('register-ctrl', function ($scope, $http) {
+  angular.module("ngApp").controller('register-ctrl', function ($scope, $http, $state) {
 
     $scope.name = '';
     $scope.surname = '';
@@ -10,6 +10,7 @@
 
     $scope.register = function () {
       if ($scope.password !== $scope.repassword) {
+        // TODO: toast
         return;
       }
       let json = {
@@ -21,7 +22,7 @@
       $http.post('auth/register', json)
         .then(function (response) {
           $scope.name = $scope.surname = $scope.password = $scope.email = $scope.repassword = '';
-          console.info(response);
+          $state.go('default');
         }, function (error) {
           // TODO: add toast
           console.info('error');

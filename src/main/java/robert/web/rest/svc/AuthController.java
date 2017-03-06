@@ -3,10 +3,10 @@ package robert.web.rest.svc;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import robert.db.entities.User;
@@ -31,10 +31,10 @@ public class AuthController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ResponseEntity<?> registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
-		userRepository.save(UserAssembler.convertDtoToUser(userDTO));
+    @ResponseStatus(HttpStatus.OK)
+    public void registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
+        userRepository.save(UserAssembler.convertDtoToUser(userDTO));
 		log.info("Registered new user: " + userDTO.getEmail());
-		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)

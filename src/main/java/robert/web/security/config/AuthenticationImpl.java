@@ -1,9 +1,9 @@
 package robert.web.security.config;
 
+import java.util.Collection;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-
-import java.util.Collection;
 
 public class AuthenticationImpl implements Authentication {
 
@@ -11,8 +11,8 @@ public class AuthenticationImpl implements Authentication {
 
 	private boolean authenticated;
 
-	public AuthenticationImpl(String name) {
-		if (name == null)
+    AuthenticationImpl(String name) {
+        if (name == null)
 			throw new NullPointerException("User name cannot be null");
 		this.name = name;
 		this.authenticated = true;
