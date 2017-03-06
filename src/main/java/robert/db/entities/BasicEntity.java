@@ -15,7 +15,7 @@ public abstract class BasicEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(unique = true)
+    @Column
     private String uuid = UUID.randomUUID()
             .toString();
 

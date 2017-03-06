@@ -12,6 +12,7 @@ spring:
     password: password
     driver-class-name: com.mysql.jdbc.Driver
   jpa:
+    generate-ddl: true
     hibernate:
       ddl-auto: update
 
