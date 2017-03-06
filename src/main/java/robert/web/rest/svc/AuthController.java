@@ -2,6 +2,7 @@ package robert.web.rest.svc;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +34,7 @@ public class AuthController {
 	public ResponseEntity<?> registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
 		userRepository.save(UserAssembler.convertDtoToUser(userDTO));
 		log.info("Registered new user: " + userDTO.getEmail());
-		return ResponseEntity.ok("You have been registered.");
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
