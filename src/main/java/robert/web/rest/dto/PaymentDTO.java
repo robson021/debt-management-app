@@ -10,7 +10,7 @@ public class PaymentDTO {
 
 	private String borrowerSurname;
 
-    private String owner;
+	private String owner;
 
     private double amount;
 
@@ -40,6 +40,14 @@ public class PaymentDTO {
 		this.borrowerName = borrowerName;
 	}
 
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+
 	public String getBorrowerSurname() {
 		return borrowerSurname;
 	}
@@ -47,14 +55,6 @@ public class PaymentDTO {
 	public void setBorrowerSurname(String borrowerSurname) {
 		this.borrowerSurname = borrowerSurname;
 	}
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
 
 	public double getAmount() {
 		return amount;
@@ -72,4 +72,3 @@ public class PaymentDTO {
 		this.description = description;
 	}
 }
-

@@ -9,7 +9,10 @@ footer p {
 }
 
 .main-body {
-    padding: 1%
+    padding: 1%;
+    max-width: 1000px;
+    text-align: center;
+    margin: 0 auto;
 }
 
 div {
@@ -24,4 +27,8 @@ div {
 .float-to-right {
     float: right;
     padding-left: 2%;
+}
+
+.table td {
+    text-align: left;
 }

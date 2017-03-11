@@ -1,15 +1,9 @@
 package robert.db;
 
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.EntityManager;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
 import robert.db.entities.Asset;
 import robert.db.entities.BasicEntity;
 import robert.db.entities.User;
@@ -19,6 +13,10 @@ import robert.db.repo.UserRepository;
 import robert.exeptions.BadParameterException;
 import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
+
+import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.Set;
 
 @SuppressWarnings("ALL")
 @Component
@@ -51,7 +49,9 @@ public class UniversalDao {
         user.setSurname("User");
         user.setPassword("Passwd.123");
 
-        userRepository.save(user);
+        //userRepository.save(user);
+        User byEmail = userRepository.findOneByEmail("test@t.pl");
+        userRepository.delete(byEmail.getId());
     }*/
 
     public <T> T saveEntity(BasicEntity entity, Class<T> castClass) {

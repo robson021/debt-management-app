@@ -2,13 +2,23 @@
 server:
   contextPath:
 
-# JACKSON
 spring:
   jackson:
     serialization:
       INDENT_OUTPUT: true
+  datasource:
+    url: jdbc:mysql://51.254.115.19:3306/eams_db
+    username: robert
+    password: password
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: validate
 
 logging:
   level:
-    robert: DEBUG
-    org.springframework: WARN
+    robert: fatal
+    org.springframework: fatal
+    org.hibernate: error
+
