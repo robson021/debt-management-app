@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import robert.web.security.ErrorHandler;
 
 @SuppressWarnings("SpringJavaAutowiringInspection")
@@ -45,8 +44,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/", "/register/**", "/auth/**", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js")
-                .permitAll()
+				.antMatchers(HttpMethod.GET, "/", "/auth/**", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js")
+				.permitAll()
                 .antMatchers("/auth/**")
                 .permitAll()
                 .anyRequest()

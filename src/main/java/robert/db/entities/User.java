@@ -23,6 +23,9 @@ public class User extends BasicEntity {
 	@Column
 	private Boolean role = false;
 
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+	private Fee fee;
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<Asset> assets = null;
 
@@ -79,5 +82,13 @@ public class User extends BasicEntity {
 
 	public void setRole(Boolean role) {
 		this.role = role;
+	}
+
+	public Fee getFee() {
+		return fee;
+	}
+
+	public void setFee(Fee fee) {
+		this.fee = fee;
 	}
 }
