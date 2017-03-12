@@ -1,3 +1,4 @@
+const JWT = 'jwt';
 (function () {
   "use strict";
   angular.module("ngApp").controller('login-ctrl', function ($rootScope, $scope, $http, $state) {
@@ -13,25 +14,53 @@
 
       $http.post('auth/login/', data)
         .then(function (response) {
-            let token = response.data.message;
             $scope.email = $scope.password = '';
-            $http.defaults.headers.common.Authorization = 'Bearer ' + token;
-            $rootScope.loggedIn = true;
+            let token = response.data.message;
+            $scope.saveJWT(token);
             $state.go('my-debts');
             $scope.checkForPrivileges();
-            console.info('token: ' + token);
           },
           function (error) {
             console.info(error);
           });
     };
 
-    $scope.checkForPrivileges = function () {
-      $http.get('credentials/is-admin/').then(function (response) {
-        $rootScope.isAdmin = response.data;
-        console.info('Admin privileges: ' + $rootScope.isAdmin);
-      });
+    $scope.saveJWT = function (token) {
+      $http.defaults.headers.common.Authorization = 'Bearer ' + token;
+      $rootScope.loggedIn = true;
+      sessionStorage.setItem(JWT, token);
+      console.info('saved token : ' + token);
     };
+
+    $scope.clearToken = function () {
+      $http.defaults.headers.common.Authorization = null;
+    };
+
+    $scope.checkForPrivileges = function () {
+      $http.get('credentials/is-admin/')
+        .then(function (response) {
+          $rootScope.isAdmin = response.data;
+          console.info('Admin privileges: ' + $rootScope.isAdmin);
+        });
+    };
+
+    $scope.checkOldToken = function () {
+      let token = sessionStorage.getItem(JWT);
+      if (token == null) return;
+
+      console.info('auto-login try');
+      $scope.saveJWT(token);
+      $http.get('auth/am-i-logged-in/')
+        .then(function (response) {
+          $state.go('my-debts');
+          console.info(response);
+        }, function (error) {
+          $scope.clearToken();
+          console.info('JWT clear');
+        });
+    };
+
+    $scope.checkOldToken();
 
   }); // end of controller
 })();

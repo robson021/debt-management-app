@@ -6,6 +6,7 @@
                 <th>AMOUNT</th>
                 <th>DESCRIPTION</th>
                 <th>DEBTOR</th>
+                <th>ACTION</th>
             </tr>
             </thead>
             <tbody>
@@ -13,7 +14,7 @@
                 <td>{{debt.amount}}</td>
                 <td>{{debt.description}}</td>
                 <td>{{debt.borrowerName}} {{debt.borrowerSurname}}</td>
-                <td>
+                <td align="right">
                     <button class="btn btn-warning" ng-click="cancelDebt(debt.id)">
                         Cancel
                     </button>

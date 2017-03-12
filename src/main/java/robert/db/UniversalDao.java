@@ -11,6 +11,7 @@ import robert.web.rest.dto.MutualPaymentDTO;
 import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Set;
@@ -44,7 +45,7 @@ public class UniversalDao {
 		this.em = em;
 	}
 
-	/*@PostConstruct
+	@PostConstruct
 	public void init() {
 		User user = new User();
 		user.setEmail("test@t.pl");
@@ -53,7 +54,7 @@ public class UniversalDao {
 		user.setPassword("Passwd.123");
 
 		userRepository.save(user);
-	}*/
+	}
 
 	public <T> T saveEntity(BasicEntity entity, Class<T> castClass) {
 		BasicEntity saved = universalRepository.save(entity);
@@ -76,7 +77,7 @@ public class UniversalDao {
 	}
 
 	public void cancelDebt(Long assetId, Long userId) throws BadParameterException {
-		if (!isAssetUsers(assetId, userId))
+		if (!doesAssetBelongToUser(assetId, userId))
 			throw new BadParameterException("User tried to cancel not his debt");
 
 		em.createQuery("delete from Asset a where a.id = :id")
@@ -119,10 +120,11 @@ public class UniversalDao {
 		return mutualPayment.getPayedFees();
 	}
 
-	private boolean isAssetUsers(Long assetId, Long userId) {
+	private boolean doesAssetBelongToUser(Long assetId, Long userId) {
 		Long id = assetRepository.findOne(assetId)
 				.getUser()
 				.getId();
+
 		return id.equals(userId);
 	}
 }
