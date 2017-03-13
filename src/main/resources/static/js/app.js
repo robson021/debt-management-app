@@ -1,5 +1,4 @@
-angular
-  .module("ngApp", [ 'ui.router' ])
+angular.module("ngApp", [ 'ui.router' ])
   .config(function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider
@@ -22,13 +21,18 @@ angular
         url: '/my-debtors',
         templateUrl: 'partials/my-debtors.html',
         controller: 'my-debtors-ctrl'
+      })
+      .state('mutual-payments', {
+        url: '/mutual-payments',
+        templateUrl: 'partials/mutual-payment.html',
+        controller: 'mutual-payments-ctrl'
       });
 
     $urlRouterProvider.otherwise("/");
 
   }); //end of config
 
-// global data
+// global data init
 angular.module('ngApp')
   .run(function ($rootScope) {
     $rootScope.loggedIn = false;

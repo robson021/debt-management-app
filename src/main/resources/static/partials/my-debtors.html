@@ -14,7 +14,7 @@
                 <td>{{debt.amount}}</td>
                 <td>{{debt.description}}</td>
                 <td>{{debt.borrowerName}} {{debt.borrowerSurname}}</td>
-                <td align="right">
+                <td class="button-cell">
                     <button class="btn btn-warning" ng-click="cancelDebt(debt.id)">
                         Cancel
                     </button>
@@ -29,10 +29,10 @@
     </div>
 
     <div class="text-center" ng-show="otherUsers">
-        <div class="row-fluid" style="display:inline-flex">
+        <div class="row-fluid inline-display">
             <div>
                 <label>Amount:</label>
-                <input type="number" class="form-control" ng-model="newAsset.amount"/>
+                <input type="number" min="0" class="form-control" ng-model="newAsset.amount"/>
             </div>
             <div>
                 <label>Description:</label>

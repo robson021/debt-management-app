@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import robert.db.UniversalDao;
 import robert.db.entities.Asset;
 import robert.db.entities.Fee;
+import robert.db.entities.MutualPayment;
 import robert.web.rest.dto.FeeDTO;
 import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
@@ -73,6 +74,12 @@ public class PaymentController {
     public List<FeeDTO> getFeesOfMutualPayment(@PathVariable("id") Long id) {
         Set<Fee> fees = dao.getFeesForMutualPayment(id);
         return PaymentAssembler.convertFeesToDTOs(fees);
+    }
+
+    @RequestMapping("/mutual-payments")
+    public List<PaymentDTO> getAllMutualPayments() {
+        List<MutualPayment> allMutualPayments = dao.getAllMutualPayments();
+        return PaymentAssembler.convertToMutualPaymentDTO(allMutualPayments);
     }
 
 }

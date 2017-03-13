@@ -16,61 +16,88 @@ import robert.web.rest.dto.PaymentDTO;
 
 public class PaymentAssembler {
 
-	public static Asset paymentDtoToAsset(PaymentDTO paymentDTO) {
-		Asset asset = new Asset();
-		asset.setDescription(paymentDTO.getDescription());
-		asset.setAmount(paymentDTO.getAmount());
-		asset.setBorrowerId(paymentDTO.getBorrowerId());
-		asset.setBorrowerName(paymentDTO.getBorrowerName());
-		asset.setBorrowerSurname(paymentDTO.getBorrowerSurname());
+    public static Asset paymentDtoToAsset(PaymentDTO paymentDTO) {
+        Asset asset = new Asset();
+        asset.setDescription(paymentDTO.getDescription());
+        asset.setAmount(paymentDTO.getAmount());
+        asset.setBorrowerId(paymentDTO.getBorrowerId());
+        asset.setBorrowerName(paymentDTO.getBorrowerName());
+        asset.setBorrowerSurname(paymentDTO.getBorrowerSurname());
 
-		return asset;
-	}
+        return asset;
+    }
 
-	public static PaymentDTO convertToPaymentDTO(Asset asset) {
-		PaymentDTO dto = new PaymentDTO();
-		dto.setId(asset.getId());
-		dto.setBorrowerName(asset.getBorrowerName());
-		dto.setBorrowerSurname(asset.getBorrowerSurname());
-		dto.setBorrowerId(asset.getBorrowerId());
-		dto.setAmount(asset.getAmount());
-		dto.setDescription(asset.getDescription());
-		User user = asset.getUser();
-		dto.setOwner(user.getName() + " " + user.getSurname());
+    public static PaymentDTO convertToPaymentDTO(Asset asset) {
+        PaymentDTO dto = new PaymentDTO();
+        dto.setId(asset.getId());
+        dto.setBorrowerName(asset.getBorrowerName());
+        dto.setBorrowerSurname(asset.getBorrowerSurname());
+        dto.setBorrowerId(asset.getBorrowerId());
+        dto.setAmount(asset.getAmount());
+        dto.setDescription(asset.getDescription());
+        User user = asset.getUser();
+        dto.setOwner(user.getName() + " " + user.getSurname());
 
-		return dto;
-	}
+        return dto;
+    }
 
-	public static List<PaymentDTO> convertToPaymentDTOs(Collection<Asset> assets) {
-		if (CollectionUtils.isEmpty(assets))
-			return Collections.emptyList();
+    public static List<PaymentDTO> convertToPaymentDTOs(Collection<Asset> assets) {
+        if ( CollectionUtils.isEmpty(assets) ) {
+            return Collections.emptyList();
+        }
+        return assets.stream()
+                .map(PaymentAssembler::convertToPaymentDTO)
+                .collect(Collectors.toList());
+    }
 
-		return assets.stream()
-				.map(PaymentAssembler::convertToPaymentDTO)
-				.collect(Collectors.toList());
-	}
+    public static MutualPayment convertMutualPaymentDTO(PaymentDTO dto) {
+        MutualPayment mutualPayment = new MutualPayment();
+        mutualPayment.setAmount(dto.getAmount());
+        mutualPayment.setDescription(dto.getDescription());
 
-	public static MutualPayment convertMutualPaymentDTO(PaymentDTO dto) {
-		MutualPayment mutualPayment = new MutualPayment();
-		mutualPayment.setAmount(dto.getAmount());
-		mutualPayment.setDescription(dto.getDescription());
+        return mutualPayment;
+    }
 
-		return mutualPayment;
-	}
+    public static PaymentDTO convertMutualPaymentToDTO(MutualPayment payment) {
+        PaymentDTO dto = new PaymentDTO();
+        dto.setId(payment.getId());
+        dto.setAmount(payment.getAmount());
+        dto.setDescription(payment.getDescription());
 
-	public static FeeDTO convertFeeToDTO(Fee fee) {
-		FeeDTO dto = new FeeDTO();
-		dto.setAmount(fee.getPayedFee());
-		String name = fee.getUser().getName();
-		String surname = fee.getUser().getSurname();
-		dto.setUser(name + " " + surname);
+        List<FeeDTO> fees = convertFeesToDTOs(payment.getPayedFees());
+        dto.setFees(fees);
 
-		return dto;
-	}
+        return dto;
+    }
 
-	public static List<FeeDTO> convertFeesToDTOs(Collection<Fee> payedFees) {
-		return payedFees.stream()
-				.map(PaymentAssembler::convertFeeToDTO)
-				.collect(Collectors.toList());
-	}
+    public static List<PaymentDTO> convertToMutualPaymentDTO(Collection<MutualPayment> mutualPayments) {
+        if ( CollectionUtils.isEmpty(mutualPayments) ) {
+            return Collections.emptyList();
+        }
+        return mutualPayments.stream()
+                .map(PaymentAssembler::convertMutualPaymentToDTO)
+                .collect(Collectors.toList());
+
+    }
+
+    public static FeeDTO convertFeeToDTO(Fee fee) {
+        FeeDTO dto = new FeeDTO();
+        dto.setAmount(fee.getPayedFee());
+        String name = fee.getUser()
+                .getName();
+        String surname = fee.getUser()
+                .getSurname();
+        dto.setUser(name + " " + surname);
+
+        return dto;
+    }
+
+    public static List<FeeDTO> convertFeesToDTOs(Collection<Fee> payedFees) {
+        if ( CollectionUtils.isEmpty(payedFees) ) {
+            return Collections.emptyList();
+        }
+        return payedFees.stream()
+                .map(PaymentAssembler::convertFeeToDTO)
+                .collect(Collectors.toList());
+    }
 }

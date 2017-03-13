@@ -117,6 +117,10 @@ public class UniversalDao {
 		return mutualPayment.getPayedFees();
 	}
 
+    public List<MutualPayment> getAllMutualPayments() {
+        return mutualPaymentRepository.findAll();
+    }
+
 	private boolean doesAssetBelongToUser(Long assetId, Long userId) {
 		Long id = assetRepository.findOne(assetId)
 				.getUser()
