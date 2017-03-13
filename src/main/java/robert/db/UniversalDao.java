@@ -1,20 +1,28 @@
 package robert.db;
 
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.EntityManager;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import robert.db.entities.*;
-import robert.db.repo.*;
+
+import robert.db.entities.Asset;
+import robert.db.entities.BasicEntity;
+import robert.db.entities.Fee;
+import robert.db.entities.MutualPayment;
+import robert.db.entities.User;
+import robert.db.repo.AssetRepository;
+import robert.db.repo.FeeRepository;
+import robert.db.repo.MutualPaymentRepository;
+import robert.db.repo.UniversalRepository;
+import robert.db.repo.UserRepository;
 import robert.exeptions.BadParameterException;
-import robert.web.rest.dto.MutualPaymentDTO;
 import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
-
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import java.util.List;
-import java.util.Set;
 
 @SuppressWarnings("ALL")
 @Component
@@ -43,17 +51,6 @@ public class UniversalDao {
 		this.feeRepository = feeRepository;
 		this.mutualPaymentRepository = mutualPaymentRepository;
 		this.em = em;
-	}
-
-	@PostConstruct
-	public void init() {
-		User user = new User();
-		user.setEmail("test@t.pl");
-		user.setName("Example");
-		user.setSurname("User");
-		user.setPassword("Passwd.123");
-
-		userRepository.save(user);
 	}
 
 	public <T> T saveEntity(BasicEntity entity, Class<T> castClass) {
@@ -99,7 +96,7 @@ public class UniversalDao {
 				.getResultList();
 	}
 
-	public void addMutualPayment(MutualPaymentDTO paymentDTO) {
+	public void addMutualPayment(PaymentDTO paymentDTO) {
 		MutualPayment payment = PaymentAssembler.convertMutualPaymentDTO(paymentDTO);
 		mutualPaymentRepository.save(payment);
 	}

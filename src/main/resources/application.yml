@@ -4,6 +4,8 @@ server:
 
 # JACKSON
 spring:
+  profiles:
+    active: dev
   jackson:
     serialization:
       INDENT_OUTPUT: true

@@ -28,12 +28,12 @@ const JWT = 'jwt';
     $scope.saveJWT = function (token) {
       $http.defaults.headers.common.Authorization = 'Bearer ' + token;
       $rootScope.loggedIn = true;
-      sessionStorage.setItem(JWT, token);
-      console.info('saved token : ' + token);
+      localStorage.setItem(JWT, token);
+      console.info('saved token: ' + token);
     };
 
     $scope.clearToken = function () {
-      $http.defaults.headers.common.Authorization = null;
+      $http.defaults.headers.common.Authorization = undefined;
     };
 
     $scope.checkForPrivileges = function () {
@@ -45,8 +45,8 @@ const JWT = 'jwt';
     };
 
     $scope.checkOldToken = function () {
-      let token = sessionStorage.getItem(JWT);
-      if (token == null) return;
+      let token = localStorage.getItem(JWT);
+      if (token == undefined) return;
 
       console.info('auto-login try');
       $scope.saveJWT(token);
