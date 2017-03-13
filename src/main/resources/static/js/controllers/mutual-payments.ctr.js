@@ -21,6 +21,12 @@
       }
     };
 
+    $scope.cancelPayment = function (paymentId) {
+      $http.delete('payments/delete-mutual-payment/' + paymentId + '/').then(function (r) {
+        $scope.loadMutualPayments();
+      });
+    };
+
     $scope.submitNewFee = function (paymentId) {
       $http.post('payments/add-fee/' + paymentId + '/' + $scope.newFee.amount + '/').then(function (r) {
         $scope.loadMutualPayments();

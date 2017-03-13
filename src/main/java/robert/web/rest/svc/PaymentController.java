@@ -88,4 +88,10 @@ public class PaymentController {
         return HttpStatus.OK;
     }
 
+    @RequestMapping(value = "/delete-mutual-payment/{id}/", method = RequestMethod.DELETE)
+    public HttpStatus deleteMutualPayment(@PathVariable("id") Long mpaymentId) {
+        dao.deleMutualPayment(mpaymentId);
+        return HttpStatus.OK;
+    }
+
 }

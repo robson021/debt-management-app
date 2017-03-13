@@ -123,16 +123,18 @@ public class UniversalDao {
     }
 
     public void deleteMyFees(Long userId, Long mutualPaymentId) {
-        List<Fee> fees = em.createQuery("from Fee as f where f.user.id = :uid and f.mutualPayment.id = :pid", Fee.class)
+        em.createQuery("delete from Fee f where f.user.id = :uid and f.mutualPayment.id = :pid")
                 .setParameter("uid", userId)
                 .setParameter("pid", mutualPaymentId)
-                .getResultList();
+                .executeUpdate();
+    }
 
-        fees.forEach(fee -> {
-            em.createQuery("delete from Fee f where f.id = :id")
-                    .setParameter("id", fee.getId())
-                    .executeUpdate();
-        });
+    public void deleMutualPayment(Long mutualPaymentId) {
+        em.createQuery("delete from Fee f where f.mutualPayment.id = :pid")
+                .setParameter("pid", mutualPaymentId)
+                .executeUpdate();
+
+        mutualPaymentRepository.delete(mutualPaymentId);
     }
 
     private boolean doesAssetBelongToUser(Long assetId, Long userId) {
