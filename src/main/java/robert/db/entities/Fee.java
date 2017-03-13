@@ -1,6 +1,11 @@
 package robert.db.entities;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "FEE")
@@ -9,8 +14,8 @@ public class Fee extends BasicEntity {
 	@Column(nullable = false)
 	private Double payedFee;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@PrimaryKeyJoinColumn
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "USER_ID")
 	private User user;
 
 	@ManyToOne(fetch = FetchType.EAGER)

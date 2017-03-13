@@ -82,4 +82,10 @@ public class PaymentController {
         return PaymentAssembler.convertToMutualPaymentDTO(allMutualPayments);
     }
 
+    @RequestMapping(value = "/delete-my-fees/{id}/", method = RequestMethod.DELETE)
+    public HttpStatus deleteMyFees(HttpServletRequest request, @PathVariable("id") Long paymentId) {
+        dao.deleteMyFees(JwtUtils.getUserId(request), paymentId);
+        return HttpStatus.OK;
+    }
+
 }

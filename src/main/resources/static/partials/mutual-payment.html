@@ -10,8 +10,8 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>{{payment.description}}</td>
                     <td>{{payment.amount}}</td>
+                    <td>{{payment.description}}</td>
                     <td class="button-cell">
                         <button class="btn btn-warning" ng-click="cancelPayment(payment.id)">
                             Cancel
@@ -31,8 +31,8 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="fee in payment.fees">
-                    <td>{{payment.description}}</td>
-                    <td>{{payment.amount}}</td>
+                    <td>{{fee.user}}</td>
+                    <td>{{fee.amount}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -41,13 +41,18 @@
             <div class="row-fluid inline-display">
                 <div>
                     <label>Add my fee:</label>
-                    <input type="number" min="0" class="form-control" ng-model="newPayment.amount"/>
+                    <input type="number" min="0" class="form-control" ng-model="newFee.amount"/>
                 </div>
             </div>
             <br>
-            <button class="btn btn-primary" ng-click="submitNewPayment()">
-                Submit
-            </button>
+            <div>
+                <button class="btn btn-primary" ng-click="submitNewFee(payment.id)">
+                    Submit
+                </button>
+                <button class="btn btn-danger" ng-click="cancelMyAllFees(payment.id)">
+                    Cancel my all fees
+                </button>
+            </div>
         </div>
     </div>
     <div class="text-center">

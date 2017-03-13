@@ -1,8 +1,14 @@
 package robert.db.entities;
 
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "USER")
@@ -23,8 +29,8 @@ public class User extends BasicEntity {
 	@Column
 	private Boolean role = false;
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-	private Fee fee;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private Set<Fee> fees;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<Asset> assets = null;
@@ -70,7 +76,7 @@ public class User extends BasicEntity {
 	}
 
 	public void addAsset(Asset asset) {
-		if (this.assets == null) {
+		if ( this.assets == null ) {
 			this.assets = new HashSet<>(1);
 		}
 		this.assets.add(asset);
@@ -84,11 +90,11 @@ public class User extends BasicEntity {
 		this.role = role;
 	}
 
-	public Fee getFee() {
-		return fee;
+	public Set<Fee> getFees() {
+		return fees;
 	}
 
-	public void setFee(Fee fee) {
-		this.fee = fee;
+	public void setFees(Set<Fee> fees) {
+		this.fees = fees;
 	}
 }
