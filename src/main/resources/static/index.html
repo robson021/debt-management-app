@@ -10,9 +10,40 @@
     <script src="libs/angular/angular-ui-router.min.js"></script>
     <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/business-casual.css">
 </head>
 
 <body class="jumbotron" ng-app="ngApp">
+
+<!-- navbar -->
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" ui-sref="default">Navigation</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a ui-sref="my-debts">My debts</a>
+                </li>
+                <li>
+                    <a ui-sref="my-debtors">My debtors</a>
+                </li>
+                <li>
+                    <a ui-sref="mutual-payments">Mutual payments</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 <div class="main-body">
     <ui-view></ui-view>

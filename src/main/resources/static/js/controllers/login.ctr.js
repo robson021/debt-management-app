@@ -28,7 +28,7 @@ const JWT = 'jwt';
     $scope.saveJWT = function (token) {
       $http.defaults.headers.common.Authorization = 'Bearer ' + token;
       $rootScope.loggedIn = true;
-      localStorage.setItem(JWT, token);
+      sessionStorage.setItem(JWT, token);
       console.info('saved token: ' + token);
     };
 
@@ -45,7 +45,7 @@ const JWT = 'jwt';
     };
 
     $scope.checkOldToken = function () {
-      let token = localStorage.getItem(JWT);
+      let token = sessionStorage.getItem(JWT);
       if (token == undefined) return;
 
       console.info('auto-login try');
