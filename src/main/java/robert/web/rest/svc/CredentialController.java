@@ -2,17 +2,15 @@ package robert.web.rest.svc;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import robert.db.UniversalDao;
 import robert.db.entities.User;
+import robert.web.request.data.UserDataProvider;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.UserAssembler;
-import robert.web.security.JwtUtils;
 
 @RestController
 @RequestMapping("/credentials")
@@ -20,21 +18,22 @@ public class CredentialController {
 
     private final UniversalDao dao;
 
+    private final UserDataProvider userDataProvider;
+
     @Autowired
-    public CredentialController(UniversalDao dao) {
+    public CredentialController(UniversalDao dao, UserDataProvider userDataProvider) {
         this.dao = dao;
+        this.userDataProvider = userDataProvider;
     }
 
     @RequestMapping("/is-admin")
-    public Boolean checkIfAdmin(HttpServletRequest request) {
-        return JwtUtils.isAdmin(request);
+    public Boolean checkIfAdmin() {
+        return userDataProvider.isAdmin();
     }
 
     @RequestMapping("/other-users")
-    public List<UserInfoDTO> getOtherUsersDetails(HttpServletRequest request) {
-        Long userId = JwtUtils.getUserId(request);
-        List<User> users = dao.findOtherUsersExceptGiven(userId);
-
+    public List<UserInfoDTO> getOtherUsersDetails() {
+        List<User> users = dao.findOtherUsersExceptGiven(userDataProvider.getUserId());
         return UserAssembler.convertToUserInfoDTOs(users);
     }
 

@@ -1,13 +1,13 @@
 package robert.db;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 import robert.db.entities.User;
 import robert.db.repo.UserRepository;
 
-@Configuration
+@Component
 @Profile("dev")
 public class DevSettings {
 

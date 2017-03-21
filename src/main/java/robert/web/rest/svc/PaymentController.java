@@ -3,8 +3,6 @@ package robert.web.rest.svc;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,10 +16,10 @@ import robert.db.UniversalDao;
 import robert.db.entities.Asset;
 import robert.db.entities.Fee;
 import robert.db.entities.MutualPayment;
+import robert.web.request.data.UserDataProvider;
 import robert.web.rest.dto.FeeDTO;
 import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
-import robert.web.security.JwtUtils;
 
 @RestController
 @RequestMapping("/payments")
@@ -29,32 +27,35 @@ public class PaymentController {
 
     private final UniversalDao dao;
 
+    private final UserDataProvider userDataProvider;
+
     @Autowired
-    public PaymentController(UniversalDao dao) {
+    public PaymentController(UniversalDao dao, UserDataProvider userDataProvider) {
         this.dao = dao;
+        this.userDataProvider = userDataProvider;
     }
 
     @RequestMapping(value = "/add-assets-to-user", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public void addAssetToTheUser(HttpServletRequest request, @RequestBody PaymentDTO borrowerInfo) {
-        dao.addDebtor(JwtUtils.getUserId(request), borrowerInfo);
+    public void addAssetToTheUser(@RequestBody PaymentDTO borrowerInfo) {
+        dao.addDebtor(userDataProvider.getUserId(), borrowerInfo);
     }
 
     @RequestMapping(value = "/my-debtors")
-    public List<PaymentDTO> getMyDebtors(HttpServletRequest request) {
-        Set<Asset> debtors = dao.findUserDebtors(JwtUtils.getUserId(request));
+    public List<PaymentDTO> getMyDebtors() {
+        Set<Asset> debtors = dao.findUserDebtors(userDataProvider.getUserId());
         return PaymentAssembler.convertToPaymentDTOs(debtors);
     }
 
     @RequestMapping(value = "/my-debts")
-    public List<PaymentDTO> getMyDebts(HttpServletRequest request) {
-        List<Asset> userDebts = dao.findUserDebts(JwtUtils.getUserId(request));
+    public List<PaymentDTO> getMyDebts() {
+        List<Asset> userDebts = dao.findUserDebts(userDataProvider.getUserId());
         return PaymentAssembler.convertToPaymentDTOs(userDebts);
     }
 
     @RequestMapping(value = "/cancel-debt/{id}/", method = RequestMethod.DELETE)
-    public HttpStatus cancelDebt(HttpServletRequest request, @PathVariable("id") Long assetId) throws Exception {
-        dao.cancelDebt(assetId, JwtUtils.getUserId(request));
+    public HttpStatus cancelDebt(@PathVariable("id") Long assetId) throws Exception {
+        dao.cancelDebt(assetId, userDataProvider.getUserId());
         return HttpStatus.OK;
     }
 
@@ -65,8 +66,8 @@ public class PaymentController {
     }
 
     @RequestMapping(value = "/add-fee/{id}/{amount}/", method = RequestMethod.POST)
-    public HttpStatus addFeeToMutualPayment(HttpServletRequest request, @PathVariable("id") Long paymentId, @PathVariable("amount") Double fee) {
-        dao.addUserFeeToPayment(JwtUtils.getUserId(request), paymentId, fee);
+    public HttpStatus addFeeToMutualPayment(@PathVariable("id") Long paymentId, @PathVariable("amount") Double fee) {
+        dao.addUserFeeToPayment(userDataProvider.getUserId(), paymentId, fee);
         return HttpStatus.OK;
     }
 
@@ -83,8 +84,8 @@ public class PaymentController {
     }
 
     @RequestMapping(value = "/delete-my-fees/{id}/", method = RequestMethod.DELETE)
-    public HttpStatus deleteMyFees(HttpServletRequest request, @PathVariable("id") Long paymentId) {
-        dao.deleteMyFees(JwtUtils.getUserId(request), paymentId);
+    public HttpStatus deleteMyFees(@PathVariable("id") Long paymentId) {
+        dao.deleteMyFees(userDataProvider.getUserId(), paymentId);
         return HttpStatus.OK;
     }
 
