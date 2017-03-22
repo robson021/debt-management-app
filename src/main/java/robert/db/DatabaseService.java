@@ -163,7 +163,7 @@ public class DatabaseService {
                 .find();
 
         if ( !isValid ) {
-            throw new AuthException("Invalid password or email regex");
+            throw new AuthException("Invalid password or email pattern");
         }
 
     }
