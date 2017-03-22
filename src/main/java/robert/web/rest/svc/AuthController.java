@@ -9,14 +9,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import robert.db.DatabaseService;
 import robert.db.entities.User;
-import robert.db.repo.UserRepository;
 import robert.exeptions.AuthException;
-import robert.exeptions.UserAuthException;
 import robert.web.request.data.UserDataProvider;
 import robert.web.rest.dto.SimpleMessageDTO;
 import robert.web.rest.dto.UserInfoDTO;
-import robert.web.rest.dto.asm.UserAssembler;
 import robert.web.security.JwtUtils;
 
 @RestController
@@ -27,18 +25,18 @@ public class AuthController {
 
     private final UserDataProvider userDataProvider;
 
-	private final UserRepository userRepository;
+	private DatabaseService dbService;
 
 	@Autowired
-    public AuthController(UserDataProvider userDataProvider, UserRepository userRepository) {
-        this.userDataProvider = userDataProvider;
-        this.userRepository = userRepository;
-    }
+	public AuthController(UserDataProvider userDataProvider, DatabaseService dbService) {
+		this.userDataProvider = userDataProvider;
+		this.dbService = dbService;
+	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	public void registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
-		userRepository.save(UserAssembler.convertDtoToUser(userDTO));
+		dbService.saveNewUser(userDTO);
 		log.info("Registered new user: " + userDTO.getEmail());
 	}
 
@@ -57,10 +55,10 @@ public class AuthController {
 		throw new AuthException("Token is not valid");
 	}
 
-	private String tryToLogUserIn(UserInfoDTO user) throws UserAuthException {
-		User u = userRepository.findOneByEmail(user.getEmail());
+	private String tryToLogUserIn(UserInfoDTO user) {
+		User u = dbService.findUserByEmail(user.getEmail());
 		if (!u.getPassword().equals(user.getPassword()))
-			throw new UserAuthException();
+			throw new AuthException("Passwords do not match");
 
 		return JwtUtils.generateToken(u);
 	}

@@ -8,13 +8,11 @@ import java.util.stream.Collectors;
 import org.springframework.util.CollectionUtils;
 
 import robert.db.entities.User;
-import robert.exeptions.InvalidEmailException;
-import robert.exeptions.InvalidPasswordPatternException;
 import robert.web.rest.dto.UserInfoDTO;
 
 public class UserAssembler {
 
-    public static User convertDtoToUser(UserInfoDTO userDTO) throws InvalidEmailException, InvalidPasswordPatternException {
+    public static User convertDtoToUser(UserInfoDTO userDTO) {
         User user = new User();
         user.setName(userDTO.getName());
         user.setSurname(userDTO.getSurname());

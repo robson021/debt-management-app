@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import robert.db.UniversalDao;
+import robert.db.DatabaseService;
 import robert.db.entities.User;
 import robert.web.request.data.UserDataProvider;
 import robert.web.rest.dto.UserInfoDTO;
@@ -16,13 +16,13 @@ import robert.web.rest.dto.asm.UserAssembler;
 @RequestMapping("/credentials")
 public class CredentialController {
 
-    private final UniversalDao dao;
+    private final DatabaseService dbService;
 
     private final UserDataProvider userDataProvider;
 
     @Autowired
-    public CredentialController(UniversalDao dao, UserDataProvider userDataProvider) {
-        this.dao = dao;
+    public CredentialController(DatabaseService dbService, UserDataProvider userDataProvider) {
+        this.dbService = dbService;
         this.userDataProvider = userDataProvider;
     }
 
@@ -33,7 +33,7 @@ public class CredentialController {
 
     @RequestMapping("/other-users")
     public List<UserInfoDTO> getOtherUsersDetails() {
-        List<User> users = dao.findOtherUsersExceptGiven(userDataProvider.getUserId());
+        List<User> users = dbService.findOtherUsersExceptGiven(userDataProvider.getUserId());
         return UserAssembler.convertToUserInfoDTOs(users);
     }
 

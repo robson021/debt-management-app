@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import robert.db.entities.Asset;
@@ -15,21 +15,25 @@ import robert.db.entities.BasicEntity;
 import robert.db.entities.Fee;
 import robert.db.entities.MutualPayment;
 import robert.db.entities.User;
+import robert.db.entities.Validation;
 import robert.db.repo.AssetRepository;
 import robert.db.repo.FeeRepository;
 import robert.db.repo.MutualPaymentRepository;
 import robert.db.repo.UniversalRepository;
 import robert.db.repo.UserRepository;
+import robert.exeptions.AuthException;
 import robert.exeptions.BadParameterException;
 import robert.web.rest.dto.PaymentDTO;
+import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
+import robert.web.rest.dto.asm.UserAssembler;
 
 @SuppressWarnings("ALL")
-@Component
+@Service
 @Transactional
-public class UniversalDao {
+public class DatabaseService {
 
-    private static final Logger log = Logger.getLogger(UniversalDao.class);
+    private static final Logger log = Logger.getLogger(DatabaseService.class);
 
     private final UserRepository userRepository;
 
@@ -44,7 +48,7 @@ public class UniversalDao {
     private final EntityManager em;
 
     @Autowired
-    public UniversalDao(UserRepository userRepository, AssetRepository assetRepository, UniversalRepository universalRepository, FeeRepository feeRepository,
+    public DatabaseService(UserRepository userRepository, AssetRepository assetRepository, UniversalRepository universalRepository, FeeRepository feeRepository,
             MutualPaymentRepository mutualPaymentRepository, EntityManager em) {
         this.userRepository = userRepository;
         this.assetRepository = assetRepository;
@@ -59,6 +63,16 @@ public class UniversalDao {
         return castClass.cast(saved);
     }
 
+    public void saveNewUser(UserInfoDTO userDTO) {
+        User user = UserAssembler.convertDtoToUser(userDTO);
+        validateUserEmailAndPassword(user);
+        userRepository.save(user);
+    }
+
+    public User findUserByEmail(String email) {
+        return userRepository.findOneByEmail(email);
+    }
+
     public List<Asset> findUserDebts(Long borrowerId) {
         List<Asset> debts = em.createQuery("from Asset a where a.borrowerId = :id", Asset.class)
                 .setParameter("id", borrowerId)
@@ -68,10 +82,8 @@ public class UniversalDao {
     }
 
     public Set<Asset> findUserDebtors(Long userId) {
-        Set<Asset> assets = userRepository.findOne(userId)
+        return userRepository.findOne(userId)
                 .getAssets();
-
-        return assets;
     }
 
     public void cancelDebt(Long assetId, Long userId) throws BadParameterException {
@@ -143,5 +155,16 @@ public class UniversalDao {
                 .getId();
 
         return id.equals(userId);
+    }
+
+    private void validateUserEmailAndPassword(User user) {
+        boolean isValid = Validation.VALID_PASSWORD_REGEX.matcher(user.getPassword())
+                .find() && Validation.VALID_EMAIL_ADDRESS_REGEX.matcher(user.getEmail())
+                .find();
+
+        if ( !isValid ) {
+            throw new AuthException("Invalid password or email regex");
+        }
+
     }
 }

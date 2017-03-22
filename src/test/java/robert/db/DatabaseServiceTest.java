@@ -13,19 +13,19 @@ import robert.db.entities.Asset;
 import robert.db.entities.User;
 import robert.web.rest.dto.PaymentDTO;
 
-public class UniversalDaoTest extends SpringTest {
+public class DatabaseServiceTest extends SpringTest {
 
     @Autowired
-    private UniversalDao dao;
+    private DatabaseService dbService;
 
     @Test
     public void cancelDebt() throws Exception {
-        User lender = dao.saveEntity(TestUtils.generateNewUser(), User.class);
-        User borrower = dao.saveEntity(TestUtils.generateNewUser(), User.class);
+        User lender = dbService.saveEntity(TestUtils.generateNewUser(), User.class);
+        User borrower = dbService.saveEntity(TestUtils.generateNewUser(), User.class);
 
-        dao.addDebtor(lender.getId(), generatePayment(borrower));
+        dbService.addDebtor(lender.getId(), generatePayment(borrower));
 
-        Set<Asset> assets = dao.findUserDebtors(lender.getId());
+        Set<Asset> assets = dbService.findUserDebtors(lender.getId());
         Assertions.assertThat(assets)
                 .hasSize(1);
 
@@ -33,23 +33,23 @@ public class UniversalDaoTest extends SpringTest {
                 .next()
                 .getId();
 
-        dao.cancelDebt(assetId, lender.getId());
+        dbService.cancelDebt(assetId, lender.getId());
 
         // after delete
-        assets = dao.findUserDebtors(lender.getId());
+        assets = dbService.findUserDebtors(lender.getId());
         Assertions.assertThat(assets)
                 .hasSize(0);
     }
 
     @Test
     public void addDebtor() throws Exception {
-        User lender = dao.saveEntity(TestUtils.generateNewUser(), User.class);
-        User borrower = dao.saveEntity(TestUtils.generateNewUser(), User.class);
+        User lender = dbService.saveEntity(TestUtils.generateNewUser(), User.class);
+        User borrower = dbService.saveEntity(TestUtils.generateNewUser(), User.class);
 
-        dao.addDebtor(lender.getId(), generatePayment(borrower));
-        dao.addDebtor(lender.getId(), generatePayment(borrower));
+        dbService.addDebtor(lender.getId(), generatePayment(borrower));
+        dbService.addDebtor(lender.getId(), generatePayment(borrower));
 
-        Set<Asset> debtors = dao.findUserDebtors(lender.getId());
+        Set<Asset> debtors = dbService.findUserDebtors(lender.getId());
 
         Assertions.assertThat(debtors)
                 .hasSize(2);
