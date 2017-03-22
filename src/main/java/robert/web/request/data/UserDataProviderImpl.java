@@ -23,7 +23,6 @@ public class UserDataProviderImpl implements UserDataProvider {
 
     @Override
     public void setData(HttpServletRequest request) {
-        // todo: optimize
         this.userId = JwtUtils.getUserId(request);
         this.userEmail = JwtUtils.getUserEmail(request);
         this.isAdmin = JwtUtils.isAdmin(request);

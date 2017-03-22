@@ -39,10 +39,6 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     private void validateUserToken(String authHeaderValue, HttpServletRequest request) {
-        if ( !authHeaderValue.startsWith("Bearer ") ) {
-            throw new AuthException("Invalid Authorization header.");
-        }
-
         try {
             Claims userClaims = JwtUtils.getUserClaims(authHeaderValue);
             request.setAttribute("claims", userClaims);
