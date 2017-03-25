@@ -11,11 +11,9 @@ public class AuthenticationImpl implements Authentication {
 
 	private boolean authenticated;
 
-	AuthenticationImpl(String name, boolean isAuthenticated) {
-		if (name == null)
-			throw new NullPointerException("User name cannot be null");
+	AuthenticationImpl(String name) {
 		this.name = name;
-		this.authenticated = isAuthenticated;
+		this.authenticated = true;
 	}
 
 	@Override

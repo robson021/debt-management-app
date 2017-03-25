@@ -1,21 +1,19 @@
 package robert.web.security.config;
 
-import java.io.IOException;
+import io.jsonwebtoken.Claims;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+import robert.exeptions.AuthException;
+import robert.web.request.data.UserDataProvider;
+import robert.web.security.JwtUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-import io.jsonwebtoken.Claims;
-import robert.exeptions.AuthException;
-import robert.web.request.data.UserDataProvider;
-import robert.web.security.JwtUtils;
+import java.io.IOException;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -51,7 +49,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private void setUserAuthentication(Claims userClaims) {
         SecurityContextHolder.getContext()
-                .setAuthentication(new AuthenticationImpl(userClaims.getSubject(), true));
+                .setAuthentication(new AuthenticationImpl(userClaims.getSubject()));
 
     }
 

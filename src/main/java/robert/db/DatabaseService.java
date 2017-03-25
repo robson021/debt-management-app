@@ -1,26 +1,11 @@
 package robert.db;
 
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.EntityManager;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import robert.db.entities.Asset;
-import robert.db.entities.BasicEntity;
-import robert.db.entities.Fee;
-import robert.db.entities.MutualPayment;
-import robert.db.entities.User;
-import robert.db.entities.Validation;
-import robert.db.repo.AssetRepository;
-import robert.db.repo.FeeRepository;
-import robert.db.repo.MutualPaymentRepository;
-import robert.db.repo.UniversalRepository;
-import robert.db.repo.UserRepository;
+import robert.db.entities.*;
+import robert.db.repo.*;
 import robert.exeptions.AuthException;
 import robert.exeptions.BadParameterException;
 import robert.web.rest.dto.PaymentDTO;
@@ -28,7 +13,10 @@ import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
 import robert.web.rest.dto.asm.UserAssembler;
 
-@SuppressWarnings("ALL")
+import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.Set;
+
 @Service
 @Transactional
 public class DatabaseService {
@@ -134,14 +122,14 @@ public class DatabaseService {
         return mutualPaymentRepository.findAll();
     }
 
-    public void deleteMyFees(Long userId, Long mutualPaymentId) {
+    public void deleteUserFees(Long userId, Long mutualPaymentId) {
         em.createQuery("delete from Fee f where f.user.id = :uid and f.mutualPayment.id = :pid")
                 .setParameter("uid", userId)
                 .setParameter("pid", mutualPaymentId)
                 .executeUpdate();
     }
 
-    public void deleMutualPayment(Long mutualPaymentId) {
+    public void deleteMutualPayment(Long mutualPaymentId) {
         em.createQuery("delete from Fee f where f.mutualPayment.id = :pid")
                 .setParameter("pid", mutualPaymentId)
                 .executeUpdate();

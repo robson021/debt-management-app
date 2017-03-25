@@ -1,17 +1,8 @@
 package robert.web.rest.svc;
 
-import java.util.List;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import robert.db.DatabaseService;
 import robert.db.entities.Asset;
 import robert.db.entities.Fee;
@@ -20,6 +11,9 @@ import robert.web.request.data.UserDataProvider;
 import robert.web.rest.dto.FeeDTO;
 import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
+
+import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/payments")
@@ -85,13 +79,13 @@ public class PaymentController {
 
     @RequestMapping(value = "/delete-my-fees/{id}/", method = RequestMethod.DELETE)
     public HttpStatus deleteMyFees(@PathVariable("id") Long paymentId) {
-        dbService.deleteMyFees(userDataProvider.getUserId(), paymentId);
+        dbService.deleteUserFees(userDataProvider.getUserId(), paymentId);
         return HttpStatus.OK;
     }
 
     @RequestMapping(value = "/delete-mutual-payment/{id}/", method = RequestMethod.DELETE)
     public HttpStatus deleteMutualPayment(@PathVariable("id") Long mpaymentId) {
-        dbService.deleMutualPayment(mpaymentId);
+        dbService.deleteMutualPayment(mpaymentId);
         return HttpStatus.OK;
     }
 
