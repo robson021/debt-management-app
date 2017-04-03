@@ -15,3 +15,6 @@ logging:
     robert: DEBUG
     org.springframework: WARN
     org.hibernate: WARN
+
+robert:
+  reservationEnabled: false
