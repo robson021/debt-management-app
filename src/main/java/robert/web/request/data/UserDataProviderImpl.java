@@ -1,12 +1,11 @@
 package robert.web.request.data;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
+import io.jsonwebtoken.Claims;
 import robert.web.security.JwtUtils;
 
 @Component
@@ -19,14 +18,10 @@ public class UserDataProviderImpl implements UserDataProvider {
 
     private boolean isAdmin;
 
-    private HttpServletRequest request;
-
-    @Override
-    public void setData(HttpServletRequest request) {
-        this.userId = JwtUtils.getUserId(request);
-        this.userEmail = JwtUtils.getUserEmail(request);
-        this.isAdmin = JwtUtils.isAdmin(request);
-        this.request = request;
+    public void setData(Claims claims) {
+        this.userId = JwtUtils.getUserId(claims);
+        this.userEmail = JwtUtils.getUserEmail(claims);
+        this.isAdmin = JwtUtils.isAdmin(claims);
     }
 
     @Override
@@ -44,8 +39,4 @@ public class UserDataProviderImpl implements UserDataProvider {
         return isAdmin;
     }
 
-    @Override
-    public HttpServletRequest getRequest() {
-        return request;
-    }
 }

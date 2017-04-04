@@ -2,8 +2,6 @@ package robert.web.security;
 
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.RandomStringUtils;
 
 import io.jsonwebtoken.Claims;
@@ -22,16 +20,16 @@ public class JwtUtils {
                 .getBody();
     }
 
-    public static Long getUserId(HttpServletRequest request) {
-        return Long.parseLong(getUserClaims(request).getId());
+    public static Long getUserId(Claims claims) {
+        return Long.parseLong(claims.getId());
     }
 
-    public static String getUserEmail(HttpServletRequest request) {
-        return getUserClaims(request).getSubject();
+    public static String getUserEmail(Claims claims) {
+        return claims.getSubject();
     }
 
-    public static boolean isAdmin(HttpServletRequest request) {
-        return Boolean.valueOf(getUserClaims(request).get("role")
+    public static boolean isAdmin(Claims claims) {
+        return Boolean.valueOf(claims.get("role")
                 .toString());
     }
 
@@ -44,9 +42,4 @@ public class JwtUtils {
                 .signWith(SignatureAlgorithm.HS256, KEY)
                 .compact();
     }
-
-    private static Claims getUserClaims(HttpServletRequest request) {
-        return (Claims) request.getAttribute("claims");
-    }
-
 }
