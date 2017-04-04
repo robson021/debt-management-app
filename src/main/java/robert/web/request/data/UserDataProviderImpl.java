@@ -1,15 +1,13 @@
 package robert.web.request.data;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.annotation.RequestScope;
 
 import io.jsonwebtoken.Claims;
 import robert.web.security.JwtUtils;
 
 @Component
-@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
+@RequestScope
 public class UserDataProviderImpl implements UserDataProvider {
 
     private long userId;
