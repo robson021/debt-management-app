@@ -1,7 +1,6 @@
 package robert.web.rest.svc;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +29,6 @@ public class AuthController {
 
     private final boolean isRegistrationEnabled;
 
-    @Autowired
     public AuthController(UserDataProvider userDataProvider, DatabaseService dbService, @Value("${robert.reservationEnabled}") String reservation) {
         this.userDataProvider = userDataProvider;
         this.dbService = dbService;

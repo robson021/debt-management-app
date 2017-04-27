@@ -1,11 +1,24 @@
 package robert.db;
 
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.EntityManager;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import robert.db.entities.*;
-import robert.db.repo.*;
+
+import lombok.AllArgsConstructor;
+import robert.db.entities.Asset;
+import robert.db.entities.BasicEntity;
+import robert.db.entities.Fee;
+import robert.db.entities.MutualPayment;
+import robert.db.entities.User;
+import robert.db.entities.Validation;
+import robert.db.repo.AssetRepository;
+import robert.db.repo.MutualPaymentRepository;
+import robert.db.repo.UniversalRepository;
+import robert.db.repo.UserRepository;
 import robert.exeptions.AuthException;
 import robert.exeptions.BadParameterException;
 import robert.web.rest.dto.PaymentDTO;
@@ -13,15 +26,10 @@ import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
 import robert.web.rest.dto.asm.UserAssembler;
 
-import javax.persistence.EntityManager;
-import java.util.List;
-import java.util.Set;
-
 @Service
 @Transactional
+@AllArgsConstructor
 public class DatabaseService {
-
-    private static final Logger log = Logger.getLogger(DatabaseService.class);
 
     private final UserRepository userRepository;
 
@@ -29,22 +37,9 @@ public class DatabaseService {
 
     private final UniversalRepository universalRepository;
 
-    private final FeeRepository feeRepository;
-
     private final MutualPaymentRepository mutualPaymentRepository;
 
     private final EntityManager em;
-
-    @Autowired
-    public DatabaseService(UserRepository userRepository, AssetRepository assetRepository, UniversalRepository universalRepository, FeeRepository feeRepository,
-            MutualPaymentRepository mutualPaymentRepository, EntityManager em) {
-        this.userRepository = userRepository;
-        this.assetRepository = assetRepository;
-        this.universalRepository = universalRepository;
-        this.feeRepository = feeRepository;
-        this.mutualPaymentRepository = mutualPaymentRepository;
-        this.em = em;
-    }
 
     public <T> T saveEntity(BasicEntity entity, Class<T> castClass) {
         BasicEntity saved = universalRepository.save(entity);

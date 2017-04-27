@@ -1,8 +1,17 @@
 package robert.web.rest.svc;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import lombok.AllArgsConstructor;
 import robert.db.DatabaseService;
 import robert.db.entities.Asset;
 import robert.db.entities.Fee;
@@ -12,22 +21,14 @@ import robert.web.rest.dto.FeeDTO;
 import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
 
-import java.util.List;
-import java.util.Set;
-
 @RestController
 @RequestMapping("/payments")
+@AllArgsConstructor
 public class PaymentController {
 
     private final DatabaseService dbService;
 
     private final UserDataProvider userDataProvider;
-
-    @Autowired
-    public PaymentController(DatabaseService dbService, UserDataProvider userDataProvider) {
-        this.dbService = dbService;
-        this.userDataProvider = userDataProvider;
-    }
 
     @RequestMapping(value = "/add-assets-to-user", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)

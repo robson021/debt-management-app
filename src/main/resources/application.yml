@@ -13,7 +13,6 @@ spring:
 logging:
   level:
     robert: DEBUG
-    org.springframework: WARN
     org.hibernate: WARN
 
 robert:

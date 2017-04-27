@@ -7,25 +7,21 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.Claims;
+import lombok.AllArgsConstructor;
 import robert.exeptions.AuthException;
 import robert.web.request.data.UserDataProvider;
 import robert.web.security.JwtUtils;
 
 @Component
+@AllArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
     private final UserDataProvider userDataProvider;
-
-    @Autowired
-    public JwtFilter(UserDataProvider userDataProvider) {
-        this.userDataProvider = userDataProvider;
-    }
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {

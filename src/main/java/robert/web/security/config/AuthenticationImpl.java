@@ -1,15 +1,15 @@
 package robert.web.security.config;
 
+import java.util.Collection;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-
-import java.util.Collection;
 
 public class AuthenticationImpl implements Authentication {
 
 	private final String name;
 
-	private boolean authenticated;
+	private boolean authenticated = true;
 
 	AuthenticationImpl(String name) {
 		this.name = name;

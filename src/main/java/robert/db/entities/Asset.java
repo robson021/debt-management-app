@@ -1,10 +1,22 @@
 package robert.db.entities;
 
-import javax.persistence.*;
 import java.text.DecimalFormat;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "ASSET")
+@Getter
+@Setter
 public class Asset extends BasicEntity {
 
 	@Transient
@@ -39,53 +51,5 @@ public class Asset extends BasicEntity {
 	public void setAmount(Double amount) {
 		this.amount = Double.valueOf(decimalMoneyFormat.format(amount)
 				.replace(',', '.'));
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public String getBorrowerEmail() {
-		return borrowerEmail;
-	}
-
-	public void setBorrowerEmail(String borrowerEmail) {
-		this.borrowerEmail = borrowerEmail;
-	}
-
-	public Long getBorrowerId() {
-		return borrowerId;
-	}
-
-	public void setBorrowerId(Long borrowerId) {
-		this.borrowerId = borrowerId;
-	}
-
-	public String getBorrowerName() {
-		return borrowerName;
-	}
-
-	public void setBorrowerName(String borrowerName) {
-		this.borrowerName = borrowerName.trim();
-	}
-
-	public String getBorrowerSurname() {
-		return borrowerSurname;
-	}
-
-	public void setBorrowerSurname(String borrowerSurname) {
-		this.borrowerSurname = borrowerSurname.trim();
 	}
 }

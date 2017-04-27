@@ -2,6 +2,11 @@ package robert.web.rest.dto;
 
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class PaymentDTO {
 
     private long id;
@@ -19,68 +24,4 @@ public class PaymentDTO {
     private String description;
 
     private List<FeeDTO> fees;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getBorrowerId() {
-        return borrowerId;
-    }
-
-    public void setBorrowerId(long borrowerId) {
-        this.borrowerId = borrowerId;
-    }
-
-    public String getBorrowerName() {
-        return borrowerName;
-    }
-
-    public void setBorrowerName(String borrowerName) {
-        this.borrowerName = borrowerName;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    public String getBorrowerSurname() {
-        return borrowerSurname;
-    }
-
-    public void setBorrowerSurname(String borrowerSurname) {
-        this.borrowerSurname = borrowerSurname;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<FeeDTO> getFees() {
-        return fees;
-    }
-
-    public void setFees(List<FeeDTO> fees) {
-        this.fees = fees;
-    }
 }

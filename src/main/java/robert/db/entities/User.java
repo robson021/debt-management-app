@@ -10,8 +10,13 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @Table(name = "USER")
+@Getter
+@Setter
 public class User extends BasicEntity {
 
 	@Column(nullable = false)
@@ -35,66 +40,10 @@ public class User extends BasicEntity {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<Asset> assets = null;
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getSurname() {
-		return surname;
-	}
-
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public Set<Asset> getAssets() {
-		return assets;
-	}
-
-	public void setAssets(Set<Asset> assets) {
-		this.assets = assets;
-	}
-
 	public void addAsset(Asset asset) {
 		if ( this.assets == null ) {
 			this.assets = new HashSet<>(1);
 		}
 		this.assets.add(asset);
-	}
-
-	public Boolean getRole() {
-		return role;
-	}
-
-	public void setRole(Boolean role) {
-		this.role = role;
-	}
-
-	public Set<Fee> getFees() {
-		return fees;
-	}
-
-	public void setFees(Set<Fee> fees) {
-		this.fees = fees;
 	}
 }

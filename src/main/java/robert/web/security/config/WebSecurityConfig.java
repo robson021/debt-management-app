@@ -1,6 +1,5 @@
 package robert.web.security.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -9,22 +8,19 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import lombok.AllArgsConstructor;
 import robert.web.security.ErrorHandler;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@AllArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtFilter jwtFilter;
 
     private final ErrorHandler errorHandler;
-
-    @Autowired
-    public WebSecurityConfig(JwtFilter jwtFilter, ErrorHandler errorHandler) {
-        this.jwtFilter = jwtFilter;
-        this.errorHandler = errorHandler;
-    }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
