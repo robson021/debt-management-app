@@ -1,1 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+footer {
+    max-height: 25px;
+}
+
+footer p {
+    margin: 0;
+    padding: 50px 0;
+}
+
+.main-body {
+    padding: 1%;
+    max-width: 750px;
+    text-align: center;
+    margin: 0 auto;
+}
