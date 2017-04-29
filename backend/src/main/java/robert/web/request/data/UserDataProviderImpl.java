@@ -1,10 +1,9 @@
 package robert.web.request.data;
 
+import io.jsonwebtoken.Claims;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
-
-import io.jsonwebtoken.Claims;
-import robert.web.security.JwtUtils;
+import robert.web.security.auth.JwtUtils;
 
 @Component
 @RequestScope

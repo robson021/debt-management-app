@@ -1,21 +1,18 @@
-package robert.web.security.config;
+package robert.web.security.auth;
 
-import java.io.IOException;
+import io.jsonwebtoken.Claims;
+import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+import robert.exeptions.AuthException;
+import robert.web.request.data.UserDataProvider;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-import io.jsonwebtoken.Claims;
-import lombok.AllArgsConstructor;
-import robert.exeptions.AuthException;
-import robert.web.request.data.UserDataProvider;
-import robert.web.security.JwtUtils;
+import java.io.IOException;
 
 @Component
 @AllArgsConstructor

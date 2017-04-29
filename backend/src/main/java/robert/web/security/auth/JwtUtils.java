@@ -1,13 +1,12 @@
-package robert.web.security;
-
-import java.util.Date;
-
-import org.apache.commons.lang3.RandomStringUtils;
+package robert.web.security.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.commons.lang3.RandomStringUtils;
 import robert.db.entities.User;
+
+import java.util.Date;
 
 public class JwtUtils {
 

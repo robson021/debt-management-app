@@ -1,22 +1,21 @@
 package robert.web.rest.svc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import io.jsonwebtoken.Claims;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
-
-import io.jsonwebtoken.Claims;
 import robert.SpringWebMvcTest;
 import robert.TestUtils;
 import robert.db.entities.User;
 import robert.db.repo.UserRepository;
 import robert.web.rest.dto.SimpleMessageDTO;
-import robert.web.security.JwtUtils;
+import robert.web.security.auth.JwtUtils;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AuthControllerTest extends SpringWebMvcTest {
 
