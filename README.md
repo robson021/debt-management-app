@@ -8,4 +8,4 @@ https://github.com/nielsutrecht/jwt-angular-spring
 <br>
 My implementation is mix of code used in projects mentioned above.
 
-In the future I will migrate front-end to Angular 2.
+AngularJS final version. This branch will no logner by developed.
