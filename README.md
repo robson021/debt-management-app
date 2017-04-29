@@ -1,5 +1,5 @@
 # debt-management-app
-Simple aplicatin with AngularJS and Spring Boot.
+Simple aplicatin with Angular and Spring Boot.
 Securit is done with JWT tokens, based on:
 <br>
 https://github.com/szerhusenBC/jwt-spring-security-demo
@@ -8,4 +8,5 @@ https://github.com/nielsutrecht/jwt-angular-spring
 <br>
 My implementation is mix of code used in projects mentioned above.
 
-In the future I will migrate front-end to Angular 2.
+AngularJS verion is no longer supported. It's final code can bo found on another branch.<br>
+Master branch is for Angular2 migration.
