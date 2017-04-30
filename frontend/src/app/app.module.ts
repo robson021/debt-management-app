@@ -10,6 +10,7 @@ import {RegisterComponent} from "./register/register.component";
 import {MyDebtsComponent} from "./my-debts/my-debts.component";
 import {MyDebtorsComponent} from "./my-debtors/my-debtors.component";
 import {MutualPaymentsComponent} from "./mutual-payments/mutual-payments.component";
+import {HttpConnectionService} from "./http-connection.service";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import {MutualPaymentsComponent} from "./mutual-payments/mutual-payments.compone
     ReactiveFormsModule,
     routes
   ],
-  providers: [],
+  providers: [HttpConnectionService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

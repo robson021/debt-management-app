@@ -1,5 +1,6 @@
 import {Component} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {HttpConnectionService} from "../http-connection.service";
 
 @Component({
   selector: 'app-register',
@@ -9,7 +10,7 @@ export class RegisterComponent {
 
   registerForm: FormGroup;
 
-  constructor(public formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private http: HttpConnectionService) {
     this.registerForm = formBuilder.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
