@@ -36,7 +36,6 @@ public class JwtUtils {
         return Jwts.builder()
                 .setSubject(user.getEmail())
                 .setId(String.valueOf(user.getId()))
-                .claim("role", user.getRole())
                 .setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256, KEY)
                 .compact();

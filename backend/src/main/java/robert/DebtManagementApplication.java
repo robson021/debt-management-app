@@ -15,6 +15,6 @@ public class DebtManagementApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(DebtManagementApplication.class, args);
-        System.out.println("Generated key: " + JwtUtils.KEY);
+        System.out.println("Generated JWT key: " + JwtUtils.KEY);
     }
 }

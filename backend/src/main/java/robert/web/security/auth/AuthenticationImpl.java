@@ -9,7 +9,7 @@ public class AuthenticationImpl implements Authentication {
 
 	private final String name;
 
-	private boolean authenticated = true;
+	private boolean authenticated;
 
 	AuthenticationImpl(String name) {
 		this.name = name;

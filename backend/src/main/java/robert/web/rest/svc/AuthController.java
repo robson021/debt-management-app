@@ -1,7 +1,8 @@
 package robert.web.rest.svc;
 
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import robert.db.DatabaseService;
@@ -14,54 +15,42 @@ import robert.web.security.auth.JwtUtils;
 
 @RestController
 @RequestMapping("/auth")
+@AllArgsConstructor
 public class AuthController {
 
-    private static final Logger log = Logger.getLogger(AuthController.class);
+	private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
-    private final UserDataProvider userDataProvider;
+	private final UserDataProvider userDataProvider;
 
-    private DatabaseService dbService;
+	private final DatabaseService dbService;
 
-    private final boolean isRegistrationEnabled;
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public void registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
+		dbService.saveNewUser(userDTO);
+		log.info("Registered new user:", userDTO);
+	}
 
-    public AuthController(UserDataProvider userDataProvider, DatabaseService dbService, @Value("${robert.reservationEnabled}") String reservation) {
-        this.userDataProvider = userDataProvider;
-        this.dbService = dbService;
-        this.isRegistrationEnabled = Boolean.parseBoolean(reservation);
-        log.info("Registration: " + isRegistrationEnabled);
-    }
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public SimpleMessageDTO loginUser(@RequestBody UserInfoDTO userDTO) throws Exception {
+		String token = tryToLogUserIn(userDTO);
+		log.info("{} logged in.", userDTO);
+		return new SimpleMessageDTO(token);
+	}
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.OK)
-    public void registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
-        if ( !isRegistrationEnabled ) {
-            throw new RuntimeException("Registration is disabled");
-        }
-        dbService.saveNewUser(userDTO);
-        log.info("Registered new user: " + userDTO.getEmail());
-    }
+	@RequestMapping("/am-i-logged-in")
+	public HttpStatus validateToken() {
+		if (userDataProvider.getUserId() > 0) {
+			return HttpStatus.OK;
+		}
+		throw new AuthException("Token is not valid");
+	}
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public SimpleMessageDTO loginUser(@RequestBody UserInfoDTO userDTO) throws Exception {
-        String token = tryToLogUserIn(userDTO);
-        log.info(userDTO.getEmail() + " logged in.");
-        return new SimpleMessageDTO(token);
-    }
+	private String tryToLogUserIn(UserInfoDTO user) {
+		User u = dbService.findUserByEmail(user.getEmail());
+		if (!u.getPassword().equals(user.getPassword()))
+			throw new AuthException("Passwords do not match");
 
-    @RequestMapping("/am-i-logged-in/")
-    public HttpStatus validateToken() {
-        if ( userDataProvider.getUserId() > 0 ) {
-            return HttpStatus.OK;
-        }
-        throw new AuthException("Token is not valid");
-    }
-
-    private String tryToLogUserIn(UserInfoDTO user) {
-        User u = dbService.findUserByEmail(user.getEmail());
-        if ( !u.getPassword()
-                .equals(user.getPassword()) )
-            throw new AuthException("Passwords do not match");
-
-        return JwtUtils.generateToken(u);
-    }
+		return JwtUtils.generateToken(u);
+	}
 }

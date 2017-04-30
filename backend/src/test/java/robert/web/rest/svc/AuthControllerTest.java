@@ -64,10 +64,6 @@ public class AuthControllerTest extends SpringWebMvcTest {
         Assertions.assertThat(Long.parseLong(userClaims.getId()))
                 .isEqualTo(user.getId());
 
-        Assertions.assertThat(Boolean.valueOf(userClaims.get("role")
-                .toString()))
-                .isEqualTo(user.getRole());
-
         Assertions.assertThat(userClaims.getSubject())
                 .isEqualTo(user.getEmail());
 
