@@ -1,15 +1,15 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
+import {BrowserModule} from "@angular/platform-browser";
+import {NgModule} from "@angular/core";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {HttpModule} from "@angular/http";
 
-import {routes} from './app.router';
-import {AppComponent} from './app.component';
-import {LoginComponent} from './login/login.component';
-import {RegisterComponent} from './register/register.component';
-import {MyDebtsComponent} from './my-debts/my-debts.component';
-import {MyDebtorsComponent} from './my-debtors/my-debtors.component';
-import {MutualPaymentsComponent} from './mutual-payments/mutual-payments.component';
+import {routes} from "./app.router";
+import {AppComponent} from "./app.component";
+import {LoginComponent} from "./login/login.component";
+import {RegisterComponent} from "./register/register.component";
+import {MyDebtsComponent} from "./my-debts/my-debts.component";
+import {MyDebtorsComponent} from "./my-debtors/my-debtors.component";
+import {MutualPaymentsComponent} from "./mutual-payments/mutual-payments.component";
 
 @NgModule({
   declarations: [
@@ -24,6 +24,7 @@ import {MutualPaymentsComponent} from './mutual-payments/mutual-payments.compone
     BrowserModule,
     FormsModule,
     HttpModule,
+    ReactiveFormsModule,
     routes
   ],
   providers: [],

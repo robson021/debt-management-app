@@ -8,14 +8,14 @@
       Login to your account or create the new one.
     </p>
     <hr>
-    <form>
+    <form novalidate [formGroup]="form">
       <div class="form-group">
         <label>E-mail:</label>
-        <input type="email" class="form-control"/>
+        <input formControlName="email" type="email" class="form-control"/>
       </div>
       <div class="form-group">
         <label>Password:</label>
-        <input type="password" class="form-control"/>
+        <input formControlName="password" type="password" class="form-control"/>
       </div>
       <div class="form-group text-center">
         <a class="btn btn-default">
