@@ -5,32 +5,32 @@
       <strong>Register new account</strong>
     </h2>
     <hr>
-    <form>
+    <form novalidate [formGroup]="registerForm">
       <div class="form-group">
         <label>Name</label>
-        <input type="text" class="form-control"/>
+        <input formGroupName="name" type="text" class="form-control"/>
       </div>
       <div class="form-group">
         <label>Surname</label>
-        <input type="text" class="form-control"/>
+        <input formGroupName="surname" type="text" class="form-control"/>
       </div>
       <div class="form-group">
         <label>E-mail:</label>
-        <input type="email" class="form-control"/>
+        <input formGroupName="email" type="email" class="form-control"/>
       </div>
       <div class="form-group">
         <label>Password:</label>
-        <input type="password" class="form-control"/>
+        <input formGroupName="password" type="password" class="form-control"/>
       </div>
       <div class="form-group">
         <label>Retype password:</label>
-        <input type="password" class="form-control"/>
+        <input formGroupName="repassword" type="password" class="form-control"/>
       </div>
 
       <div class="form-group text-center">
-        <a class="btn btn-default">
+        <button type="submit" class="btn btn-success" [disabled]="!registerForm.valid">
           Submit
-        </a>
+        </button>
         <a class="btn btn-default" routerLink="/login">
           Back to login page
         </a>
