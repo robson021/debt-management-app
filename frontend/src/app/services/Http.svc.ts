@@ -7,41 +7,42 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class HttpService implements OnInit {
-  private _externalApi: string;
+
+  private static _externalApi: string;
 
   constructor(private http: Http) {
   }
 
   ngOnInit(): void {
-    this._externalApi = environment.production ? '/' : 'localhost:8080/';
+    HttpService._externalApi = environment.production ? '/' : 'localhost:8080/';
   }
 
   doGet(uri: string): Observable<any[]> {
     let promise = this.http.get(this.getUrl(uri));
-    return this.handleResponse(promise);
+    return HttpService.handleResponse(promise);
   }
 
   doPost(uri: string, body) {
     let promise = this.http.post(this.getUrl(uri), body);
-    return this.handleResponse(promise);
+    return HttpService.handleResponse(promise);
   }
 
   private getUrl(uri: string): string {
-    return this._externalApi + uri;
+    return HttpService._externalApi + uri;
   }
 
-  private handleResponse(promise) {
+  private static handleResponse(promise) {
     return promise
-      .map(this.extractData)
-      .catch(this.handleError);
+      .map(HttpService.extractData)
+      .catch(HttpService.handleError);
   }
 
-  private extractData(res: Response) {
+  private static extractData(res: Response) {
     let body = res.json();
     return body.data || {};
   }
 
-  private handleError(error: Response | any) {
+  private static handleError(error: Response | any) {
     let errMsg: string;
     if (error instanceof Response) {
       const body = error.json() || '';
