@@ -1,5 +1,9 @@
 footer {
-    max-height: 25px;
+  bottom: 3%;
+  max-height: 25px;
+  left: 0;
+  position: absolute;
+  width: 100%;
 }
 
 footer p {
