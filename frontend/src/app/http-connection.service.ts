@@ -1,7 +1,9 @@
-import {Injectable} from '@angular/core';
-import {Http, Headers} from "@angular/http";
+import {Injectable} from "@angular/core";
+import {Headers, Http} from "@angular/http";
 import {environment} from "../environments/environment";
-import 'rxjs/add/operator/toPromise';
+import "rxjs/add/operator/toPromise";
+import "rxjs/add/operator/catch";
+import "rxjs/add/operator/map";
 
 @Injectable()
 export class HttpConnectionService {
@@ -11,20 +13,30 @@ export class HttpConnectionService {
   private api: string;
 
   constructor(private http: Http) {
-    this.api = environment.production ? '/' : 'http://localhost:8080/';
+    this.api = environment.production ? '/' : 'http://51.254.115.19:8099/';
   }
 
   logUserIn(credentials) {
-    let url = this.api + 'auth/login/';
-    this.http.post(url, JSON.stringify(credentials), {headers: this.headers})
+    this.http
+      .post(this.api + 'auth/login/', JSON.stringify(credentials), {headers: this.headers})
+      .map(response => response.json())
       .subscribe(
-        response => {
-          // TODO
-          console.log(response);
-        },
-        error => {
-          console.log(error.text());
-        });
+        data => {
+          console.log("JWT:", data.message);
+          this.headers.append("Authorization", "Bearer " + data.message)
+        }
+      );
+
+  }
+
+
+  private extractData(res) {
+    let body = res.json();
+    return body.data || {};
+  }
+
+  private handleError(error: any) {
+    console.error(error);
   }
 
 }
