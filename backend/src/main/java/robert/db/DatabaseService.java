@@ -1,20 +1,9 @@
 package robert.db;
 
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.EntityManager;
-
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import lombok.AllArgsConstructor;
-import robert.db.entities.Asset;
-import robert.db.entities.BasicEntity;
-import robert.db.entities.Fee;
-import robert.db.entities.MutualPayment;
-import robert.db.entities.User;
-import robert.db.entities.Validation;
+import robert.db.entities.*;
 import robert.db.repo.AssetRepository;
 import robert.db.repo.MutualPaymentRepository;
 import robert.db.repo.UniversalRepository;
@@ -25,6 +14,10 @@ import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
 import robert.web.rest.dto.asm.UserAssembler;
+
+import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -81,7 +74,6 @@ public class DatabaseService {
     public void addDebtor(Long lenderId, PaymentDTO borrowerInfo) {
         User lender = userRepository.findOne(lenderId);
         Asset asset = PaymentAssembler.paymentDtoToAsset(borrowerInfo);
-        //lender.addAsset(asset);
         asset.setUser(lender);
         assetRepository.save(asset);
     }
