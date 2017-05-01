@@ -18,8 +18,8 @@ public class UserDataProviderImpl implements UserDataProvider {
     public void setData(Claims claims) {
         this.userId = JwtUtils.getUserId(claims);
         this.userEmail = JwtUtils.getUserEmail(claims);
-        this.isAdmin = JwtUtils.isAdmin(claims);
-    }
+		//this.isAdmin = JwtUtils.isAdmin(claims); TODO
+	}
 
     @Override
     public long getUserId() {
