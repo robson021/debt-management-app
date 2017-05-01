@@ -12,8 +12,13 @@ export class LoginComponent {
 
   constructor(private fb: FormBuilder, private http: HttpConnectionService) {
     this.loginForm = fb.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required]
+      email: ['test@t.pl', Validators.required],
+      password: ['Passwd.123', Validators.required]
     });
   }
+
+  submitLogin() {
+    this.http.logUserIn(this.loginForm.value);
+  }
+
 }
