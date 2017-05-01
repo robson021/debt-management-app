@@ -34,7 +34,7 @@ public class AuthController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public SimpleMessageDTO loginUser(@RequestBody UserInfoDTO userDTO) throws Exception {
 		String token = tryToLogUserIn(userDTO);
-		log.info("{} logged in.", userDTO);
+		log.info("\nlogged in user: {}.", userDTO);
 		return new SimpleMessageDTO(token);
 	}
 
