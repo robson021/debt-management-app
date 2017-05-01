@@ -11,7 +11,7 @@ public class AuthenticationImpl implements Authentication {
 
 	private boolean authenticated;
 
-	AuthenticationImpl(String name) {
+	public AuthenticationImpl(String name) {
 		this.name = name;
 		this.authenticated = true;
 	}

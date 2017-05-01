@@ -1,4 +1,4 @@
-package robert.web.security.auth;
+package robert.web.security.auth.filters;
 
 import io.jsonwebtoken.Claims;
 import lombok.AllArgsConstructor;
@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import robert.exeptions.AuthException;
 import robert.web.request.data.UserDataProvider;
+import robert.web.security.auth.AuthenticationImpl;
+import robert.web.security.auth.JwtUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
