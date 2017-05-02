@@ -1,21 +1,20 @@
 package robert.db.entities;
 
-import java.util.UUID;
+import lombok.Getter;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-
-import lombok.Getter;
+import java.util.UUID;
 
 @MappedSuperclass
-@Getter
 public abstract class BasicEntity {
 
 	@Id
 	@GeneratedValue
 	@Column(name = "ID")
+	@Getter
 	private Long id;
 
 	@Column

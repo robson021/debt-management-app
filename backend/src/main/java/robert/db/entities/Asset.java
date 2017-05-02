@@ -1,17 +1,10 @@
 package robert.db.entities;
 
-import java.text.DecimalFormat;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.*;
+import java.text.DecimalFormat;
 
 @Entity
 @Table(name = "ASSET")
@@ -49,7 +42,7 @@ public class Asset extends BasicEntity {
 	}
 
 	public void setAmount(Double amount) {
-		this.amount = Double.valueOf(decimalMoneyFormat.format(amount)
-				.replace(',', '.'));
+		String formatted = decimalMoneyFormat.format(amount).replace(',', '.');
+		this.amount = Double.valueOf(formatted);
 	}
 }

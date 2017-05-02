@@ -25,6 +25,9 @@ public class User extends BasicEntity {
 	@Column(nullable = false)
 	private String password;
 
+	@Column
+	private Boolean role = false;
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<Fee> fees;
 

@@ -24,122 +24,130 @@ import java.util.Set;
 @AllArgsConstructor
 public class DatabaseService {
 
-    private final UserRepository userRepository;
+	private final UserRepository userRepository;
 
-    private final AssetRepository assetRepository;
+	private final AssetRepository assetRepository;
 
-    private final UniversalRepository universalRepository;
+	private final UniversalRepository universalRepository;
 
-    private final MutualPaymentRepository mutualPaymentRepository;
+	private final MutualPaymentRepository mutualPaymentRepository;
 
-    private final EntityManager em;
+	private final EntityManager em;
 
-    public <T> T saveEntity(BasicEntity entity, Class<T> castClass) {
-        BasicEntity saved = universalRepository.save(entity);
-        return castClass.cast(saved);
-    }
+	public <T> T saveEntity(BasicEntity entity, Class<T> castClass) {
+		BasicEntity saved = universalRepository.save(entity);
+		return castClass.cast(saved);
+	}
 
-    public void saveNewUser(UserInfoDTO userDTO) {
-        User user = UserAssembler.convertDtoToUser(userDTO);
-        validateUserEmailAndPassword(user);
-        userRepository.save(user);
-    }
+	public void saveEntity(BasicEntity entity) {
+		universalRepository.save(entity);
+	}
 
-    public User findUserByEmail(String email) {
-        return userRepository.findOneByEmail(email);
-    }
+	public void saveNewUser(UserInfoDTO userDTO) {
+		User user = UserAssembler.convertDtoToUser(userDTO);
+		validateUserEmailAndPassword(user);
+		userRepository.save(user);
+	}
 
-    public List<Asset> findUserDebts(Long borrowerId) {
-        List<Asset> debts = em.createQuery("from Asset a where a.borrowerId = :id", Asset.class)
-                .setParameter("id", borrowerId)
-                .getResultList();
+	public User findUserByEmail(String email) {
+		return userRepository.findOneByEmail(email);
+	}
 
-        return debts;
-    }
+	public User findUserById(Long id) {
+		return userRepository.findOne(id);
+	}
 
-    public Set<Asset> findUserDebtors(Long userId) {
-        return userRepository.findOne(userId)
-                .getAssets();
-    }
+	public List<Asset> findUserDebts(Long borrowerId) {
+		List<Asset> debts = em.createQuery("from Asset a where a.borrowerId = :id", Asset.class)
+				.setParameter("id", borrowerId)
+				.getResultList();
 
-    public void cancelDebt(Long assetId, Long userId) throws BadParameterException {
-        if ( !doesAssetBelongToUser(assetId, userId) )
-            throw new BadParameterException("User tried to cancel not his debt");
+		return debts;
+	}
 
-        em.createQuery("delete from Asset a where a.id = :id")
-                .setParameter("id", assetId)
-                .executeUpdate();
-    }
+	public Set<Asset> findUserDebtors(Long userId) {
+		return userRepository.findOne(userId)
+				.getAssets();
+	}
 
-    public void addDebtor(Long lenderId, PaymentDTO borrowerInfo) {
-        User lender = userRepository.findOne(lenderId);
-        Asset asset = PaymentAssembler.paymentDtoToAsset(borrowerInfo);
-        asset.setUser(lender);
-        assetRepository.save(asset);
-    }
+	public void cancelDebt(Long assetId, Long userId) throws BadParameterException {
+		if (!doesAssetBelongToUser(assetId, userId))
+			throw new BadParameterException("User tried to cancel not his debt");
 
-    public List<User> findOtherUsersExceptGiven(Long userId) {
-        return em.createQuery("from User u where u.id != :id", User.class)
-                .setParameter("id", userId)
-                .getResultList();
-    }
+		em.createQuery("delete from Asset a where a.id = :id")
+				.setParameter("id", assetId)
+				.executeUpdate();
+	}
 
-    public void addMutualPayment(PaymentDTO paymentDTO) {
-        MutualPayment payment = PaymentAssembler.convertMutualPaymentDTO(paymentDTO);
-        mutualPaymentRepository.save(payment);
-    }
+	public void addDebtor(Long lenderId, PaymentDTO borrowerInfo) {
+		User lender = userRepository.findOne(lenderId);
+		Asset asset = PaymentAssembler.paymentDtoToAsset(borrowerInfo);
+		asset.setUser(lender);
+		assetRepository.save(asset);
+	}
 
-    public void addUserFeeToPayment(Long userId, Long mutualPaymentId, Double feeAmount) {
-        MutualPayment mutualPayment = mutualPaymentRepository.findOne(mutualPaymentId);
-        Fee fee = new Fee();
-        fee.setUser(userRepository.findOne(userId));
-        fee.setPayedFee(feeAmount);
-        fee.setMutualPayment(mutualPayment);
+	public List<User> findOtherUsersExceptGiven(Long userId) {
+		return em.createQuery("from User u where u.id != :id", User.class)
+				.setParameter("id", userId)
+				.getResultList();
+	}
 
-        mutualPayment.addFee(fee);
-        mutualPaymentRepository.save(mutualPayment);
-    }
+	public void addMutualPayment(PaymentDTO paymentDTO) {
+		MutualPayment payment = PaymentAssembler.convertMutualPaymentDTO(paymentDTO);
+		mutualPaymentRepository.save(payment);
+	}
 
-    public Set<Fee> getFeesForMutualPayment(Long mpaymentId) {
-        MutualPayment mutualPayment = mutualPaymentRepository.findOne(mpaymentId);
-        return mutualPayment.getPayedFees();
-    }
+	public void addUserFeeToPayment(Long userId, Long mutualPaymentId, Double feeAmount) {
+		MutualPayment mutualPayment = mutualPaymentRepository.findOne(mutualPaymentId);
+		Fee fee = new Fee();
+		fee.setUser(userRepository.findOne(userId));
+		fee.setPayedFee(feeAmount);
+		fee.setMutualPayment(mutualPayment);
 
-    public List<MutualPayment> getAllMutualPayments() {
-        return mutualPaymentRepository.findAll();
-    }
+		mutualPayment.addFee(fee);
+		mutualPaymentRepository.save(mutualPayment);
+	}
 
-    public void deleteUserFees(Long userId, Long mutualPaymentId) {
-        em.createQuery("delete from Fee f where f.user.id = :uid and f.mutualPayment.id = :pid")
-                .setParameter("uid", userId)
-                .setParameter("pid", mutualPaymentId)
-                .executeUpdate();
-    }
+	public Set<Fee> getFeesForMutualPayment(Long mpaymentId) {
+		MutualPayment mutualPayment = mutualPaymentRepository.findOne(mpaymentId);
+		return mutualPayment.getPayedFees();
+	}
 
-    public void deleteMutualPayment(Long mutualPaymentId) {
-        em.createQuery("delete from Fee f where f.mutualPayment.id = :pid")
-                .setParameter("pid", mutualPaymentId)
-                .executeUpdate();
+	public List<MutualPayment> getAllMutualPayments() {
+		return mutualPaymentRepository.findAll();
+	}
 
-        mutualPaymentRepository.delete(mutualPaymentId);
-    }
+	public void deleteUserFees(Long userId, Long mutualPaymentId) {
+		em.createQuery("delete from Fee f where f.user.id = :uid and f.mutualPayment.id = :pid")
+				.setParameter("uid", userId)
+				.setParameter("pid", mutualPaymentId)
+				.executeUpdate();
+	}
 
-    private boolean doesAssetBelongToUser(Long assetId, Long userId) {
-        Long id = assetRepository.findOne(assetId)
-                .getUser()
-                .getId();
+	public void deleteMutualPayment(Long mutualPaymentId) {
+		em.createQuery("delete from Fee f where f.mutualPayment.id = :pid")
+				.setParameter("pid", mutualPaymentId)
+				.executeUpdate();
 
-        return id.equals(userId);
-    }
+		mutualPaymentRepository.delete(mutualPaymentId);
+	}
 
-    private void validateUserEmailAndPassword(User user) {
-        boolean isValid = Validation.VALID_PASSWORD_REGEX.matcher(user.getPassword())
-                .find() && Validation.VALID_EMAIL_ADDRESS_REGEX.matcher(user.getEmail())
-                .find();
+	private boolean doesAssetBelongToUser(Long assetId, Long userId) {
+		Long id = assetRepository.findOne(assetId)
+				.getUser()
+				.getId();
 
-        if ( !isValid ) {
-            throw new AuthException("Invalid password or email pattern");
-        }
+		return id.equals(userId);
+	}
 
-    }
+	private void validateUserEmailAndPassword(User user) {
+		boolean isValid = Validation.VALID_PASSWORD_REGEX.matcher(user.getPassword())
+				.find() && Validation.VALID_EMAIL_ADDRESS_REGEX.matcher(user.getEmail())
+				.find();
+
+		if (!isValid) {
+			throw new AuthException("Invalid password or email pattern");
+		}
+
+	}
 }

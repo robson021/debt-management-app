@@ -13,10 +13,9 @@ public class JwtUtils {
 	public static final String KEY = RandomStringUtils.randomAlphanumeric(16);
 
 	public static Claims getUserClaims(String authHeaderValue) throws Exception {
-		String token = authHeaderValue.substring(7);
 		return Jwts.parser()
 				.setSigningKey(KEY)
-				.parseClaimsJws(token) // get the part after "Bearer "
+				.parseClaimsJws(authHeaderValue.substring(7)) // get the part after "Bearer "
 				.getBody();
 	}
 

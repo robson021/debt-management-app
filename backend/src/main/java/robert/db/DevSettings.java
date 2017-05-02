@@ -6,9 +6,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import robert.db.entities.User;
-import robert.db.repo.UserRepository;
+import robert.web.rest.dto.PaymentDTO;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -17,15 +18,16 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 public class DevSettings implements CommandLineRunner {
 
-    private final UserRepository userRepository;
+	private final DatabaseService databaseService;
 
-    @Override
-    public void run(String... strings) throws Exception {
-        User user = new User();
-        user.setEmail("test@t.pl");
-        user.setName("Example");
-        user.setSurname("User");
-        user.setPassword("Passwd.123");
+	@Override
+	public void run(String... strings) throws Exception {
+		String testUserEmail = "test@t.pl";
+		User user = new User();
+		user.setEmail(testUserEmail);
+		user.setName("Example");
+		user.setSurname("User");
+		user.setPassword("Passwd.123");
 
 		List<User> users = Stream.of(new User(), new User(), new User(), new User())
 				.collect(Collectors.toList());
@@ -36,9 +38,26 @@ public class DevSettings implements CommandLineRunner {
 			u.setSurname(RandomStringUtils.randomAlphabetic(6));
 			u.setPassword("P.1" + RandomStringUtils.randomAlphanumeric(4));
 		});
-
 		users.add(user);
-		Iterable<User> saved = userRepository.save(users);
-		saved.forEach(System.out::println);
+
+		users.forEach(u -> {
+			System.out.println(u);
+			databaseService.saveEntity(u);
+		});
+
+		Long id = databaseService.findUserByEmail(testUserEmail).getId();
+		User borrower = databaseService.findUserById(id - 1);
+
+		List<PaymentDTO> payments = Stream.of(new PaymentDTO(), new PaymentDTO())
+				.collect(Collectors.toList());
+
+		payments.forEach(p -> {
+			p.setAmount(new Random().nextDouble() * 150);
+			p.setDescription("Example Paymnet");
+			p.setBorrowerSurname(borrower.getSurname());
+			p.setBorrowerName(borrower.getName());
+			p.setBorrowerId(borrower.getId());
+			databaseService.addDebtor(id, p);
+		});
 	}
 }
