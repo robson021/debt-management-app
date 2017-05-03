@@ -1,10 +1,15 @@
 package robert.web.rest.svc;
 
-import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import lombok.AllArgsConstructor;
 import robert.db.DatabaseService;
 import robert.db.entities.User;
 import robert.exeptions.AuthException;
@@ -34,7 +39,7 @@ public class AuthController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public SimpleMessageDTO loginUser(@RequestBody UserInfoDTO userDTO) throws Exception {
 		String token = tryToLogUserIn(userDTO);
-		log.info("\nlogged in user: {} with token: {}", userDTO, token);
+		log.info("\nlogged in user: {}\nwith token: {}", userDTO, token);
 		return new SimpleMessageDTO(token);
 	}
 

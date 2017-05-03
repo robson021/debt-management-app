@@ -1,12 +1,13 @@
 package robert.web.security.auth;
 
+import java.util.Date;
+
+import org.apache.commons.lang3.RandomStringUtils;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.commons.lang3.RandomStringUtils;
 import robert.db.entities.User;
-
-import java.util.Date;
 
 public class JwtUtils {
 
@@ -36,7 +37,8 @@ public class JwtUtils {
 		return Jwts.builder()
 				.setSubject(user.getEmail())
 				.setId(String.valueOf(user.getId()))
-				.setIssuedAt(new Date())
+                .claim("role", user.getRole())
+                .setIssuedAt(new Date())
 				.signWith(SignatureAlgorithm.HS256, KEY)
 				.compact();
 	}
