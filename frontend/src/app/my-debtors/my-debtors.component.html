@@ -1,3 +1,51 @@
-<p>
-  my-debtors works!
-</p>
+<div>
+  <div class="text-center" *ngIf="debtors.length > 0">
+    <table class="table table-hover table-striped">
+      <thead>
+      <tr>
+        <th>AMOUNT</th>
+        <th>DESCRIPTION</th>
+        <th>DEBTOR</th>
+        <th>ACTION</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let debt of debtors">
+        <td>{{debt.amount}}</td>
+        <td>{{debt.description}}</td>
+        <td>{{debt.borrowerName}} {{debt.borrowerSurname}}</td>
+        <td class="button-cell">
+          <button class="btn btn-warning" (click)="cancelDebt(debt.id)">
+            Cancel
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="text-center" ng-hide="debtors">
+    <h1>You do not have any debtors.</h1>
+  </div>
+
+  <div class="text-center" ng-show="otherUsers">
+    <div class="row-fluid inline-display">
+      <div>
+        <label>Amount:</label>
+        <input type="number" min="0" class="form-control" ng-model="newAsset.amount"/>
+      </div>
+      <div>
+        <label>Description:</label>
+        <input type="text" class="form-control" ng-model="newAsset.description"/>
+      </div>
+    </div>
+    <div>
+      <select ng-model="selectedUser">
+        <option ng-repeat="u in otherUsers">{{u.name}} {{u.surname}} {{u.id}}</option>
+      </select>
+    </div>
+    <button class="btn btn-success" ng-click="submitNewAsset()">
+      Submit
+    </button>
+  </div>
+</div>

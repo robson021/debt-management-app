@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {HttpConnectionService} from "../http-connection.service";
 
 @Component({
   selector: 'app-my-debtors',
@@ -6,10 +7,14 @@ import {Component, OnInit} from '@angular/core';
 })
 export class MyDebtorsComponent implements OnInit {
 
-  constructor() {
+  constructor(private http: HttpConnectionService) {
   }
 
   ngOnInit() {
+  }
+
+  cancelDebt(debtId) {
+
   }
 
 }
