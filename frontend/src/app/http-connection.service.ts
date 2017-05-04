@@ -22,8 +22,10 @@ export class HttpConnectionService {
   }
 
   logUserIn(credentials) {
+    console.log('logged in?:', this.loggedIn);
     if (this.loggedIn) {
       this.router.navigate(['/my-debts']);
+      return;
     }
 
     this.http
@@ -41,8 +43,31 @@ export class HttpConnectionService {
   }
 
   getDebts(): Observable<any> {
+    return this.performGet('payments/my-debts/');
+  }
+
+  getDebtors(): Observable<any> {
+    return this.performGet('payments/my-debtors/');
+  }
+
+  performDelete(uri): Observable<any> {
+    console.log('delete: ', uri);
     return this.http
-      .post(this.api + 'payments/my-debts/', null, {headers: this.headers})
+      .delete(this.api + uri, {headers: this.headers})
+      .map(response => response.json());
+  }
+
+  private performGet(uri): Observable<any> {
+    console.log('get:', uri);
+    return this.http
+      .get(this.api + uri, {headers: this.headers})
+      .map(response => response.json());
+  }
+
+  private performPost(uri, body): Observable<any> {
+    console.log('post:', uri);
+    return this.http
+      .post(this.api + uri, body, {headers: this.headers})
       .map(response => response.json());
   }
 

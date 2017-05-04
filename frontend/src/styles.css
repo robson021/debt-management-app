@@ -16,3 +16,7 @@ footer span {
     text-align: center;
     margin: 0 auto;
 }
+
+td button {
+  width: 100%;
+}
