@@ -11,12 +11,26 @@ footer span {
 }
 
 .main-body {
-    padding: 1%;
-    max-width: 750px;
-    text-align: center;
-    margin: 0 auto;
+  padding: 1%;
+  max-width: 750px;
+  text-align: center;
+  margin: 0 auto;
 }
 
 td button {
   width: 100%;
+}
+
+form {
+  display: inline-block !important;
+  text-align: center !important;
+}
+
+form select {
+  margin: 20px;
+  color: black
+}
+
+.small-form {
+  width: 25%;
 }

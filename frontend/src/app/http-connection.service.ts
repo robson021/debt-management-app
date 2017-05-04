@@ -42,13 +42,6 @@ export class HttpConnectionService {
 
   }
 
-  getDebts(): Observable<any> {
-    return this.performGet('payments/my-debts/');
-  }
-
-  getDebtors(): Observable<any> {
-    return this.performGet('payments/my-debtors/');
-  }
 
   performDelete(uri): Observable<any> {
     console.log('delete: ', uri);
@@ -57,18 +50,23 @@ export class HttpConnectionService {
       .map(response => response.json());
   }
 
-  private performGet(uri): Observable<any> {
+  performGet(uri): Observable<any> {
     console.log('get:', uri);
     return this.http
       .get(this.api + uri, {headers: this.headers})
       .map(response => response.json());
   }
 
-  private performPost(uri, body): Observable<any> {
-    console.log('post:', uri);
+  performPost(uri, body): Observable<any> {
+    console.log('post:', uri, 'body:', body);
     return this.http
-      .post(this.api + uri, body, {headers: this.headers})
-      .map(response => response.json());
+      .post(this.api + uri, JSON.stringify(body), {headers: this.headers})
+      //.map(response => response.json())
+      .catch(this.serverError);
   }
 
+  private serverError(err: any) {
+    console.log('sever error:', err);
+    return Observable.throw('error');
+  }
 }

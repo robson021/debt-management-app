@@ -13,7 +13,7 @@ export class MyDebtsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.getDebts()
+    this.http.performGet('payments/my-debts/')
       .subscribe( data => {
         this.debts = data;
         console.log(this.debts);
