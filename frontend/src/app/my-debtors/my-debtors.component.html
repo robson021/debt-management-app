@@ -30,14 +30,12 @@
 
   <form class="text-center small-form" *ngIf="otherUsers.length > 0" [formGroup]="debtorsForm">
     <div class="row-fluid inline-display">
-      <div>
-        <label>Amount:</label>
+      <label>Amount:
         <input formControlName="amount" type="number" min="0" class="form-control"/>
-      </div>
-      <div>
-        <label>Description:</label>
+      </label>
+      <label>Description:
         <input formControlName="description" type="text" class="form-control"/>
-      </div>
+      </label>
     </div>
     <select formControlName="selectedUser">
       <option *ngFor="let u of otherUsers">{{u.name}} {{u.surname}} {{u.id}}</option>

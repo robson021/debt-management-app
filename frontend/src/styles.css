@@ -21,16 +21,16 @@ td button {
   width: 100%;
 }
 
-form {
+/*form {
   display: inline-block !important;
   text-align: center !important;
-}
+}*/
 
 form select {
   margin: 20px;
   color: black
 }
 
-.small-form {
+/*.small-form {
   width: 25%;
-}
+}*/

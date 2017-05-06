@@ -6,10 +6,21 @@ import {Component, OnInit} from '@angular/core';
 })
 export class MutualPaymentsComponent implements OnInit {
 
+  private payments = [];
+
   constructor() {
   }
 
   ngOnInit() {
+  }
+
+  cancelPayment(paymentId) {
+  }
+
+  submitNewFee(paymentId) {
+  }
+
+  cancelMyAllFees(paymentId) {
   }
 
 }
