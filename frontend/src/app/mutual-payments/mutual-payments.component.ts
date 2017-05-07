@@ -10,7 +10,7 @@ export class MutualPaymentsComponent implements OnInit {
 
   newPaymentForm: FormGroup;
 
-  private payments = [];
+  payments = [];
 
   constructor(private fb: FormBuilder, private http: HttpConnectionService) {
     this.newPaymentForm = fb.group({

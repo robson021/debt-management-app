@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {HttpConnectionService} from '../http-connection.service';
+import {Component, OnInit} from "@angular/core";
+import {HttpConnectionService} from "../http-connection.service";
 
 @Component({
   selector: 'app-my-debts',
@@ -7,7 +7,7 @@ import {HttpConnectionService} from '../http-connection.service';
 })
 export class MyDebtsComponent implements OnInit {
 
-  private debts = [];
+  debts = [];
 
   constructor(private http: HttpConnectionService) {
   }
