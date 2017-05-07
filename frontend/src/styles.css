@@ -21,6 +21,14 @@ td button {
   width: 100%;
 }
 
+td {
+  color: burlywood;
+}
+
+th {
+  text-align: center;
+}
+
 /*form {
   display: inline-block !important;
   text-align: center !important;
@@ -31,6 +39,7 @@ form select {
   color: black
 }
 
-/*.small-form {
-  width: 25%;
-}*/
+.small-form {
+  display: inline-block !important;
+  text-align: center !important;
+}

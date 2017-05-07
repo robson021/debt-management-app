@@ -4,8 +4,8 @@ import {environment} from "../environments/environment";
 import "rxjs/add/operator/toPromise";
 import "rxjs/add/operator/catch";
 import "rxjs/add/operator/map";
-import {Router} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
+import {Router} from "@angular/router";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class HttpConnectionService {
@@ -17,7 +17,7 @@ export class HttpConnectionService {
   private loggedIn: boolean;
 
   constructor(private http: Http, private router: Router) {
-    this.api = environment.production ? '/' : 'http://51.254.115.19:8099/';
+    this.api = environment.production ? '/' : 'http://localhost:8080/';
     this.loggedIn = false;
   }
 

@@ -40,12 +40,12 @@
     <div class="text-center">
       <div class="row-fluid inline-display">
         <label>Add my fee:
-          <input type="number" min="0" class="form-control" ng-model="newFee.amount"/>
+          <input type="number" min="1" class="form-control" #newFeeAmount/>
         </label>
       </div>
       <br>
       <div>
-        <button class="btn btn-primary" (click)="submitNewFee(payment.id)">
+        <button class="btn btn-primary" (click)="submitNewFee(payment.id, newFeeAmount.value)">
           Submit
         </button>
         <button class="btn btn-danger" (click)="cancelMyAllFees(payment.id)">
@@ -54,22 +54,17 @@
       </div>
     </div>
   </div>
-  <div class="text-center">
+  <form class="small-form" [formGroup]="newPaymentForm">
     <h2 style="text-decoration: underline">New mutual payment</h2>
+    <label>Amount:
+      <input type="number" min="1" class="form-control" formControlName="amount"/>
+    </label>
+    <label>Description:
+      <input type="text" minlength="3" class="form-control" formControlName="description"/>
+    </label>
     <br>
-    <div class="row-fluid inline-display">
-      <div>
-        <label>Amount:</label>
-        <input type="number" min="0" class="form-control" ng-model="newPayment.amount"/>
-      </div>
-      <div>
-        <label>Description:</label>
-        <input type="text" class="form-control" ng-model="newPayment.description"/>
-      </div>
-    </div>
-    <br>
-    <button class="btn btn-success" (click)="submitNewPayment()">
+    <button class="btn btn-success" (click)="submitNewPayment()" [disabled]="!newPaymentForm.valid">
       Submit
     </button>
-  </div>
+  </form>
 </div>

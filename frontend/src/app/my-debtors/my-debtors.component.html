@@ -28,7 +28,7 @@
     <h1>You do not have any debtors.</h1>
   </div>
 
-  <form class="text-center small-form" *ngIf="otherUsers.length > 0" [formGroup]="debtorsForm">
+  <form class="text-center" *ngIf="otherUsers.length > 0" [formGroup]="debtorsForm">
     <div class="row-fluid inline-display">
       <label>Amount:
         <input formControlName="amount" type="number" min="0" class="form-control"/>
