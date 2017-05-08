@@ -7,7 +7,7 @@ import {HttpConnectionService} from "../http-connection.service";
 })
 export class UserDetailsComponent implements OnInit {
 
-  private users = [];
+  users = [];
 
   constructor(private http: HttpConnectionService) {
   }
