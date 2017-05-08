@@ -41,7 +41,7 @@ public class CredentialControllerTest extends SpringWebMvcTest {
 
         userRepository.save(users);
 
-        User user = users.get(0);
+        User user = users.get(1);
 
         Mockito.when(userDataProvider.getUserId())
                 .thenReturn(user.getId());
@@ -53,7 +53,10 @@ public class CredentialControllerTest extends SpringWebMvcTest {
                 .getContentAsString();
 
         Assertions.assertThat(response)
-                .doesNotContain(user.getEmail());
+                .doesNotContain(user.getEmail())
+                .doesNotContain(user.getId().toString())
+                .doesNotContain(user.getName())
+                .doesNotContain(user.getSurname());
     }
 
 }

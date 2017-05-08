@@ -23,8 +23,8 @@ public class TestUtils {
 	public static User generateNewUser() {
 		User user = new User();
 		user.setEmail((RandomStringUtils.randomAlphabetic(10) + "@test.pl").toLowerCase());
-		user.setName("Example");
-		user.setSurname("User");
+		user.setName(RandomStringUtils.randomAlphabetic(8));
+		user.setSurname(RandomStringUtils.randomAlphabetic(8));
 		user.setPassword("Passwd.123");
 		return user;
 	}
