@@ -20,7 +20,6 @@ public class CredentialController {
 
     private final UserDataProvider userDataProvider;
 
-
     @RequestMapping("/other-users")
     public List<UserInfoDTO> getOtherUsersDetails() {
         List<User> users = dbService.findOtherUsersExceptGiven(userDataProvider.getUserId());

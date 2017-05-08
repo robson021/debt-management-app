@@ -10,7 +10,7 @@ public abstract class SpringWebMvcTest extends SpringTest {
     @Autowired
     private WebApplicationContext wac;
 
-    protected MockMvc mockMvc = null;
+    protected MockMvc mockMvc;
 
     protected void initMockMvc() throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)

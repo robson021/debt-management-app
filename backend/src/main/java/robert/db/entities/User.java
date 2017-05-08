@@ -25,6 +25,9 @@ public class User extends BasicEntity {
 	@Column(nullable = false)
 	private String password;
 
+    @Column
+    private String accountNo;
+
 	@Column
 	private Boolean role = false;
 

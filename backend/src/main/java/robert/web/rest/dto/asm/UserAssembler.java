@@ -18,6 +18,7 @@ public class UserAssembler {
         user.setSurname(userDTO.getSurname());
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
+        user.setAccountNo(userDTO.getAccountNo());
 
         return user;
     }
@@ -28,6 +29,7 @@ public class UserAssembler {
         userInfoDTO.setName(user.getName());
         userInfoDTO.setSurname(user.getSurname());
         userInfoDTO.setEmail(user.getEmail());
+        userInfoDTO.setAccountNo(user.getAccountNo());
 
         return userInfoDTO;
     }
