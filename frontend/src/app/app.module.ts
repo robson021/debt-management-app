@@ -11,6 +11,7 @@ import {MyDebtsComponent} from "./my-debts/my-debts.component";
 import {MyDebtorsComponent} from "./my-debtors/my-debtors.component";
 import {MutualPaymentsComponent} from "./mutual-payments/mutual-payments.component";
 import {HttpConnectionService} from "./http-connection.service";
+import {UserDetailsComponent} from "./user-details/user-details.component";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {HttpConnectionService} from "./http-connection.service";
     RegisterComponent,
     MyDebtsComponent,
     MyDebtorsComponent,
-    MutualPaymentsComponent
+    MutualPaymentsComponent,
+    UserDetailsComponent
   ],
   imports: [
     BrowserModule,

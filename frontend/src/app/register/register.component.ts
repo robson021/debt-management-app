@@ -15,9 +15,20 @@ export class RegisterComponent {
       name: ['', Validators.required],
       surname: ['', Validators.required],
       email: ['', Validators.required],
+      accountNo: ['', Validators.required],
       password: ['', Validators.required],
       repassword: ['', Validators.required]
     });
+  }
+
+  registerUser() {
+    let form = this.registerForm.value;
+    if (form.password !== form.repassword) {
+      // todo: error msg and ng2 validation
+      return;
+    }
+
+
   }
 
 }
