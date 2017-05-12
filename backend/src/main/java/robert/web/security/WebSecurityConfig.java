@@ -20,8 +20,6 @@ import robert.web.security.auth.filters.JwtFilter;
 @AllArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private final JwtFilter jwtFilter;
-
 	private final ErrorHandler errorHandler;
 
 	@Override
@@ -47,8 +45,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		httpSecurity.headers()
 				.cacheControl();
-
-		httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
 	}
 

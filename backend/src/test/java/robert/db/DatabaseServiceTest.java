@@ -53,7 +53,19 @@ public class DatabaseServiceTest extends SpringTest {
 
         Assertions.assertThat(debtors)
                 .hasSize(2);
+    }
 
+    @Test
+    public void getBalance() {
+        User lender = dbService.saveEntity(TestUtils.generateNewUser(), User.class);
+        User borrower = dbService.saveEntity(TestUtils.generateNewUser(), User.class);
+
+        dbService.addDebtor(lender.getId(), generatePayment(borrower));
+        dbService.addDebtor(lender.getId(), generatePayment(borrower));
+
+        double balance = dbService.getUserDebtBalance(lender.getId());
+        Assertions.assertThat(balance)
+                .isGreaterThan(0);
     }
 
     private PaymentDTO generatePayment(User borrower) {

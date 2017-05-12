@@ -40,6 +40,7 @@ public class DevSettings implements CommandLineRunner {
 		});
 		users.add(user);
 
+
 		users.forEach(u -> {
 			System.out.println(u);
 			databaseService.saveEntity(u);

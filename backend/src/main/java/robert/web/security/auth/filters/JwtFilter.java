@@ -47,7 +47,6 @@ public class JwtFilter extends OncePerRequestFilter {
     private void setUserAuthentication(Claims userClaims) {
         SecurityContextHolder.getContext()
                 .setAuthentication(new AuthenticationImpl(userClaims.getSubject()));
-
     }
 
 }

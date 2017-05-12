@@ -39,7 +39,7 @@ public class User extends BasicEntity {
 
 	public void addAsset(Asset asset) {
 		if ( this.assets == null ) {
-			this.assets = new HashSet<>(1);
+			this.assets = new HashSet<>(4);
 		}
 		this.assets.add(asset);
 	}

@@ -49,7 +49,7 @@ public class PaymentController {
     }
 
     @RequestMapping(value = "/cancel-debt/{id}/", method = RequestMethod.DELETE)
-    public HttpStatus cancelDebt(@PathVariable("id") Long assetId) throws Exception {
+    public HttpStatus cancelDebt(@PathVariable Long assetId) throws Exception {
         dbService.cancelDebt(assetId, userDataProvider.getUserId());
         return HttpStatus.OK;
     }
@@ -61,13 +61,13 @@ public class PaymentController {
     }
 
     @RequestMapping(value = "/add-fee/{id}/{amount}/", method = RequestMethod.POST)
-    public HttpStatus addFeeToMutualPayment(@PathVariable("id") Long paymentId, @PathVariable("amount") Double fee) {
+    public HttpStatus addFeeToMutualPayment(@PathVariable Long paymentId, @PathVariable("amount") Double fee) {
         dbService.addUserFeeToPayment(userDataProvider.getUserId(), paymentId, fee);
         return HttpStatus.OK;
     }
 
     @RequestMapping("/mutual-payment-fees/{id}/")
-    public List<FeeDTO> getFeesOfMutualPayment(@PathVariable("id") Long id) {
+    public List<FeeDTO> getFeesOfMutualPayment(@PathVariable Long id) {
         Set<Fee> fees = dbService.getFeesForMutualPayment(id);
         return PaymentAssembler.convertFeesToDTOs(fees);
     }
@@ -79,15 +79,20 @@ public class PaymentController {
     }
 
     @RequestMapping(value = "/delete-my-fees/{id}/", method = RequestMethod.DELETE)
-    public HttpStatus deleteMyFees(@PathVariable("id") Long paymentId) {
+    public HttpStatus deleteMyFees(@PathVariable Long paymentId) {
         dbService.deleteUserFees(userDataProvider.getUserId(), paymentId);
         return HttpStatus.OK;
     }
 
     @RequestMapping(value = "/delete-mutual-payment/{id}/", method = RequestMethod.DELETE)
-    public HttpStatus deleteMutualPayment(@PathVariable("id") Long mpaymentId) {
-        dbService.deleteMutualPayment(mpaymentId);
+    public HttpStatus deleteMutualPayment(@PathVariable Long mutualPayment) {
+        dbService.deleteMutualPayment(mutualPayment);
         return HttpStatus.OK;
+    }
+
+    @RequestMapping(value = "/money-balance", method = RequestMethod.GET)
+    public double getMoneyBalance() {
+        return dbService.getUserDebtBalance(userDataProvider.getUserId());
     }
 
 }
