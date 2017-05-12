@@ -21,6 +21,10 @@ td button {
   width: 100%;
 }
 
+p {
+  color: burlywood;
+}
+
 td {
   color: burlywood;
 }

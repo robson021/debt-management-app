@@ -21,4 +21,17 @@
   <div class="text-center" *ngIf="debts.length <= 0">
     <h1>You do not have any debts.</h1>
   </div>
+  <p>Your debts balance:
+    <span [ngClass]="{'red-text': debtsBalance < 0, 'green-text': debtsBalance >= 0}">{{debtsBalance}}</span>
+  </p>
 </div>
+
+<style>
+  .red-text {
+    color: red;
+  }
+
+  .green-text {
+    color: green;
+  }
+</style>

@@ -9,6 +9,8 @@ export class MyDebtsComponent implements OnInit {
 
   debts = [];
 
+  debtsBalance: number;
+
   constructor(private http: HttpConnectionService) {
   }
 
@@ -17,6 +19,12 @@ export class MyDebtsComponent implements OnInit {
       .subscribe( data => {
         this.debts = data;
         console.log(this.debts);
+      });
+
+    this.http.performGet('payments/money-balance')
+      .subscribe(data => {
+        this.debtsBalance = data;
+        console.log('debts balance:', data);
       });
   }
 
