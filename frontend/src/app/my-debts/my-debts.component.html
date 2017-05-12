@@ -22,7 +22,9 @@
     <h1>You do not have any debts.</h1>
   </div>
   <p>Your debts balance:
-    <span [ngClass]="{'red-text': debtsBalance < 0, 'green-text': debtsBalance >= 0}">{{debtsBalance}}</span>
+    <span [ngClass]="{'red-text': debtsBalance < 0, 'green-text': debtsBalance >= 0}">
+      {{debtsBalance | currency:'USD':true:'1.2-2'}}
+    </span>
   </p>
 </div>
 
