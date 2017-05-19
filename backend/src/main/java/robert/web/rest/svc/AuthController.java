@@ -3,9 +3,10 @@ package robert.web.rest.svc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,21 +30,21 @@ public class AuthController {
 
 	private final DatabaseService dbService;
 
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@PostMapping("/register")
 	@ResponseStatus(HttpStatus.OK)
 	public void registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
 		dbService.saveNewUser(userDTO);
 		log.info("Registered new user:", userDTO);
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@PostMapping("/login")
 	public SimpleMessageDTO loginUser(@RequestBody UserInfoDTO userDTO) throws Exception {
 		String token = tryToLogUserIn(userDTO);
 		log.debug("\nlogged in user: {}\nwith token: {}", userDTO, token);
 		return new SimpleMessageDTO(token);
 	}
 
-	@RequestMapping("/am-i-logged-in")
+	@GetMapping("/am-i-logged-in")
 	public HttpStatus validateToken() {
 		if (userDataProvider.getUserId() > 0) {
 			return HttpStatus.OK;

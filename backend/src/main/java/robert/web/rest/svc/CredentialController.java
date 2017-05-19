@@ -1,15 +1,17 @@
 package robert.web.rest.svc;
 
-import lombok.AllArgsConstructor;
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import lombok.AllArgsConstructor;
 import robert.db.DatabaseService;
 import robert.db.entities.User;
 import robert.web.request.data.UserDataProvider;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.UserAssembler;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/credentials")
@@ -20,8 +22,8 @@ public class CredentialController {
 
     private final UserDataProvider userDataProvider;
 
-    @RequestMapping("/other-users")
-    public List<UserInfoDTO> getOtherUsersDetails() {
+	@GetMapping("/other-users")
+	public List<UserInfoDTO> getOtherUsersDetails() {
         List<User> users = dbService.findOtherUsersExceptGiven(userDataProvider.getUserId());
         return UserAssembler.convertToUserInfoDTOs(users);
     }

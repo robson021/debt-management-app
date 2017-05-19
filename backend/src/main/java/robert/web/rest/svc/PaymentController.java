@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,69 +32,74 @@ public class PaymentController {
 
     private final UserDataProvider userDataProvider;
 
-    @RequestMapping(value = "/add-assets-to-user", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.OK)
+	@PostMapping("/add-assets-to-user")
+	@ResponseStatus(HttpStatus.OK)
     public void addAssetToTheUser(@RequestBody PaymentDTO borrowerInfo) {
         dbService.addDebtor(userDataProvider.getUserId(), borrowerInfo);
     }
 
-    @RequestMapping(value = "/my-debtors")
-    public List<PaymentDTO> getMyDebtors() {
+	@GetMapping("/my-debtors")
+	public List<PaymentDTO> getMyDebtors() {
         Set<Asset> debtors = dbService.findUserDebtors(userDataProvider.getUserId());
         return PaymentAssembler.convertToPaymentDTOs(debtors);
     }
 
-    @RequestMapping(value = "/my-debts")
-    public List<PaymentDTO> getMyDebts() {
+	@GetMapping("/my-debts")
+	public List<PaymentDTO> getMyDebts() {
         List<Asset> userDebts = dbService.findUserDebts(userDataProvider.getUserId());
         return PaymentAssembler.convertToPaymentDTOs(userDebts);
     }
 
-    @RequestMapping(value = "/cancel-debt/{id}/", method = RequestMethod.DELETE)
-    public HttpStatus cancelDebt(@PathVariable Long assetId) throws Exception {
-        dbService.cancelDebt(assetId, userDataProvider.getUserId());
+	@DeleteMapping("/cancel-debt/{id}/")
+	public HttpStatus cancelDebt(@PathVariable Long assetId) {
+		dbService.cancelDebt(assetId, userDataProvider.getUserId());
         return HttpStatus.OK;
     }
 
-    @RequestMapping(value = "/add-mutual-payment", method = RequestMethod.POST)
-    public HttpStatus addNewMutualPayment(@RequestBody PaymentDTO paymentDTO) {
+	@PostMapping("/add-mutual-payment")
+	public HttpStatus addNewMutualPayment(@RequestBody PaymentDTO paymentDTO) {
         dbService.addMutualPayment(paymentDTO);
         return HttpStatus.OK;
     }
 
-    @RequestMapping(value = "/add-fee/{id}/{amount}/", method = RequestMethod.POST)
-    public HttpStatus addFeeToMutualPayment(@PathVariable Long paymentId, @PathVariable("amount") Double fee) {
-        dbService.addUserFeeToPayment(userDataProvider.getUserId(), paymentId, fee);
+	@PostMapping("/add-fee/{id}/{amount}/")
+	public HttpStatus addFeeToMutualPayment(@PathVariable Long paymentId, @PathVariable Double fee) {
+		dbService.addUserFeeToPayment(userDataProvider.getUserId(), paymentId, fee);
         return HttpStatus.OK;
     }
 
-    @RequestMapping("/mutual-payment-fees/{id}/")
-    public List<FeeDTO> getFeesOfMutualPayment(@PathVariable Long id) {
+	@GetMapping("/mutual-payment-fees/{id}/")
+	public List<FeeDTO> getFeesOfMutualPayment(@PathVariable Long id) {
         Set<Fee> fees = dbService.getFeesForMutualPayment(id);
         return PaymentAssembler.convertFeesToDTOs(fees);
     }
 
-    @RequestMapping("/mutual-payments")
-    public List<PaymentDTO> getAllMutualPayments() {
+	@GetMapping("/mutual-payments")
+	public List<PaymentDTO> getAllMutualPayments() {
         List<MutualPayment> allMutualPayments = dbService.getAllMutualPayments();
         return PaymentAssembler.convertToMutualPaymentDTO(allMutualPayments);
     }
 
-    @RequestMapping(value = "/delete-my-fees/{id}/", method = RequestMethod.DELETE)
-    public HttpStatus deleteMyFees(@PathVariable Long paymentId) {
+	@DeleteMapping("/delete-my-fees/{id}/")
+	public HttpStatus deleteMyFees(@PathVariable Long paymentId) {
         dbService.deleteUserFees(userDataProvider.getUserId(), paymentId);
         return HttpStatus.OK;
     }
 
-    @RequestMapping(value = "/delete-mutual-payment/{id}/", method = RequestMethod.DELETE)
-    public HttpStatus deleteMutualPayment(@PathVariable Long mutualPayment) {
+	@DeleteMapping("/delete-mutual-payment/{id}/")
+	public HttpStatus deleteMutualPayment(@PathVariable Long mutualPayment) {
         dbService.deleteMutualPayment(mutualPayment);
         return HttpStatus.OK;
     }
 
-    @RequestMapping(value = "/money-balance", method = RequestMethod.GET)
-    public double getMoneyBalance() {
+	@GetMapping("/money-balance")
+	public double getMoneyBalance() {
         return dbService.getUserDebtBalance(userDataProvider.getUserId());
     }
+
+	@GetMapping("/money-balance-with-other-user/{id}/")
+	public double getMoneyBalanceWithOtherUser(@PathVariable Long otherUserId) {
+		return dbService.getMoneyBalanceWithOtherUser(userDataProvider.getUserId(), otherUserId);
+	}
 
 }
