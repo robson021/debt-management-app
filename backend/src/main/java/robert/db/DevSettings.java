@@ -1,17 +1,18 @@
 package robert.db;
 
-import lombok.AllArgsConstructor;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
-import robert.db.entities.User;
-import robert.web.rest.dto.PaymentDTO;
-
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
+
+import lombok.AllArgsConstructor;
+import robert.db.entities.User;
+import robert.web.rest.dto.PaymentDTO;
 
 @Profile("dev")
 @Component
@@ -42,6 +43,7 @@ public class DevSettings implements CommandLineRunner {
 
 
 		users.forEach(u -> {
+			u.setAccountNo(RandomStringUtils.randomNumeric(12));
 			System.out.println(u);
 			databaseService.saveEntity(u);
 		});
