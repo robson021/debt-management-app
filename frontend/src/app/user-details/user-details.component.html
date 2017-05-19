@@ -4,6 +4,7 @@
     <tr>
       <th>NAME</th>
       <th>SURNAME</th>
+      <th>BALANCE</th>
       <th>ACCOUNT NO.</th>
     </tr>
     </thead>
@@ -11,6 +12,9 @@
     <tr *ngFor="let user of users">
       <td>{{user.name}}</td>
       <td>{{user.surname}}</td>
+      <td>
+        <span [ngClass]="{'red-text': user.balance < 0, 'green-text': user.balance >= 0}">{{user.balance | currency:'USD':true:'1.2-2'}}</span>
+      </td>
       <td>{{user.accountNo}}</td>
     </tr>
     </tbody>

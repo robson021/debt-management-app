@@ -47,3 +47,11 @@ form select {
   display: inline-block !important;
   text-align: center !important;
 }
+
+.red-text {
+  color: red;
+}
+
+.green-text {
+  color: green;
+}

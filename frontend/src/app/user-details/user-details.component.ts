@@ -16,7 +16,16 @@ export class UserDetailsComponent implements OnInit {
     this.http.performGet('credentials/other-users/')
       .subscribe(data => {
         this.users = data;
+        this.getDebtsDiff();
       });
   }
 
+  private getDebtsDiff() {
+        this.users.forEach((user) => {
+          this.http.performGet('payments/money-balance-with-other-user/' + user.id + '/')
+            .subscribe(balance => {
+              user.balance = balance;
+            });
+        })
+  };
 }
