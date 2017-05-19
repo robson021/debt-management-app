@@ -60,11 +60,11 @@ public class DatabaseService {
 		return userRepository.findOneByEmail(email);
 	}
 
-	public User findUserById(Long id) {
+	public User findUserById(long id) {
 		return userRepository.findOne(id);
 	}
 
-	public List<Asset> findUserDebts(Long borrowerId) {
+	public List<Asset> findUserDebts(long borrowerId) {
 		List<Asset> debts = em.createQuery("from Asset a where a.borrowerId = :id", Asset.class)
 				.setParameter("id", borrowerId)
 				.getResultList();
@@ -72,12 +72,12 @@ public class DatabaseService {
 		return debts;
 	}
 
-	public Set<Asset> findUserDebtors(Long userId) {
+	public Set<Asset> findUserDebtors(long userId) {
 		return userRepository.findOne(userId)
 				.getAssets();
 	}
 
-	public void cancelDebt(Long assetId, Long userId) throws BadParameterException {
+	public void cancelDebt(long assetId, long userId) throws BadParameterException {
 		if ( !doesAssetBelongToUser(assetId, userId) )
 			throw new BadParameterException("User tried to cancel not his debt");
 
@@ -86,14 +86,14 @@ public class DatabaseService {
 				.executeUpdate();
 	}
 
-	public void addDebtor(Long lenderId, PaymentDTO borrowerInfo) {
+	public void addDebtor(long lenderId, PaymentDTO borrowerInfo) {
 		User lender = userRepository.findOne(lenderId);
 		Asset asset = PaymentAssembler.paymentDtoToAsset(borrowerInfo);
 		asset.setUser(lender);
 		assetRepository.save(asset);
 	}
 
-	public List<User> findOtherUsersExceptGiven(Long userId) {
+	public List<User> findOtherUsersExceptGiven(long userId) {
 		return em.createQuery("from User u where u.id != :id", User.class)
 				.setParameter("id", userId)
 				.getResultList();
@@ -104,7 +104,7 @@ public class DatabaseService {
 		mutualPaymentRepository.save(payment);
 	}
 
-	public void addUserFeeToPayment(Long userId, Long mutualPaymentId, Double feeAmount) {
+	public void addUserFeeToPayment(long userId, long mutualPaymentId, double feeAmount) {
 		MutualPayment mutualPayment = mutualPaymentRepository.findOne(mutualPaymentId);
 		Fee fee = new Fee();
 		fee.setUser(userRepository.findOne(userId));
@@ -115,7 +115,7 @@ public class DatabaseService {
 		mutualPaymentRepository.save(mutualPayment);
 	}
 
-	public Set<Fee> getFeesForMutualPayment(Long mpaymentId) {
+	public Set<Fee> getFeesForMutualPayment(long mpaymentId) {
 		MutualPayment mutualPayment = mutualPaymentRepository.findOne(mpaymentId);
 		return mutualPayment.getPayedFees();
 	}
@@ -124,14 +124,14 @@ public class DatabaseService {
 		return mutualPaymentRepository.findAll();
 	}
 
-	public void deleteUserFees(Long userId, Long mutualPaymentId) {
+	public void deleteUserFees(long userId, long mutualPaymentId) {
 		em.createQuery("delete from Fee f where f.user.id = :uid and f.mutualPayment.id = :pid")
 				.setParameter("uid", userId)
 				.setParameter("pid", mutualPaymentId)
 				.executeUpdate();
 	}
 
-	public void deleteMutualPayment(Long mutualPaymentId) {
+	public void deleteMutualPayment(long mutualPaymentId) {
 		em.createQuery("delete from Fee f where f.mutualPayment.id = :pid")
 				.setParameter("pid", mutualPaymentId)
 				.executeUpdate();
@@ -139,7 +139,7 @@ public class DatabaseService {
 		mutualPaymentRepository.delete(mutualPaymentId);
 	}
 
-	public double getUserDebtBalance(Long userId) {
+	public double getUserDebtBalance(long userId) {
 		Double debtorsSum = em.createQuery("select sum(amount) from Asset a where a.user.id = :id", Double.class)
 				.setParameter("id", userId)
 				.getSingleResult();
@@ -151,7 +151,7 @@ public class DatabaseService {
 		return getDifference(debtorsSum, userSum);
 	}
 
-	public double getMoneyBalanceWithOtherUser(long userId, Long otherUserId) {
+	public double getMoneyBalanceWithOtherUser(long userId, long otherUserId) {
 		String query = "select sum(amount) from Asset a where a.user.id = :id1 and borrowerId = :id2";
 
 		Double otherUserDebts = em.createQuery(query, Double.class)
@@ -167,12 +167,12 @@ public class DatabaseService {
 		return getDifference(otherUserDebts, userDebts);
 	}
 
-	private boolean doesAssetBelongToUser(Long assetId, Long userId) {
-		Long id = assetRepository.findOne(assetId)
+	private boolean doesAssetBelongToUser(long assetId, long userId) {
+		long id = assetRepository.findOne(assetId)
 				.getUser()
 				.getId();
 
-		return id.equals(userId);
+		return id == userId;
 	}
 
 	private void validateUserEmailAndPassword(User user) {

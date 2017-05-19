@@ -51,9 +51,9 @@ public class PaymentController {
     }
 
 	@DeleteMapping("/cancel-debt/{id}/")
-	public HttpStatus cancelDebt(@PathVariable Long assetId) {
-		dbService.cancelDebt(assetId, userDataProvider.getUserId());
-        return HttpStatus.OK;
+	public HttpStatus cancelDebt(@PathVariable long id) {
+		dbService.cancelDebt(id, userDataProvider.getUserId());
+		return HttpStatus.OK;
     }
 
 	@PostMapping("/add-mutual-payment")
@@ -63,14 +63,14 @@ public class PaymentController {
     }
 
 	@PostMapping("/add-fee/{id}/{amount}/")
-	public HttpStatus addFeeToMutualPayment(@PathVariable Long paymentId, @PathVariable Double fee) {
+	public HttpStatus addFeeToMutualPayment(@PathVariable long paymentId, @PathVariable double fee) {
 		dbService.addUserFeeToPayment(userDataProvider.getUserId(), paymentId, fee);
         return HttpStatus.OK;
     }
 
 	@GetMapping("/mutual-payment-fees/{id}/")
-	public List<FeeDTO> getFeesOfMutualPayment(@PathVariable Long id) {
-        Set<Fee> fees = dbService.getFeesForMutualPayment(id);
+	public List<FeeDTO> getFeesOfMutualPayment(@PathVariable long id) {
+		Set<Fee> fees = dbService.getFeesForMutualPayment(id);
         return PaymentAssembler.convertFeesToDTOs(fees);
     }
 
@@ -81,14 +81,14 @@ public class PaymentController {
     }
 
 	@DeleteMapping("/delete-my-fees/{id}/")
-	public HttpStatus deleteMyFees(@PathVariable Long paymentId) {
-        dbService.deleteUserFees(userDataProvider.getUserId(), paymentId);
+	public HttpStatus deleteMyFees(@PathVariable long paymentId) {
+		dbService.deleteUserFees(userDataProvider.getUserId(), paymentId);
         return HttpStatus.OK;
     }
 
 	@DeleteMapping("/delete-mutual-payment/{id}/")
-	public HttpStatus deleteMutualPayment(@PathVariable Long mutualPayment) {
-        dbService.deleteMutualPayment(mutualPayment);
+	public HttpStatus deleteMutualPayment(@PathVariable long mutualPayment) {
+		dbService.deleteMutualPayment(mutualPayment);
         return HttpStatus.OK;
     }
 
@@ -98,8 +98,8 @@ public class PaymentController {
     }
 
 	@GetMapping("/money-balance-with-other-user/{id}/")
-	public double getMoneyBalanceWithOtherUser(@PathVariable Long otherUserId) {
-		return dbService.getMoneyBalanceWithOtherUser(userDataProvider.getUserId(), otherUserId);
+	public double getMoneyBalanceWithOtherUser(@PathVariable long id) {
+		return dbService.getMoneyBalanceWithOtherUser(userDataProvider.getUserId(), id);
 	}
 
 }
