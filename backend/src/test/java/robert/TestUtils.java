@@ -16,9 +16,9 @@ public class TestUtils {
 		return mapper.writeValueAsString(obj);
 	}
 
-    public static <T> T jsonToObject(String json, Class<T> clazz) throws IOException {
-        return mapper.readValue(json, clazz);
-    }
+	public static <T> T jsonToObject(String json, Class<T> clazz) throws IOException {
+		return mapper.readValue(json, clazz);
+	}
 
 	public static User generateNewUser() {
 		User user = new User();
@@ -28,6 +28,5 @@ public class TestUtils {
 		user.setPassword("Passwd.123");
 		return user;
 	}
-
 
 }

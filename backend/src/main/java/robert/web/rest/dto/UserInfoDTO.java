@@ -9,16 +9,16 @@ import lombok.ToString;
 @ToString
 public class UserInfoDTO {
 
-    private long id;
+	private long id;
 
-    private String name;
+	private String name;
 
-    private String surname;
+	private String surname;
 
-    private String email;
+	private String email;
 
-    private String accountNo;
+	private String accountNo;
 
-    private String password;
+	private String password;
 
 }

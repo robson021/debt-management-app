@@ -29,7 +29,7 @@ public class MutualPayment extends BasicEntity {
 	private Set<Fee> payedFees = null;
 
 	public void addFee(Fee fee) {
-		if (payedFees == null) {
+		if ( payedFees == null ) {
 			payedFees = new HashSet<>(1);
 		}
 		payedFees.add(fee);

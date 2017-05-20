@@ -11,9 +11,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SimpleMessageDTO {
 
-    private String message;
+	private String message;
 
-    public String getMessage() {
-        return message;
-    }
+	public String getMessage() {
+		return message;
+	}
 }

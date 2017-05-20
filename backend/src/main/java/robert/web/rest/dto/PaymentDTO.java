@@ -9,19 +9,19 @@ import lombok.Setter;
 @Setter
 public class PaymentDTO {
 
-    private long id;
+	private long id;
 
-    private long borrowerId;
+	private long borrowerId;
 
-    private String borrowerName;
+	private String borrowerName;
 
-    private String borrowerSurname;
+	private String borrowerSurname;
 
-    private String owner;
+	private String owner;
 
-    private double amount;
+	private double amount;
 
-    private String description;
+	private String description;
 
-    private List<FeeDTO> fees;
+	private List<FeeDTO> fees;
 }

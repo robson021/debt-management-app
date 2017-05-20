@@ -22,31 +22,31 @@ import robert.web.security.auth.JwtUtils;
 @AllArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final UserDataProvider userDataProvider;
+	private final UserDataProvider userDataProvider;
 
-    @Override
-    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+	@Override
+	public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-        String authHeaderValue = request.getHeader("Authorization");
-        if ( authHeaderValue != null ) // user is logged in
-            validateUserToken(authHeaderValue);
+		String authHeaderValue = request.getHeader("Authorization");
+		if ( authHeaderValue != null ) // user is logged in
+			validateUserToken(authHeaderValue);
 
-        chain.doFilter(request, response);
-    }
+		chain.doFilter(request, response);
+	}
 
-    private void validateUserToken(String authHeaderValue) {
-        try {
-            Claims userClaims = JwtUtils.getUserClaims(authHeaderValue);
-            userDataProvider.setData(userClaims);
-            setUserAuthentication(userClaims);
-        } catch (Exception e) {
-            throw new AuthException("Invalid token.");
-        }
-    }
+	private void validateUserToken(String authHeaderValue) {
+		try {
+			Claims userClaims = JwtUtils.getUserClaims(authHeaderValue);
+			userDataProvider.setData(userClaims);
+			setUserAuthentication(userClaims);
+		} catch (Exception e) {
+			throw new AuthException("Invalid token.");
+		}
+	}
 
-    private void setUserAuthentication(Claims userClaims) {
-        SecurityContextHolder.getContext()
-                .setAuthentication(new AuthenticationImpl(userClaims.getSubject()));
-    }
+	private void setUserAuthentication(Claims userClaims) {
+		SecurityContextHolder.getContext()
+				.setAuthentication(new AuthenticationImpl(userClaims.getSubject()));
+	}
 
 }

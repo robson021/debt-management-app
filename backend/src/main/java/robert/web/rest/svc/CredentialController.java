@@ -18,14 +18,14 @@ import robert.web.rest.dto.asm.UserAssembler;
 @AllArgsConstructor
 public class CredentialController {
 
-    private final DatabaseService dbService;
+	private final DatabaseService dbService;
 
-    private final UserDataProvider userDataProvider;
+	private final UserDataProvider userDataProvider;
 
 	@GetMapping("/other-users")
 	public List<UserInfoDTO> getOtherUsersDetails() {
-        List<User> users = dbService.findOtherUsersExceptGiven(userDataProvider.getUserId());
-        return UserAssembler.convertToUserInfoDTOs(users);
-    }
+		List<User> users = dbService.findOtherUsersExceptGiven(userDataProvider.getUserId());
+		return UserAssembler.convertToUserInfoDTOs(users);
+	}
 
 }

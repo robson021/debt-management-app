@@ -4,12 +4,12 @@ import io.jsonwebtoken.Claims;
 
 public interface UserDataProvider {
 
-    void setData(Claims claims);
+	void setData(Claims claims);
 
-    long getUserId();
+	long getUserId();
 
-    String getUserEmail();
+	String getUserEmail();
 
-    boolean isAdmin();
+	boolean isAdmin();
 
 }

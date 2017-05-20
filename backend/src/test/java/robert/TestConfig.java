@@ -11,10 +11,10 @@ import robert.web.request.data.UserDataProvider;
 @Configuration
 public class TestConfig {
 
-    @Bean
-    @Primary
-    public UserDataProvider userDataProvider() {
-        return mock(UserDataProvider.class);
-    }
+	@Bean
+	@Primary
+	public UserDataProvider userDataProvider() {
+		return mock(UserDataProvider.class);
+	}
 
 }

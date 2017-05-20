@@ -1,11 +1,17 @@
 package robert.db.entities;
 
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "USER")
@@ -25,8 +31,8 @@ public class User extends BasicEntity {
 	@Column(nullable = false)
 	private String password;
 
-    @Column
-    private String accountNo;
+	@Column
+	private String accountNo;
 
 	@Column
 	private Boolean role = false;
@@ -46,11 +52,6 @@ public class User extends BasicEntity {
 
 	@Override
 	public String toString() {
-		return "User{" +
-				"name='" + name + '\'' +
-				", surname='" + surname + '\'' +
-				", email='" + email + '\'' +
-				", password='" + password + '\'' +
-				'}';
+		return "User{" + "name='" + name + '\'' + ", surname='" + surname + '\'' + ", email='" + email + '\'' + ", password='" + password + '\'' + '}';
 	}
 }

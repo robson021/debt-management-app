@@ -41,14 +41,14 @@ public class DevSettings implements CommandLineRunner {
 		});
 		users.add(user);
 
-
 		users.forEach(u -> {
 			u.setAccountNo(RandomStringUtils.randomNumeric(12));
 			System.out.println(u);
 			databaseService.saveEntity(u);
 		});
 
-		Long id = databaseService.findUserByEmail(testUserEmail).getId();
+		Long id = databaseService.findUserByEmail(testUserEmail)
+				.getId();
 		User borrower = databaseService.findUserById(id - 1);
 
 		List<PaymentDTO> payments = Stream.of(new PaymentDTO(), new PaymentDTO())

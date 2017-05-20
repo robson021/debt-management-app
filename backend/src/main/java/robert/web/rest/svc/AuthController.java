@@ -46,7 +46,7 @@ public class AuthController {
 
 	@GetMapping("/am-i-logged-in")
 	public HttpStatus validateToken() {
-		if (userDataProvider.getUserId() > 0) {
+		if ( userDataProvider.getUserId() > 0 ) {
 			return HttpStatus.OK;
 		}
 		throw new AuthException("Token is not valid");
@@ -54,7 +54,8 @@ public class AuthController {
 
 	private String tryToLogUserIn(UserInfoDTO user) {
 		User u = dbService.findUserByEmail(user.getEmail());
-		if (!u.getPassword().equals(user.getPassword()))
+		if ( !u.getPassword()
+				.equals(user.getPassword()) )
 			throw new AuthException("Passwords do not match");
 
 		return JwtUtils.generateToken(u);

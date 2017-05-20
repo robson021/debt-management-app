@@ -28,17 +28,17 @@ public class JwtUtils {
 		return claims.getSubject();
 	}
 
-    public static boolean isAdmin(Claims claims) {
-        return Boolean.valueOf(claims.get("role")
-                .toString());
-    }
+	public static boolean isAdmin(Claims claims) {
+		return Boolean.valueOf(claims.get("role")
+				.toString());
+	}
 
 	public static String generateToken(User user) {
 		return Jwts.builder()
 				.setSubject(user.getEmail())
 				.setId(String.valueOf(user.getId()))
-                .claim("role", user.getRole())
-                .setIssuedAt(new Date())
+				.claim("role", user.getRole())
+				.setIssuedAt(new Date())
 				.signWith(SignatureAlgorithm.HS256, KEY)
 				.compact();
 	}

@@ -8,5 +8,5 @@ import robert.db.entities.Fee;
 import robert.db.entities.User;
 
 public interface FeeRepository extends CrudRepository<Fee, Long> {
-    List<Fee> findByUser(User u);
+	List<Fee> findByUser(User u);
 }

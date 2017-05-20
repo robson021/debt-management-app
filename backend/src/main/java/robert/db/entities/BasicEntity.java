@@ -1,12 +1,13 @@
 package robert.db.entities;
 
-import lombok.Getter;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import java.util.UUID;
+
+import lombok.Getter;
 
 @MappedSuperclass
 public abstract class BasicEntity {
@@ -18,14 +19,15 @@ public abstract class BasicEntity {
 	private Long id;
 
 	@Column
-	private String uuid = UUID.randomUUID().toString();
+	private String uuid = UUID.randomUUID()
+			.toString();
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o)
+		if ( this == o )
 			return true;
 
-		if (o == null || getClass() != o.getClass())
+		if ( o == null || getClass() != o.getClass() )
 			return false;
 
 		BasicEntity that = (BasicEntity) o;
