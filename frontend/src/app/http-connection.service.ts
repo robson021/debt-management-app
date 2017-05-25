@@ -24,19 +24,11 @@ export class HttpConnectionService {
       .map(response => response.json())
       .subscribe(
         data => {
-          let token = 'Bearer ' + data.message;
-          sessionStorage.setItem('token', token);
-          this.setJwtHeader();
+          this.headers.append('Authorization', 'Bearer ' + data.message);
+          this.router.navigate(['/my-debts']);
         }
       );
-
   }
-
-  setJwtHeader(): void {
-    this.headers.append('Authorization', sessionStorage.getItem('token'));
-    this.router.navigate(['/my-debts']);
-  }
-
 
   performDelete(uri): Observable<any> {
     console.log('delete: ', uri);
