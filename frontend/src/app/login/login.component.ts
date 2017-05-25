@@ -1,4 +1,4 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpConnectionService} from "../http-connection.service";
 
@@ -7,7 +7,6 @@ import {HttpConnectionService} from "../http-connection.service";
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-
   loginForm: FormGroup;
 
   constructor(private fb: FormBuilder, private http: HttpConnectionService) {

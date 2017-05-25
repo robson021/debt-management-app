@@ -14,32 +14,27 @@ export class HttpConnectionService {
 
   private api: string;
 
-  private loggedIn: boolean;
-
   constructor(private http: Http, private router: Router) {
     this.api = environment.production ? '/' : 'http://localhost:8080/';
-    this.loggedIn = false;
   }
 
   logUserIn(credentials) {
-    console.log('logged in?:', this.loggedIn);
-    if (this.loggedIn) {
-      this.router.navigate(['/my-debts']);
-      return;
-    }
-
     this.http
       .post(this.api + 'auth/login/', JSON.stringify(credentials), {headers: this.headers})
       .map(response => response.json())
       .subscribe(
         data => {
-          console.log('JWT:', data.message);
-          this.headers.append('Authorization', 'Bearer ' + data.message);
-          this.router.navigate(['/my-debts']);
-          this.loggedIn = true;
+          let token = 'Bearer ' + data.message;
+          sessionStorage.setItem('token', token);
+          this.setJwtHeader();
         }
       );
 
+  }
+
+  setJwtHeader(): void {
+    this.headers.append('Authorization', sessionStorage.getItem('token'));
+    this.router.navigate(['/my-debts']);
   }
 
 
