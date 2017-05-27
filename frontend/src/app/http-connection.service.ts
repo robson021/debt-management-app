@@ -1,11 +1,11 @@
-import {Injectable} from "@angular/core";
-import {Headers, Http} from "@angular/http";
-import {environment} from "../environments/environment";
-import "rxjs/add/operator/toPromise";
-import "rxjs/add/operator/catch";
-import "rxjs/add/operator/map";
-import {Router} from "@angular/router";
-import {Observable} from "rxjs/Observable";
+import {Injectable} from '@angular/core';
+import {Headers, Http} from '@angular/http';
+import {environment} from '../environments/environment';
+import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+import {Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class HttpConnectionService {
@@ -24,8 +24,8 @@ export class HttpConnectionService {
       .map(response => response.json())
       .subscribe(
         data => {
-          this.headers.append('Authorization', 'Bearer ' + data.message);
-          this.router.navigate(['/my-debts']);
+          sessionStorage.setItem('token', 'Bearer ' + data.message);
+          this.tryLogUserIn();
         }
       );
   }
@@ -48,12 +48,19 @@ export class HttpConnectionService {
     console.log('post:', uri, 'body:', body);
     return this.http
       .post(this.api + uri, JSON.stringify(body), {headers: this.headers})
-      //.map(response => response.json())
       .catch(this.serverError);
   }
 
   private serverError(err: any) {
     console.log('sever error:', err);
     return Observable.throw('error');
+  }
+
+  tryLogUserIn() {
+    let token = sessionStorage.getItem('token');
+    if (token) {
+      this.headers.append('Authorization', token);
+      this.router.navigate(['/my-debts']);
+    }
   }
 }

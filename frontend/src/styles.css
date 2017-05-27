@@ -1,16 +1,3 @@
-footer {
-  bottom: 6px;
-  max-height: 25px;
-  left: 0;
-  position: relative;
-  width: 100%;
-  margin-top: 10px;
-}
-
-footer span {
-  color: green;
-}
-
 .main-body {
   padding: 1%;
   max-width: 750px;
