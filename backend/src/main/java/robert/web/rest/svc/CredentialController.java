@@ -12,6 +12,7 @@ import robert.db.entities.User;
 import robert.web.request.data.UserDataProvider;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.UserAssembler;
+import robert.web.security.auth.SecurityUtils;
 
 @RestController
 @RequestMapping("/credentials")
@@ -20,11 +21,9 @@ public class CredentialController {
 
 	private final DatabaseService dbService;
 
-	private final UserDataProvider userDataProvider;
-
 	@GetMapping("/other-users")
 	public List<UserInfoDTO> getOtherUsersDetails() {
-		List<User> users = dbService.findOtherUsersExceptGiven(userDataProvider.getUserId());
+		List<User> users = dbService.findOtherUsersExceptGiven(SecurityUtils.getUserDetails().getUserId());
 		return UserAssembler.convertToUserInfoDTOs(users);
 	}
 

@@ -18,6 +18,7 @@ import robert.web.request.data.UserDataProvider;
 import robert.web.rest.dto.SimpleMessageDTO;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.security.auth.JwtUtils;
+import robert.web.security.auth.SecurityUtils;
 
 @RestController
 @RequestMapping("/auth")
@@ -25,8 +26,6 @@ import robert.web.security.auth.JwtUtils;
 public class AuthController {
 
 	private static final Logger log = LoggerFactory.getLogger(AuthController.class);
-
-	private final UserDataProvider userDataProvider;
 
 	private final DatabaseService dbService;
 
@@ -46,7 +45,7 @@ public class AuthController {
 
 	@GetMapping("/am-i-logged-in")
 	public HttpStatus validateToken() {
-		if ( userDataProvider.getUserId() > 0 ) {
+		if ( SecurityUtils.getUserDetails().getUserId() > 0 ) {
 			return HttpStatus.OK;
 		}
 		throw new AuthException("Token is not valid");
