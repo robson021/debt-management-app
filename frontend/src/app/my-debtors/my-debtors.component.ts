@@ -18,7 +18,7 @@ export class MyDebtorsComponent implements OnInit {
     this.debtorsForm = fb.group({
       amount: ['0.0', Validators.required],
       description: ['', Validators.required],
-      selectedUser: this.otherUsers[0]
+      selectedUser: ['', Validators.required]
     });
   }
 
