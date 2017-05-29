@@ -31,11 +31,6 @@ public class JwtUtils {
 		return claims.getSubject();
 	}
 
-	public static boolean isAdmin(Claims claims) {
-		return Boolean.valueOf(claims.get("role")
-				.toString());
-	}
-
 	public static String generateToken(User user) {
 		return Jwts.builder()
 				.setSubject(user.getEmail())
@@ -51,5 +46,10 @@ public class JwtUtils {
 			return Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		}
 		return Collections.emptySet();
+	}
+
+	private static boolean isAdmin(Claims claims) {
+		return Boolean.valueOf(claims.get("role")
+				.toString());
 	}
 }
