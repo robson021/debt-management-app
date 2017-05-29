@@ -1,4 +1,4 @@
-package robert.web.rest.svc;
+package robert.web.rest.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,6 @@ import lombok.AllArgsConstructor;
 import robert.db.DatabaseService;
 import robert.db.entities.User;
 import robert.exeptions.AuthException;
-import robert.web.request.data.UserDataProvider;
 import robert.web.rest.dto.SimpleMessageDTO;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.security.auth.JwtUtils;

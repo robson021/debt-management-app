@@ -1,6 +1,6 @@
 package robert.db.entities;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -30,8 +30,9 @@ public class MutualPayment extends BasicEntity {
 
 	public void addFee(Fee fee) {
 		if ( payedFees == null ) {
-			payedFees = new HashSet<>(1);
+			payedFees = Collections.singleton(fee);
+		} else {
+			payedFees.add(fee);
 		}
-		payedFees.add(fee);
 	}
 }

@@ -11,7 +11,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import lombok.AllArgsConstructor;
-import robert.web.rest.svc.ErrorHandler;
+import robert.web.rest.controller.ErrorHandler;
 import robert.web.security.auth.filters.JwtFilter;
 
 @Configuration

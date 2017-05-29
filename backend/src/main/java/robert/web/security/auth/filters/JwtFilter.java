@@ -7,15 +7,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.Claims;
 import robert.exeptions.AuthException;
-import robert.web.request.data.UserDataProvider;
-import robert.web.request.data.UserDataProviderImpl;
+import robert.web.security.auth.JwtAuthenticationToken;
 import robert.web.security.auth.JwtUtils;
 
 @Component
@@ -34,13 +33,18 @@ public class JwtFilter extends OncePerRequestFilter {
 	private void validateUserToken(String authHeaderValue) {
 		try {
 			Claims userClaims = JwtUtils.getUserClaims(authHeaderValue);
-			UserDataProvider userDataProvider = new UserDataProviderImpl(userClaims);
-			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDataProvider, null, userDataProvider.getAuthorities());
 			SecurityContextHolder.getContext()
-					.setAuthentication(auth);
+					.setAuthentication(getAuthentication(userClaims));
 		} catch (Exception e) {
 			throw new AuthException("Invalid token.");
 		}
+	}
+
+	private Authentication getAuthentication(Claims userClaims) {
+		return new JwtAuthenticationToken( //
+				JwtUtils.getRoles(userClaims), //
+				JwtUtils.getUserEmail(userClaims), //
+				JwtUtils.getUserId(userClaims));
 	}
 
 }

@@ -1,8 +1,11 @@
 package robert.web.security.auth;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -41,5 +44,12 @@ public class JwtUtils {
 				.setIssuedAt(new Date())
 				.signWith(SignatureAlgorithm.HS256, KEY)
 				.compact();
+	}
+
+	public static Collection<SimpleGrantedAuthority> getRoles(Claims userClaims) {
+		if ( JwtUtils.isAdmin(userClaims) ) {
+			return Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		}
+		return Collections.emptySet();
 	}
 }

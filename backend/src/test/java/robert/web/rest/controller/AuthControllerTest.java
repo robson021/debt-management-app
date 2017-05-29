@@ -1,4 +1,4 @@
-package robert.web.rest.svc;
+package robert.web.rest.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

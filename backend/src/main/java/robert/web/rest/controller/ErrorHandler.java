@@ -1,4 +1,4 @@
-package robert.web.rest.svc;
+package robert.web.rest.controller;
 
 import java.io.IOException;
 import java.io.Serializable;

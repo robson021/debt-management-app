@@ -1,4 +1,4 @@
-package robert.web.rest.svc;
+package robert.web.rest.controller;
 
 import java.util.List;
 import java.util.Set;
@@ -18,7 +18,6 @@ import robert.db.DatabaseService;
 import robert.db.entities.Asset;
 import robert.db.entities.Fee;
 import robert.db.entities.MutualPayment;
-import robert.web.request.data.UserDataProvider;
 import robert.web.rest.dto.FeeDTO;
 import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
