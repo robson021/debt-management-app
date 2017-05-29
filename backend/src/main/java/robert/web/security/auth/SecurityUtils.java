@@ -6,8 +6,7 @@ public class SecurityUtils {
 
 	public static JwtAuthenticationToken getUserDetails() {
 		return (JwtAuthenticationToken) SecurityContextHolder.getContext()
-				.getAuthentication()
-				.getPrincipal();
+				.getAuthentication();
 	}
 
 }
