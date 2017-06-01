@@ -38,7 +38,8 @@ public class PaymentController {
 
 	@GetMapping("/my-debtors")
 	public List<PaymentDTO> getMyDebtors() {
-		Set<Asset> debtors = dbService.findUserDebtors(SecurityUtils.getUserDetails().getUserId());
+		List<Asset> debtors = dbService.findUserDebtors(SecurityUtils.getUserDetails()
+				.getUserId());
 		return PaymentAssembler.convertToPaymentDTOs(debtors);
 	}
 

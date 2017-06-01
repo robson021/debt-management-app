@@ -1,6 +1,6 @@
 package robert.db;
 
-import java.util.Set;
+import java.util.List;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.assertj.core.api.Assertions;
@@ -25,7 +25,7 @@ public class DatabaseServiceTest extends SpringTest {
 
 		dbService.addDebtor(lender.getId(), generatePayment(borrower));
 
-		Set<Asset> assets = dbService.findUserDebtors(lender.getId());
+		List<Asset> assets = dbService.findUserDebtors(lender.getId());
 		Assertions.assertThat(assets)
 				.hasSize(1);
 
@@ -49,7 +49,7 @@ public class DatabaseServiceTest extends SpringTest {
 		dbService.addDebtor(lender.getId(), generatePayment(borrower));
 		dbService.addDebtor(lender.getId(), generatePayment(borrower));
 
-		Set<Asset> debtors = dbService.findUserDebtors(lender.getId());
+		List<Asset> debtors = dbService.findUserDebtors(lender.getId());
 
 		Assertions.assertThat(debtors)
 				.hasSize(2);
@@ -80,6 +80,15 @@ public class DatabaseServiceTest extends SpringTest {
 		double debt = dbService.getMoneyBalanceWithOtherUser(lender.getId(), borrower.getId());
 		Assertions.assertThat(debt)
 				.isEqualTo(paymentDTO.getAmount());
+	}
+
+	@Test
+	public void findOtherUsersExceptGiven() {
+		User user = dbService.saveEntity(TestUtils.generateNewUser(), User.class);
+		List<User> otherUsers = dbService.findOtherUsersExceptGiven(user.getId());
+
+		Assertions.assertThat(otherUsers)
+				.doesNotContain(user);
 	}
 
 	private PaymentDTO generatePayment(User borrower) {

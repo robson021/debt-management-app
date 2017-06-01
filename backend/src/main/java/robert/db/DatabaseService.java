@@ -65,16 +65,17 @@ public class DatabaseService {
 	}
 
 	public List<Asset> findUserDebts(long borrowerId) {
-		List<Asset> debts = em.createQuery("from Asset a where a.borrowerId = :id", Asset.class)
+		List<Asset> debts = em.createQuery("from Asset a where a.borrowerId = :id order by a.user.surname", Asset.class)
 				.setParameter("id", borrowerId)
 				.getResultList();
 
 		return debts;
 	}
 
-	public Set<Asset> findUserDebtors(long userId) {
-		return userRepository.findOne(userId)
-				.getAssets();
+	public List<Asset> findUserDebtors(long userId) {
+		return em.createQuery("from Asset a where a.user.id = :id order by a.borrowerSurname", Asset.class)
+				.setParameter("id", userId)
+				.getResultList();
 	}
 
 	public void cancelDebt(long assetId, long userId) throws BadParameterException {
@@ -94,7 +95,7 @@ public class DatabaseService {
 	}
 
 	public List<User> findOtherUsersExceptGiven(long userId) {
-		return em.createQuery("from User u where u.id != :id", User.class)
+		return em.createQuery("from User u where u.id != :id order by u.surname", User.class)
 				.setParameter("id", userId)
 				.getResultList();
 	}
