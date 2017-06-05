@@ -65,11 +65,9 @@ public class DatabaseService {
 	}
 
 	public List<Asset> findUserDebts(long borrowerId) {
-		List<Asset> debts = em.createQuery("from Asset a where a.borrowerId = :id order by a.user.surname", Asset.class)
+		return em.createQuery("from Asset a where a.borrowerId = :id order by a.user.surname", Asset.class)
 				.setParameter("id", borrowerId)
 				.getResultList();
-
-		return debts;
 	}
 
 	public List<Asset> findUserDebtors(long userId) {
