@@ -1,4 +1,4 @@
-package robert.db;
+package robert.db.svc;
 
 import java.util.List;
 import java.util.Set;
@@ -29,7 +29,7 @@ import robert.web.rest.dto.asm.UserAssembler;
 @Service
 @Transactional
 @AllArgsConstructor
-public class DatabaseService {
+public class DatabaseService implements DbService {
 
 	private final UserRepository userRepository;
 
@@ -41,11 +41,13 @@ public class DatabaseService {
 
 	private final EntityManager em;
 
+	@Override
 	public <T> T saveEntity(BasicEntity entity, Class<T> castClass) {
 		BasicEntity saved = universalRepository.save(entity);
 		return castClass.cast(saved);
 	}
 
+	@Override
 	public void saveEntity(BasicEntity entity) {
 		universalRepository.save(entity);
 	}
@@ -56,26 +58,31 @@ public class DatabaseService {
 		userRepository.save(user);
 	}
 
+	@Override
 	public User findUserByEmail(String email) {
 		return userRepository.findOneByEmail(email);
 	}
 
+	@Override
 	public User findUserById(long id) {
 		return userRepository.findOne(id);
 	}
 
+	@Override
 	public List<Asset> findUserDebts(long borrowerId) {
 		return em.createQuery("from Asset a where a.borrowerId = :id order by a.user.surname", Asset.class)
 				.setParameter("id", borrowerId)
 				.getResultList();
 	}
 
+	@Override
 	public List<Asset> findUserDebtors(long userId) {
 		return em.createQuery("from Asset a where a.user.id = :id order by a.borrowerSurname", Asset.class)
 				.setParameter("id", userId)
 				.getResultList();
 	}
 
+	@Override
 	public void cancelDebt(long assetId, long userId) throws BadParameterException {
 		if ( !doesAssetBelongToUser(assetId, userId) )
 			throw new BadParameterException("User tried to cancel not his debt");
@@ -85,6 +92,7 @@ public class DatabaseService {
 				.executeUpdate();
 	}
 
+	@Override
 	public void addDebtor(long lenderId, PaymentDTO borrowerInfo) {
 		User lender = userRepository.findOne(lenderId);
 		Asset asset = PaymentAssembler.paymentDtoToAsset(borrowerInfo);
@@ -92,17 +100,20 @@ public class DatabaseService {
 		assetRepository.save(asset);
 	}
 
+	@Override
 	public List<User> findOtherUsersExceptGiven(long userId) {
 		return em.createQuery("from User u where u.id != :id order by u.surname", User.class)
 				.setParameter("id", userId)
 				.getResultList();
 	}
 
+	@Override
 	public void addMutualPayment(PaymentDTO paymentDTO) {
 		MutualPayment payment = PaymentAssembler.convertMutualPaymentDTO(paymentDTO);
 		mutualPaymentRepository.save(payment);
 	}
 
+	@Override
 	public void addUserFeeToPayment(long userId, long mutualPaymentId, double feeAmount) {
 		MutualPayment mutualPayment = mutualPaymentRepository.findOne(mutualPaymentId);
 		Fee fee = new Fee();
@@ -114,15 +125,18 @@ public class DatabaseService {
 		mutualPaymentRepository.save(mutualPayment);
 	}
 
+	@Override
 	public Set<Fee> getFeesForMutualPayment(long mpaymentId) {
 		MutualPayment mutualPayment = mutualPaymentRepository.findOne(mpaymentId);
 		return mutualPayment.getPayedFees();
 	}
 
+	@Override
 	public List<MutualPayment> getAllMutualPayments() {
 		return mutualPaymentRepository.findAll();
 	}
 
+	@Override
 	public void deleteUserFees(long userId, long mutualPaymentId) {
 		em.createQuery("delete from Fee f where f.user.id = :uid and f.mutualPayment.id = :pid")
 				.setParameter("uid", userId)
@@ -130,6 +144,7 @@ public class DatabaseService {
 				.executeUpdate();
 	}
 
+	@Override
 	public void deleteMutualPayment(long mutualPaymentId) {
 		em.createQuery("delete from Fee f where f.mutualPayment.id = :pid")
 				.setParameter("pid", mutualPaymentId)
@@ -138,6 +153,7 @@ public class DatabaseService {
 		mutualPaymentRepository.delete(mutualPaymentId);
 	}
 
+	@Override
 	public double getUserDebtBalance(long userId) {
 		Double debtorsSum = em.createQuery("select sum(amount) from Asset a where a.user.id = :id", Double.class)
 				.setParameter("id", userId)
@@ -150,6 +166,7 @@ public class DatabaseService {
 		return getDifference(debtorsSum, userSum);
 	}
 
+	@Override
 	public double getMoneyBalanceWithOtherUser(long userId, long otherUserId) {
 		String query = "select sum(amount) from Asset a where a.user.id = :id1 and borrowerId = :id2";
 

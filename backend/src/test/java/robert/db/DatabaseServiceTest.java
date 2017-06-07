@@ -11,12 +11,13 @@ import robert.SpringTest;
 import robert.TestUtils;
 import robert.db.entities.Asset;
 import robert.db.entities.User;
+import robert.db.svc.DbService;
 import robert.web.rest.dto.PaymentDTO;
 
 public class DatabaseServiceTest extends SpringTest {
 
 	@Autowired
-	private DatabaseService dbService;
+	private DbService dbService;
 
 	@Test
 	public void cancelDebt() throws Exception {

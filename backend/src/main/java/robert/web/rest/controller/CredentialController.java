@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
-import robert.db.DatabaseService;
 import robert.db.entities.User;
+import robert.db.svc.DbService;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.UserAssembler;
 import robert.web.security.auth.SecurityUtils;
@@ -18,11 +18,12 @@ import robert.web.security.auth.SecurityUtils;
 @AllArgsConstructor
 public class CredentialController {
 
-	private final DatabaseService dbService;
+	private final DbService dbService;
 
 	@GetMapping("/other-users")
 	public List<UserInfoDTO> getOtherUsersDetails() {
-		List<User> users = dbService.findOtherUsersExceptGiven(SecurityUtils.getUserDetails().getUserId());
+		List<User> users = dbService.findOtherUsersExceptGiven(SecurityUtils.getUserDetails()
+				.getUserId());
 		return UserAssembler.convertToUserInfoDTOs(users);
 	}
 

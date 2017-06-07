@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
-import robert.db.DatabaseService;
 import robert.db.entities.User;
+import robert.db.svc.DbService;
 import robert.exeptions.AuthException;
 import robert.web.rest.dto.SimpleMessageDTO;
 import robert.web.rest.dto.UserInfoDTO;
@@ -26,7 +26,7 @@ public class AuthController {
 
 	private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
-	private final DatabaseService dbService;
+	private final DbService dbService;
 
 	@PostMapping("/register")
 	@ResponseStatus(HttpStatus.OK)
@@ -44,7 +44,8 @@ public class AuthController {
 
 	@GetMapping("/am-i-logged-in")
 	public HttpStatus validateToken() {
-		if ( SecurityUtils.getUserDetails().getUserId() > 0 ) {
+		if ( SecurityUtils.getUserDetails()
+				.getUserId() > 0 ) {
 			return HttpStatus.OK;
 		}
 		throw new AuthException("Token is not valid");

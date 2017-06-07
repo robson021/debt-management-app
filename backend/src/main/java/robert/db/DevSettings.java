@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
 import robert.db.entities.User;
+import robert.db.svc.DbService;
 import robert.web.rest.dto.PaymentDTO;
 
 @Profile("dev")
@@ -19,7 +20,7 @@ import robert.web.rest.dto.PaymentDTO;
 @AllArgsConstructor
 public class DevSettings implements CommandLineRunner {
 
-	private final DatabaseService databaseService;
+	private final DbService databaseService;
 
 	@Override
 	public void run(String... strings) throws Exception {
