@@ -65,9 +65,9 @@ public class PaymentController {
 	}
 
 	@PostMapping("/add-fee/{id}/{amount}/")
-	public HttpStatus addFeeToMutualPayment(@PathVariable long paymentId, @PathVariable double fee) {
+	public HttpStatus addFeeToMutualPayment(@PathVariable long id, @PathVariable double amount) {
 		dbService.addUserFeeToPayment(SecurityUtils.getUserDetails()
-				.getUserId(), paymentId, fee);
+				.getUserId(), id, amount);
 		return HttpStatus.OK;
 	}
 
@@ -84,15 +84,15 @@ public class PaymentController {
 	}
 
 	@DeleteMapping("/delete-my-fees/{id}/")
-	public HttpStatus deleteMyFees(@PathVariable long paymentId) {
+	public HttpStatus deleteMyFees(@PathVariable long id) {
 		dbService.deleteUserFees(SecurityUtils.getUserDetails()
-				.getUserId(), paymentId);
+				.getUserId(), id);
 		return HttpStatus.OK;
 	}
 
 	@DeleteMapping("/delete-mutual-payment/{id}/")
-	public HttpStatus deleteMutualPayment(@PathVariable long mutualPayment) {
-		dbService.deleteMutualPayment(mutualPayment);
+	public HttpStatus deleteMutualPayment(@PathVariable long id) {
+		dbService.deleteMutualPayment(id);
 		return HttpStatus.OK;
 	}
 
