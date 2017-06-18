@@ -1,6 +1,5 @@
 package robert.db.entities;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -41,12 +40,9 @@ public class User extends BasicEntity {
 	private Set<Fee> fees;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private Set<Asset> assets = null;
+	private Set<Asset> assets;
 
 	public void addAsset(Asset asset) {
-		if ( this.assets == null ) {
-			this.assets = new HashSet<>(4);
-		}
 		this.assets.add(asset);
 	}
 
