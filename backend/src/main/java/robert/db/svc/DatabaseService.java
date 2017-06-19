@@ -109,7 +109,7 @@ public class DatabaseService implements DbService {
 	}
 
 	@Override
-	@Cacheable("users")
+	@Cacheable("otherUsers")
 	public List<User> findOtherUsersExceptGiven(long userId) {
 		return em.createQuery("from User u where u.id != :id order by u.surname", User.class)
 				.setParameter("id", userId)
