@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.AllArgsConstructor;
 import robert.db.entities.Asset;
 import robert.db.entities.Fee;
 import robert.db.entities.MutualPayment;
@@ -25,10 +24,13 @@ import robert.web.security.auth.SecurityUtils;
 
 @RestController
 @RequestMapping("/payments")
-@AllArgsConstructor
 public class PaymentController {
 
 	private final DbService dbService;
+
+	public PaymentController(DbService dbService) {
+		this.dbService = dbService;
+	}
 
 	@PostMapping("/add-assets-to-user")
 	@ResponseStatus(HttpStatus.OK)

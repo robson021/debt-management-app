@@ -7,20 +7,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import lombok.Getter;
-
 @MappedSuperclass
 public abstract class BasicEntity {
 
 	@Id
 	@GeneratedValue
 	@Column(name = "ID")
-	@Getter
 	private Long id;
 
 	@Column
 	private String uuid = UUID.randomUUID()
 			.toString();
+
+	public Long getId() {
+		return id;
+	}
 
 	@Override
 	public boolean equals(Object o) {

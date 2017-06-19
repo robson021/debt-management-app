@@ -8,22 +8,23 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
-import lombok.AllArgsConstructor;
 import robert.web.rest.controller.ErrorHandler;
 import robert.web.security.auth.filters.JwtFilter;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@CrossOrigin(origins = "*")
-@AllArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final JwtFilter jwtFilter;
 
 	private final ErrorHandler errorHandler;
+
+	public WebSecurityConfig(JwtFilter jwtFilter, ErrorHandler errorHandler) {
+		this.jwtFilter = jwtFilter;
+		this.errorHandler = errorHandler;
+	}
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {

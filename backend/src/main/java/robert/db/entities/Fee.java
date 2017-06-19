@@ -7,13 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Entity
 @Table(name = "FEE")
-@Getter
-@Setter
 public class Fee extends BasicEntity {
 
 	@Column(nullable = false)
@@ -26,4 +21,28 @@ public class Fee extends BasicEntity {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "MUTUAL_PAYMENT_ID")
 	private MutualPayment mutualPayment;
+
+	public Double getPayedFee() {
+		return payedFee;
+	}
+
+	public void setPayedFee(Double payedFee) {
+		this.payedFee = payedFee;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public MutualPayment getMutualPayment() {
+		return mutualPayment;
+	}
+
+	public void setMutualPayment(MutualPayment mutualPayment) {
+		this.mutualPayment = mutualPayment;
+	}
 }

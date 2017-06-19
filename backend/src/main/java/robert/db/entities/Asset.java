@@ -10,13 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Entity
 @Table(name = "ASSET")
-@Getter
-@Setter
 public class Asset extends BasicEntity {
 
 	@Transient
@@ -52,5 +47,57 @@ public class Asset extends BasicEntity {
 		String formatted = decimalMoneyFormat.format(amount)
 				.replace(',', '.');
 		this.amount = Double.valueOf(formatted);
+	}
+
+	public static DecimalFormat getDecimalMoneyFormat() {
+		return decimalMoneyFormat;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getBorrowerEmail() {
+		return borrowerEmail;
+	}
+
+	public void setBorrowerEmail(String borrowerEmail) {
+		this.borrowerEmail = borrowerEmail;
+	}
+
+	public String getBorrowerName() {
+		return borrowerName;
+	}
+
+	public void setBorrowerName(String borrowerName) {
+		this.borrowerName = borrowerName;
+	}
+
+	public String getBorrowerSurname() {
+		return borrowerSurname;
+	}
+
+	public void setBorrowerSurname(String borrowerSurname) {
+		this.borrowerSurname = borrowerSurname;
+	}
+
+	public Long getBorrowerId() {
+		return borrowerId;
+	}
+
+	public void setBorrowerId(Long borrowerId) {
+		this.borrowerId = borrowerId;
 	}
 }

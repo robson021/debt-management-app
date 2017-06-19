@@ -10,17 +10,19 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import lombok.AllArgsConstructor;
 import robert.db.entities.User;
 import robert.db.svc.DbService;
 import robert.web.rest.dto.PaymentDTO;
 
 @Profile("dev")
 @Component
-@AllArgsConstructor
 public class DevSettings implements CommandLineRunner {
 
 	private final DbService databaseService;
+
+	public DevSettings(DbService databaseService) {
+		this.databaseService = databaseService;
+	}
 
 	@Override
 	public void run(String... strings) throws Exception {

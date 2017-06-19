@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.AllArgsConstructor;
 import robert.db.entities.Asset;
 import robert.db.entities.BasicEntity;
 import robert.db.entities.Fee;
@@ -28,7 +27,6 @@ import robert.web.rest.dto.asm.UserAssembler;
 
 @Service
 @Transactional
-@AllArgsConstructor
 public class DatabaseService implements DbService {
 
 	private final UserRepository userRepository;
@@ -40,6 +38,15 @@ public class DatabaseService implements DbService {
 	private final MutualPaymentRepository mutualPaymentRepository;
 
 	private final EntityManager em;
+
+	public DatabaseService(UserRepository userRepository, AssetRepository assetRepository, UniversalRepository universalRepository,
+			MutualPaymentRepository mutualPaymentRepository, EntityManager em) {
+		this.userRepository = userRepository;
+		this.assetRepository = assetRepository;
+		this.universalRepository = universalRepository;
+		this.mutualPaymentRepository = mutualPaymentRepository;
+		this.em = em;
+	}
 
 	@Override
 	public <T> T saveEntity(BasicEntity entity, Class<T> castClass) {
