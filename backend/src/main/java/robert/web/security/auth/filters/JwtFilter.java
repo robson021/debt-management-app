@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.Claims;
@@ -17,7 +16,6 @@ import robert.exeptions.AuthException;
 import robert.web.security.auth.JwtAuthenticationToken;
 import robert.web.security.auth.JwtUtils;
 
-@Component
 public class JwtFilter extends OncePerRequestFilter {
 
 	@Override
