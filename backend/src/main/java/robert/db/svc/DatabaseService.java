@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -108,6 +109,7 @@ public class DatabaseService implements DbService {
 	}
 
 	@Override
+	@Cacheable("users")
 	public List<User> findOtherUsersExceptGiven(long userId) {
 		return em.createQuery("from User u where u.id != :id order by u.surname", User.class)
 				.setParameter("id", userId)
