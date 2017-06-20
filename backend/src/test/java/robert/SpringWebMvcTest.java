@@ -1,5 +1,6 @@
 package robert;
 
+import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -11,6 +12,11 @@ public abstract class SpringWebMvcTest extends SpringTest {
 	private WebApplicationContext wac;
 
 	protected MockMvc mockMvc;
+
+	@Before
+	public void init() throws Exception {
+		this.initMockMvc();
+	}
 
 	protected void initMockMvc() throws Exception {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)

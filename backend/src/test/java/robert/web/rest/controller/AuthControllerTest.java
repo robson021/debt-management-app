@@ -4,7 +4,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -22,11 +21,6 @@ public class AuthControllerTest extends SpringWebMvcTest {
 
 	@Autowired
 	private UserRepository userRepository;
-
-	@Before
-	public void setup() throws Exception {
-		initMockMvc();
-	}
 
 	@Test
 	public void registerNewUser() throws Exception {

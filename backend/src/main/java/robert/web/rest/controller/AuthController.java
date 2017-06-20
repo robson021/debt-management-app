@@ -16,7 +16,7 @@ import robert.exeptions.AuthException;
 import robert.web.rest.dto.SimpleMessageDTO;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.security.auth.JwtUtils;
-import robert.web.security.auth.SecurityUtils;
+import robert.web.svc.UserInfoProvider;
 
 @RestController
 @RequestMapping("/auth")
@@ -26,8 +26,11 @@ public class AuthController {
 
 	private final DbService dbService;
 
-	public AuthController(DbService dbService) {
+	private final UserInfoProvider userInfoProvider;
+
+	public AuthController(DbService dbService, UserInfoProvider userInfoProvider) {
 		this.dbService = dbService;
+		this.userInfoProvider = userInfoProvider;
 	}
 
 	@PostMapping("/register")
@@ -46,7 +49,7 @@ public class AuthController {
 
 	@GetMapping("/am-i-logged-in")
 	public HttpStatus validateToken() {
-		if ( SecurityUtils.getUserDetails()
+		if ( userInfoProvider.getUserDetails()
 				.getUserId() > 0 ) {
 			return HttpStatus.OK;
 		}
