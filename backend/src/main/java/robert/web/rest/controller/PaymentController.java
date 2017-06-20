@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import robert.db.entities.Asset;
 import robert.db.entities.Fee;
 import robert.db.entities.MutualPayment;
-import robert.db.svc.DbService;
+import robert.db.svc.DatabaseService;
 import robert.web.rest.dto.FeeDTO;
 import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
@@ -26,90 +26,90 @@ import robert.web.svc.UserInfoProvider;
 @RequestMapping("/payments")
 public class PaymentController {
 
-	private final DbService dbService;
+	private final DatabaseService databaseService;
 
 	private final UserInfoProvider userInfoProvider;
 
-	public PaymentController(DbService dbService, UserInfoProvider userInfoProvider) {
-		this.dbService = dbService;
+	public PaymentController(DatabaseService databaseService, UserInfoProvider userInfoProvider) {
+		this.databaseService = databaseService;
 		this.userInfoProvider = userInfoProvider;
 	}
 
 	@PostMapping("/add-assets-to-user")
 	@ResponseStatus(HttpStatus.OK)
 	public void addAssetToTheUser(@RequestBody PaymentDTO borrowerInfo) {
-		dbService.addDebtor(userInfoProvider.getUserDetails()
+		databaseService.addDebtor(userInfoProvider.getUserDetails()
 				.getUserId(), borrowerInfo);
 	}
 
 	@GetMapping("/my-debtors")
 	public List<PaymentDTO> getMyDebtors() {
-		List<Asset> debtors = dbService.findUserDebtors(userInfoProvider.getUserDetails()
+		List<Asset> debtors = databaseService.findUserDebtors(userInfoProvider.getUserDetails()
 				.getUserId());
 		return PaymentAssembler.convertToPaymentDTOs(debtors);
 	}
 
 	@GetMapping("/my-debts")
 	public List<PaymentDTO> getMyDebts() {
-		List<Asset> userDebts = dbService.findUserDebts(userInfoProvider.getUserDetails()
+		List<Asset> userDebts = databaseService.findUserDebts(userInfoProvider.getUserDetails()
 				.getUserId());
 		return PaymentAssembler.convertToPaymentDTOs(userDebts);
 	}
 
 	@DeleteMapping("/cancel-debt/{id}/")
 	public HttpStatus cancelDebt(@PathVariable long id) {
-		dbService.cancelDebt(id, userInfoProvider.getUserDetails()
+		databaseService.cancelDebt(id, userInfoProvider.getUserDetails()
 				.getUserId());
 		return HttpStatus.OK;
 	}
 
 	@PostMapping("/add-mutual-payment")
 	public HttpStatus addNewMutualPayment(@RequestBody PaymentDTO paymentDTO) {
-		dbService.addMutualPayment(paymentDTO);
+		databaseService.addMutualPayment(paymentDTO);
 		return HttpStatus.OK;
 	}
 
 	@PostMapping("/add-fee/{id}/{amount}/")
 	public HttpStatus addFeeToMutualPayment(@PathVariable long id, @PathVariable double amount) {
-		dbService.addUserFeeToPayment(userInfoProvider.getUserDetails()
+		databaseService.addUserFeeToPayment(userInfoProvider.getUserDetails()
 				.getUserId(), id, amount);
 		return HttpStatus.OK;
 	}
 
 	@GetMapping("/mutual-payment-fees/{id}/")
 	public List<FeeDTO> getFeesOfMutualPayment(@PathVariable long id) {
-		Set<Fee> fees = dbService.getFeesForMutualPayment(id);
+		Set<Fee> fees = databaseService.getFeesForMutualPayment(id);
 		return PaymentAssembler.convertFeesToDTOs(fees);
 	}
 
 	@GetMapping("/mutual-payments")
 	public List<PaymentDTO> getAllMutualPayments() {
-		List<MutualPayment> allMutualPayments = dbService.getAllMutualPayments();
+		List<MutualPayment> allMutualPayments = databaseService.getAllMutualPayments();
 		return PaymentAssembler.convertToMutualPaymentDTO(allMutualPayments);
 	}
 
 	@DeleteMapping("/delete-my-fees/{id}/")
 	public HttpStatus deleteMyFees(@PathVariable long id) {
-		dbService.deleteUserFees(userInfoProvider.getUserDetails()
+		databaseService.deleteUserFees(userInfoProvider.getUserDetails()
 				.getUserId(), id);
 		return HttpStatus.OK;
 	}
 
 	@DeleteMapping("/delete-mutual-payment/{id}/")
 	public HttpStatus deleteMutualPayment(@PathVariable long id) {
-		dbService.deleteMutualPayment(id);
+		databaseService.deleteMutualPayment(id);
 		return HttpStatus.OK;
 	}
 
 	@GetMapping("/money-balance")
 	public double getMoneyBalance() {
-		return dbService.getUserDebtBalance(userInfoProvider.getUserDetails()
+		return databaseService.getUserDebtBalance(userInfoProvider.getUserDetails()
 				.getUserId());
 	}
 
 	@GetMapping("/money-balance-with-other-user/{id}/")
 	public double getMoneyBalanceWithOtherUser(@PathVariable long id) {
-		return dbService.getMoneyBalanceWithOtherUser(userInfoProvider.getUserDetails()
+		return databaseService.getMoneyBalanceWithOtherUser(userInfoProvider.getUserDetails()
 				.getUserId(), id);
 	}
 

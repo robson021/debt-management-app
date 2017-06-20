@@ -11,16 +11,16 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import robert.db.entities.User;
-import robert.db.svc.DbService;
+import robert.db.svc.DatabaseService;
 import robert.web.rest.dto.PaymentDTO;
 
 @Profile("dev")
 @Component
 public class DevSettings implements CommandLineRunner {
 
-	private final DbService databaseService;
+	private final DatabaseService databaseService;
 
-	public DevSettings(DbService databaseService) {
+	public DevSettings(DatabaseService databaseService) {
 		this.databaseService = databaseService;
 	}
 

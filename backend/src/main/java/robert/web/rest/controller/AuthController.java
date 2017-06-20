@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import robert.db.entities.User;
-import robert.db.svc.DbService;
+import robert.db.svc.DatabaseService;
 import robert.exeptions.AuthException;
 import robert.web.rest.dto.SimpleMessageDTO;
 import robert.web.rest.dto.UserInfoDTO;
@@ -24,19 +24,19 @@ public class AuthController {
 
 	private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
-	private final DbService dbService;
+	private final DatabaseService databaseService;
 
 	private final UserInfoProvider userInfoProvider;
 
-	public AuthController(DbService dbService, UserInfoProvider userInfoProvider) {
-		this.dbService = dbService;
+	public AuthController(DatabaseService databaseService, UserInfoProvider userInfoProvider) {
+		this.databaseService = databaseService;
 		this.userInfoProvider = userInfoProvider;
 	}
 
 	@PostMapping("/register")
 	@ResponseStatus(HttpStatus.OK)
 	public void registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
-		dbService.saveNewUser(userDTO);
+		databaseService.saveNewUser(userDTO);
 		log.info("Registered new user:", userDTO);
 	}
 
@@ -57,7 +57,7 @@ public class AuthController {
 	}
 
 	private String tryToLogUserIn(UserInfoDTO user) {
-		User u = dbService.findUserByEmail(user.getEmail());
+		User u = databaseService.findUserByEmail(user.getEmail());
 		if ( !u.getPassword()
 				.equals(user.getPassword()) )
 			throw new AuthException("Passwords do not match");
