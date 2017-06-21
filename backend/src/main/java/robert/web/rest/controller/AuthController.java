@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,14 +34,21 @@ public class AuthController {
 
 	private final UserInfoProvider userInfoProvider;
 
-	public AuthController(DatabaseService databaseService, UserInfoProvider userInfoProvider) {
+	private final boolean isRegistrationEnabled;
+
+	public AuthController(DatabaseService databaseService, UserInfoProvider userInfoProvider, @Value("${robert.registrationEnabled}")String registration) {
 		this.databaseService = databaseService;
 		this.userInfoProvider = userInfoProvider;
+		this.isRegistrationEnabled = Boolean.parseBoolean(registration);
+		log.info("Is registration enabled? - {}", isRegistrationEnabled);
 	}
 
 	@PostMapping("/register")
 	@ResponseStatus(HttpStatus.OK)
 	public void registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
+		if (!isRegistrationEnabled) {
+			throw new RuntimeException("Registration is currently disabled");
+		}
 		databaseService.saveNewUser(userDTO);
 		log.info("Registered new user:", userDTO);
 	}
