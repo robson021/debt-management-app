@@ -32,13 +32,13 @@ public class JwtFilter extends OncePerRequestFilter {
 		try {
 			Claims userClaims = JwtUtils.getUserClaims(authHeaderValue);
 			SecurityContextHolder.getContext()
-					.setAuthentication(getAuthentication(userClaims));
+					.setAuthentication(generateAuthentication(userClaims));
 		} catch (Exception e) {
 			throw new AuthException("Invalid token.");
 		}
 	}
 
-	private Authentication getAuthentication(Claims userClaims) {
+	private Authentication generateAuthentication(Claims userClaims) {
 		return new JwtAuthenticationToken( //
 				JwtUtils.getRoles(userClaims), //
 				JwtUtils.getUserEmail(userClaims), //

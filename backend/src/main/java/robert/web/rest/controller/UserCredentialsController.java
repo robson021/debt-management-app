@@ -14,13 +14,13 @@ import robert.web.svc.UserInfoProvider;
 
 @RestController
 @RequestMapping("/credentials")
-public class CredentialController {
+public class UserCredentialsController {
 
 	private final DatabaseService databaseService;
 
 	private final UserInfoProvider userInfoProvider;
 
-	public CredentialController(DatabaseService databaseService, UserInfoProvider userInfoProvider) {
+	public UserCredentialsController(DatabaseService databaseService, UserInfoProvider userInfoProvider) {
 		this.databaseService = databaseService;
 		this.userInfoProvider = userInfoProvider;
 	}

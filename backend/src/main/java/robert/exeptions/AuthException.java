@@ -1,12 +1,6 @@
 package robert.exeptions;
 
-import org.springframework.security.core.AuthenticationException;
-
-public class AuthException extends AuthenticationException {
-
-	public AuthException(String msg, Throwable t) {
-		super(msg, t);
-	}
+public class AuthException extends RuntimeException {
 
 	public AuthException(String msg) {
 		super(msg);

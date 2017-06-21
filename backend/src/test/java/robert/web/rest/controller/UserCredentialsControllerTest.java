@@ -16,7 +16,7 @@ import robert.db.svc.DatabaseService;
 import robert.web.security.auth.JwtAuthenticationToken;
 import robert.web.svc.UserInfoProvider;
 
-public class CredentialControllerTest extends SpringWebMvcTest {
+public class UserCredentialsControllerTest extends SpringWebMvcTest {
 
 	@Autowired
 	private DatabaseService databaseService;

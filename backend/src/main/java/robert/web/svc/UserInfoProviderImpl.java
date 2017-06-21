@@ -1,5 +1,6 @@
 package robert.web.svc;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -10,8 +11,13 @@ public class UserInfoProviderImpl implements UserInfoProvider {
 
 	@Override
 	public JwtAuthenticationToken getUserDetails() {
-		return (JwtAuthenticationToken) SecurityContextHolder //
+		Authentication authentication = SecurityContextHolder //
 				.getContext()
 				.getAuthentication();
+		try {
+			return (JwtAuthenticationToken) authentication;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }
