@@ -1,4 +1,4 @@
-package robert;
+package robert.tools;
 
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;

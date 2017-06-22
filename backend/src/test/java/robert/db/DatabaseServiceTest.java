@@ -7,14 +7,14 @@ import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import robert.SpringTest;
-import robert.TestUtils;
 import robert.db.entities.Asset;
 import robert.db.entities.User;
 import robert.db.svc.DatabaseService;
+import robert.tools.SpringTest;
+import robert.tools.TestUtils;
 import robert.web.rest.dto.PaymentDTO;
 
-public class DatabaseServiceImplTest extends SpringTest {
+public class DatabaseServiceTest extends SpringTest {
 
 	@Autowired
 	private DatabaseService databaseService;

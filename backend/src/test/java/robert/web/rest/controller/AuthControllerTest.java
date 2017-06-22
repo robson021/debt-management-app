@@ -10,10 +10,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
 import io.jsonwebtoken.Claims;
-import robert.SpringWebMvcTest;
-import robert.TestUtils;
 import robert.db.entities.User;
 import robert.db.repo.UserRepository;
+import robert.tools.SpringWebMvcTest;
+import robert.tools.TestUtils;
 import robert.web.rest.dto.SimpleMessageDTO;
 import robert.web.security.auth.JwtUtils;
 

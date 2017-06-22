@@ -9,10 +9,10 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import robert.SpringWebMvcTest;
-import robert.TestUtils;
 import robert.db.entities.User;
 import robert.db.svc.DatabaseService;
+import robert.tools.SpringWebMvcTest;
+import robert.tools.TestUtils;
 import robert.web.security.auth.JwtAuthenticationToken;
 import robert.web.svc.UserInfoProvider;
 

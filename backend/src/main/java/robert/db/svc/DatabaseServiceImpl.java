@@ -50,9 +50,9 @@ public class DatabaseServiceImpl implements DatabaseService {
 	}
 
 	@Override
-	public <T> T saveEntity(BasicEntity entity, Class<T> castClass) {
+	public <T> T saveEntity(BasicEntity entity, Class<T> entityClass) {
 		BasicEntity saved = universalRepository.save(entity);
-		return castClass.cast(saved);
+		return entityClass.cast(saved);
 	}
 
 	@Override

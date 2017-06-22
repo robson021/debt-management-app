@@ -1,4 +1,4 @@
-package robert;
+package robert.tools;
 
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
