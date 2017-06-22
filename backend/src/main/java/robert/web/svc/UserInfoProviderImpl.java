@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import robert.web.security.auth.JwtAuthenticationToken;
 
 @Component
-public class UserInfoProviderImpl implements UserInfoProvider {
+public final class UserInfoProviderImpl implements UserInfoProvider {
 
 	@Override
 	public JwtAuthenticationToken getUserDetails() {

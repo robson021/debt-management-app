@@ -1,8 +1,8 @@
 package robert.web.security.auth;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,7 +12,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import robert.db.entities.User;
 
-public class JwtUtils {
+public abstract class JwtUtils {
 
 	public static final String KEY = RandomStringUtils.randomAlphanumeric(16);
 
@@ -21,14 +21,6 @@ public class JwtUtils {
 				.setSigningKey(KEY)
 				.parseClaimsJws(authHeaderValue.substring(7)) // get the part after "Bearer "
 				.getBody();
-	}
-
-	public static Long getUserId(Claims claims) {
-		return Long.parseLong(claims.getId());
-	}
-
-	public static String getUserEmail(Claims claims) {
-		return claims.getSubject();
 	}
 
 	public static String generateToken(User user) {
@@ -41,7 +33,15 @@ public class JwtUtils {
 				.compact();
 	}
 
-	public static Collection<SimpleGrantedAuthority> getRoles(Claims userClaims) {
+	public static Long getUserId(Claims claims) {
+		return Long.parseLong(claims.getId());
+	}
+
+	public static String getUserEmail(Claims claims) {
+		return claims.getSubject();
+	}
+
+	public static Set<SimpleGrantedAuthority> getRoles(Claims userClaims) {
 		if ( JwtUtils.isAdmin(userClaims) ) {
 			return Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		}

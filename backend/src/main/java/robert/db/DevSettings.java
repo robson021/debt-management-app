@@ -5,8 +5,9 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,7 @@ import robert.web.rest.dto.PaymentDTO;
 
 @Profile("dev")
 @Component
-public class DevSettings implements CommandLineRunner {
+public class DevSettings {
 
 	private final DatabaseService databaseService;
 
@@ -24,8 +25,8 @@ public class DevSettings implements CommandLineRunner {
 		this.databaseService = databaseService;
 	}
 
-	@Override
-	public void run(String... strings) throws Exception {
+	@PostConstruct
+	public void init() throws Exception {
 		String testUserEmail = "test@t.pl";
 		User user = new User();
 		user.setEmail(testUserEmail);

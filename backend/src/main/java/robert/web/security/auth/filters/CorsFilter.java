@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile("dev")
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class CorsFilter implements Filter {
+public final class CorsFilter implements Filter {
 
 
 	@Override

@@ -16,7 +16,7 @@ import robert.exeptions.AuthException;
 import robert.web.security.auth.JwtAuthenticationToken;
 import robert.web.security.auth.JwtUtils;
 
-public class JwtFilter extends OncePerRequestFilter {
+public final class JwtFilter extends OncePerRequestFilter {
 
 	@Override
 	public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
