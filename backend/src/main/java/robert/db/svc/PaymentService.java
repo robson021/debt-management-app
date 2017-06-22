@@ -4,23 +4,11 @@ import java.util.List;
 import java.util.Set;
 
 import robert.db.entities.Asset;
-import robert.db.entities.BasicEntity;
 import robert.db.entities.Fee;
 import robert.db.entities.MutualPayment;
-import robert.db.entities.User;
 import robert.web.rest.dto.PaymentDTO;
-import robert.web.rest.dto.UserInfoDTO;
 
-public interface DatabaseService {
-	<T> T saveEntity(BasicEntity entity, Class<T> castClass);
-
-	BasicEntity saveEntity(BasicEntity entity);
-
-	void saveNewUser(UserInfoDTO userDTO);
-
-	User findUserByEmail(String email);
-
-	User findUserById(long id);
+public interface PaymentService {
 
 	List<Asset> findUserDebts(long borrowerId);
 
@@ -29,8 +17,6 @@ public interface DatabaseService {
 	void cancelDebt(long assetId, long userId);
 
 	void addDebtor(long lenderId, PaymentDTO borrowerInfo);
-
-	List<User> findOtherUsersExceptGiven(long userId);
 
 	void addMutualPayment(PaymentDTO paymentDTO);
 
