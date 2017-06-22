@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "USER")
@@ -21,9 +22,11 @@ public class User extends BasicEntity {
 	private String surname;
 
 	@Column(name = "EMAIL", unique = true, nullable = false)
+	@Pattern(regexp = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,6}$")
 	private String email;
 
 	@Column(nullable = false)
+	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$")
 	private String password;
 
 	@Column

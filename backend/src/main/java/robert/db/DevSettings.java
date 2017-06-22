@@ -1,9 +1,8 @@
 package robert.db;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 
@@ -12,17 +11,21 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import robert.db.entities.User;
-import robert.db.svc.DatabaseService;
+import robert.db.svc.api.PaymentService;
+import robert.db.svc.api.UserService;
 import robert.web.rest.dto.PaymentDTO;
 
 @Profile("dev")
 @Component
 public class DevSettings {
 
-	private final DatabaseService databaseService;
+	private final UserService userService;
 
-	public DevSettings(DatabaseService databaseService) {
-		this.databaseService = databaseService;
+	private final PaymentService paymentService;
+
+	public DevSettings(UserService userService, PaymentService paymentService) {
+		this.userService = userService;
+		this.paymentService = paymentService;
 	}
 
 	@PostConstruct
@@ -34,29 +37,28 @@ public class DevSettings {
 		user.setSurname("User");
 		user.setPassword("Passwd.123");
 
-		List<User> users = Stream.of(new User(), new User(), new User(), new User())
-				.collect(Collectors.toList());
+		List<User> users = Arrays.asList(new User(), new User(), new User(), new User());
 
 		users.forEach(u -> {
-			u.setEmail("user@mail." + RandomStringUtils.randomAlphabetic(3));
+			u.setEmail("user@mail." + RandomStringUtils.randomAlphabetic(3)
+					.toLowerCase());
 			u.setName(RandomStringUtils.randomAlphabetic(6));
 			u.setSurname(RandomStringUtils.randomAlphabetic(6));
-			u.setPassword("P.1" + RandomStringUtils.randomAlphanumeric(4));
+			u.setPassword("P.1" + RandomStringUtils.randomAlphanumeric(7));
 		});
 		users.add(user);
 
 		users.forEach(u -> {
 			u.setAccountNo(RandomStringUtils.randomNumeric(12));
 			System.out.println(u);
-			databaseService.saveEntity(u);
+			userService.saveNewUser(u);
 		});
 
-		Long id = databaseService.findUserByEmail(testUserEmail)
+		Long id = userService.findUserByEmail(testUserEmail)
 				.getId();
-		User borrower = databaseService.findUserById(id - 1);
+		User borrower = userService.findUserById(id - 1);
 
-		List<PaymentDTO> payments = Stream.of(new PaymentDTO(), new PaymentDTO())
-				.collect(Collectors.toList());
+		List<PaymentDTO> payments = Arrays.asList(new PaymentDTO(), new PaymentDTO());
 
 		payments.forEach(p -> {
 			p.setAmount(new Random().nextDouble() * 150);
@@ -64,7 +66,7 @@ public class DevSettings {
 			p.setBorrowerSurname(borrower.getSurname());
 			p.setBorrowerName(borrower.getName());
 			p.setBorrowerId(borrower.getId());
-			databaseService.addDebtor(id, p);
+			paymentService.addDebtor(id, p);
 		});
 	}
 }

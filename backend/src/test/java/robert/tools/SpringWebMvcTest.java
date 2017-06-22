@@ -15,10 +15,6 @@ public abstract class SpringWebMvcTest extends SpringTest {
 
 	@Before
 	public void init() throws Exception {
-		this.initMockMvc();
-	}
-
-	protected void initMockMvc() throws Exception {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
 				.build();
 	}

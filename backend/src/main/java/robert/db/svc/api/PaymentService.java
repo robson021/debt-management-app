@@ -1,4 +1,4 @@
-package robert.db.svc;
+package robert.db.svc.api;
 
 import java.util.List;
 import java.util.Set;

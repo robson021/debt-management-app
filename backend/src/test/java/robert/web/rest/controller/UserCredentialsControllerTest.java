@@ -10,7 +10,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import robert.db.entities.User;
-import robert.db.svc.DatabaseService;
+import robert.db.svc.api.UserService;
 import robert.tools.SpringWebMvcTest;
 import robert.tools.TestUtils;
 import robert.web.security.auth.JwtAuthenticationToken;
@@ -19,7 +19,7 @@ import robert.web.svc.UserInfoProvider;
 public class UserCredentialsControllerTest extends SpringWebMvcTest {
 
 	@Autowired
-	private DatabaseService databaseService;
+	private UserService userService;
 
 	@Autowired
 	private UserInfoProvider userInfoProvider;
@@ -27,10 +27,10 @@ public class UserCredentialsControllerTest extends SpringWebMvcTest {
 	@Test
 	public void getOtherUsersDetails() throws Exception {
 		for (int i = 0; i < 5; i++) {
-			databaseService.saveEntity(TestUtils.generateNewUser());
+			userService.saveNewUser(TestUtils.generateNewUser());
 		}
 
-		User user = (User) databaseService.saveEntity(TestUtils.generateNewUser());
+		User user = userService.saveNewUser(TestUtils.generateNewUser());
 
 		Mockito.when(userInfoProvider.getUserDetails())
 				.thenReturn(new JwtAuthenticationToken(Collections.emptySet(), user.getEmail(), user.getId()));
