@@ -1,12 +1,12 @@
 package robert.tools;
 
-import java.io.IOException;
-
-import org.apache.commons.lang3.RandomStringUtils;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import org.apache.commons.lang3.RandomStringUtils;
 import robert.db.entities.User;
+import robert.web.security.auth.JwtAuthenticationToken;
+
+import java.io.IOException;
+import java.util.Collections;
 
 public class TestUtils {
 
@@ -28,6 +28,10 @@ public class TestUtils {
 		user.setSurname(RandomStringUtils.randomAlphabetic(8));
 		user.setPassword("Passwd.123");
 		return user;
+	}
+
+	public static JwtAuthenticationToken mockAuthWithNoRole(User user) {
+		return new JwtAuthenticationToken(Collections.emptySet(), user.getEmail(), user.getId());
 	}
 
 }
