@@ -1,15 +1,9 @@
 package robert.db.entities;
 
+import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.util.Collections;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "USER")
@@ -33,7 +27,7 @@ public class User extends BasicEntity {
 	private String accountNo;
 
 	@Column
-	private Boolean role = false;
+	private Boolean role = false; // is admin?
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<Fee> fees = null;

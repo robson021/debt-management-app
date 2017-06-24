@@ -1,25 +1,26 @@
 package robert.web.security.auth;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import robert.db.entities.User;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
-
-import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import robert.db.entities.User;
 
 public abstract class JwtUtils {
 
 	public static final String KEY = RandomStringUtils.randomAlphanumeric(16);
 
+	private static final JwtParser JWT_PARSER = Jwts.parser()
+			.setSigningKey(KEY);
+
 	public static Claims getUserClaims(String authHeaderValue) throws Exception {
-		return Jwts.parser()
-				.setSigningKey(KEY)
-				.parseClaimsJws(authHeaderValue.substring(7)) // get the part after "Bearer "
+		return JWT_PARSER.parseClaimsJws(authHeaderValue.substring(7)) // get the part after "Bearer "
 				.getBody();
 	}
 
@@ -42,7 +43,7 @@ public abstract class JwtUtils {
 	}
 
 	public static Set<SimpleGrantedAuthority> getRoles(Claims userClaims) {
-		if ( JwtUtils.isAdmin(userClaims) ) {
+		if (JwtUtils.isAdmin(userClaims)) {
 			return Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		}
 		return Collections.emptySet();
