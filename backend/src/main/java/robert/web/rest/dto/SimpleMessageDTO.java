@@ -1,6 +1,6 @@
 package robert.web.rest.dto;
 
-public class SimpleMessageDTO {
+public final class SimpleMessageDTO {
 
 	private String message;
 

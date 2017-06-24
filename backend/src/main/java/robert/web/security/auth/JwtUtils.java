@@ -16,11 +16,11 @@ public abstract class JwtUtils {
 
 	public static final String KEY = RandomStringUtils.randomAlphanumeric(16);
 
-	private static final JwtParser JWT_PARSER = Jwts.parser()
-			.setSigningKey(KEY);
+	private static final JwtParser JWT_PARSER = Jwts.parser().setSigningKey(KEY);
 
 	public static Claims getUserClaims(String authHeaderValue) throws Exception {
-		return JWT_PARSER.parseClaimsJws(authHeaderValue.substring(7)) // get the part after "Bearer "
+		return JWT_PARSER
+				.parseClaimsJws(authHeaderValue.substring(7)) // get the part after "Bearer "
 				.getBody();
 	}
 
