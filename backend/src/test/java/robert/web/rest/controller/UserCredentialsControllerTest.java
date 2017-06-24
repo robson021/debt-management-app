@@ -37,7 +37,9 @@ public class UserCredentialsControllerTest extends SpringWebMvcTest {
 				.getContentAsString();
 
 		Assertions.assertThat(response)
-				.doesNotContain(user.getEmail());
+				.doesNotContain(user.getEmail())
+				.doesNotContain(user.getName())
+				.doesNotContain(user.getSurname());
 
 	}
 

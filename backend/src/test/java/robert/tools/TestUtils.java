@@ -2,7 +2,9 @@ package robert.tools;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import robert.db.entities.User;
+import robert.web.rest.dto.PaymentDTO;
 import robert.web.security.auth.JwtAuthenticationToken;
 
 import java.io.IOException;
@@ -28,6 +30,17 @@ public class TestUtils {
 		user.setSurname(RandomStringUtils.randomAlphabetic(8));
 		user.setPassword("Passwd.123");
 		return user;
+	}
+
+	public static PaymentDTO generatePayment(User borrower) {
+		PaymentDTO paymentDTO = new PaymentDTO();
+		paymentDTO.setAmount(RandomUtils.nextDouble(1, 9999));
+		paymentDTO.setDescription("test payment");
+		paymentDTO.setBorrowerId(borrower.getId());
+		paymentDTO.setBorrowerName(borrower.getName());
+		paymentDTO.setBorrowerSurname(borrower.getSurname());
+
+		return paymentDTO;
 	}
 
 	public static JwtAuthenticationToken mockAuthWithNoRole(User user) {
