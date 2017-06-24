@@ -1,13 +1,12 @@
 package robert.web.rest.controller;
 
-import java.io.IOException;
-import java.io.Serializable;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.AuthenticationEntryPoint;
+import java.io.IOException;
+import java.io.Serializable;
 
 public class ErrorHandler implements AuthenticationEntryPoint, Serializable {
 
@@ -15,6 +14,6 @@ public class ErrorHandler implements AuthenticationEntryPoint, Serializable {
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-		response.sendError(401, "Unauthorized");
+		response.sendError(401, "Invalid token");
 	}
 }

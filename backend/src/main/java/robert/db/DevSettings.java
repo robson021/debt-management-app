@@ -10,10 +10,9 @@ import robert.web.rest.dto.PaymentDTO;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Profile("dev")
 @Component
@@ -37,27 +36,25 @@ public class DevSettings {
 		user.setSurname("User");
 		user.setPassword("Passwd.123");
 
-		List<User> users = Stream.of(new User(), new User(), new User(), new User())
-				.collect(Collectors.toList());
+		List<User> users = new LinkedList<>(Arrays.asList(new User(), new User(), new User(), new User()));
 
 		users.forEach(u -> {
-			u.setEmail("user@mail." + RandomStringUtils.randomAlphabetic(3)
-					.toLowerCase());
+			u.setEmail("user@mail." + RandomStringUtils.randomAlphabetic(3).toLowerCase());
 			u.setName(RandomStringUtils.randomAlphabetic(6));
 			u.setSurname(RandomStringUtils.randomAlphabetic(6));
 			u.setPassword("P.1" + RandomStringUtils.randomAlphanumeric(7));
 		});
 		users.add(user);
 
+		System.out.println("Adding test users:");
 		users.forEach(u -> {
 			u.setAccountNo(RandomStringUtils.randomNumeric(12));
 			System.out.println(u);
 			userService.saveNewUser(u);
 		});
 
-		Long id = userService.findUserByEmail(testUserEmail)
-				.getId();
-		User borrower = userService.findUserById(id - 1);
+		Long userId = userService.findUserByEmail(testUserEmail).getId();
+		User borrower = userService.findUserById(userId - 1);
 
 		List<PaymentDTO> payments = Arrays.asList(new PaymentDTO(), new PaymentDTO());
 
@@ -67,7 +64,7 @@ public class DevSettings {
 			p.setBorrowerSurname(borrower.getSurname());
 			p.setBorrowerName(borrower.getName());
 			p.setBorrowerId(borrower.getId());
-			paymentService.addDebtor(id, p);
+			paymentService.addDebtor(userId, p);
 		});
 	}
 }

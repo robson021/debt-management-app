@@ -1,21 +1,20 @@
 package robert.web.rest.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import io.jsonwebtoken.Claims;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
-
-import io.jsonwebtoken.Claims;
 import robert.db.entities.User;
 import robert.db.repo.UserRepository;
 import robert.tools.SpringWebMvcTest;
 import robert.tools.TestUtils;
 import robert.web.rest.dto.SimpleMessageDTO;
 import robert.web.security.auth.JwtUtils;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AuthControllerTest extends SpringWebMvcTest {
 
@@ -55,7 +54,7 @@ public class AuthControllerTest extends SpringWebMvcTest {
 		System.out.println("received token:\n\t" + token);
 		Claims userClaims = JwtUtils.getUserClaims("Bearer " + token);
 
-		// check user's data  form decoded token
+		// check user's data  from decoded token
 		Assertions.assertThat(Long.parseLong(userClaims.getId()))
 				.isEqualTo(user.getId());
 
