@@ -1,21 +1,10 @@
 package robert.web.rest.controller;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import robert.db.entities.User;
 import robert.db.svc.api.UserService;
 import robert.exeptions.AuthException;
@@ -23,6 +12,9 @@ import robert.web.rest.dto.SimpleMessageDTO;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.security.auth.JwtUtils;
 import robert.web.svc.UserInfoProvider;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/auth")
@@ -43,6 +35,15 @@ public class AuthController {
 		log.info("Is registration enabled? - {}", isRegistrationEnabled);
 	}
 
+	@PostMapping("/login")
+	public SimpleMessageDTO loginUser(@RequestBody UserInfoDTO userDTO) throws Exception {
+		String token = tryToLogUserIn(userDTO);
+		if (log.isDebugEnabled()) {
+			log.debug("Logged user in: {}\nwith token: {}", userDTO, token);
+		}
+		return new SimpleMessageDTO(token);
+	}
+
 	@PostMapping("/register")
 	@ResponseStatus(HttpStatus.OK)
 	public void registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
@@ -60,15 +61,6 @@ public class AuthController {
 			return HttpStatus.OK;
 		}
 		throw new AuthException("Token is not valid");
-	}
-
-	@PostMapping("/login")
-	public SimpleMessageDTO loginUser(@RequestBody UserInfoDTO userDTO) throws Exception {
-		String token = tryToLogUserIn(userDTO);
-		if ( log.isDebugEnabled() ) {
-			log.debug("Logged user in: {}\nwith token: {}", userDTO, token);
-		}
-		return new SimpleMessageDTO(token);
 	}
 
 	private String tryToLogUserIn(UserInfoDTO user) {
