@@ -34,7 +34,7 @@ public abstract class JwtUtils {
 				.compact();
 	}
 
-	public static Long getUserId(Claims claims) {
+	public static long getUserId(Claims claims) {
 		return Long.parseLong(claims.getId());
 	}
 
