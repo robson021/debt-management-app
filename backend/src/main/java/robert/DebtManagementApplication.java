@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
 import robert.web.security.auth.JwtUtils;
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
@@ -16,6 +15,8 @@ import robert.web.security.auth.JwtUtils;
 @EnableTransactionManagement
 @EnableCaching
 public class DebtManagementApplication {
+
+	//TODO: remove unnecessary JPA annotations
 
 	public static void main(String[] args) {
 		SpringApplication.run(DebtManagementApplication.class, args);
