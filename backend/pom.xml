@@ -34,16 +34,16 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 			<exclusions>
 				<exclusion>
+					<groupId>org.apache.tomcat.embed</groupId>
 					<artifactId>tomcat-embed-logging-juli</artifactId>
-					<groupId>org.apache.tomcat.embed</groupId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.apache.tomcat.embed</groupId>
 					<artifactId>tomcat-embed-websocket</artifactId>
-					<groupId>org.apache.tomcat.embed</groupId>
 				</exclusion>
 				<exclusion>
-					<artifactId>tomcat-embed-el</artifactId>
 					<groupId>org.apache.tomcat.embed</groupId>
+					<artifactId>tomcat-embed-el</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>

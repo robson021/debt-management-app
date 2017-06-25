@@ -1,17 +1,15 @@
 package robert.db.svc;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-
 import org.springframework.stereotype.Service;
-
 import robert.db.entities.User;
 import robert.db.repo.UserRepository;
 import robert.db.svc.api.UserService;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.UserAssembler;
+
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -32,9 +30,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void saveNewUser(UserInfoDTO userDTO) {
+	public User saveNewUser(UserInfoDTO userDTO) {
 		User user = UserAssembler.convertDtoToUser(userDTO);
-		userRepository.save(user);
+		return userRepository.save(user);
 	}
 
 	@Override
