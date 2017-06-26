@@ -58,8 +58,12 @@ public class PaymentControllerTest extends SpringWebMvcTest {
 
 	@Test
 	public void getMyDebtors() throws Exception {
-		String response = mockMvc.perform(get("/payments/my-debtors"))
-				.andExpect(status().isOk())
+        // add extra debtor
+        User debtor = userRepository.save(TestUtils.generateNewUser());
+        paymentService.addDebtor(lender.getId(), TestUtils.generatePayment(debtor));
+
+        String response = mockMvc.perform(get("/payments/my-debtors"))
+                .andExpect(status().isOk())
 				.andReturn()
 				.getResponse()
 				.getContentAsString();
@@ -67,18 +71,7 @@ public class PaymentControllerTest extends SpringWebMvcTest {
 		PaymentDTO[] payments = TestUtils.jsonToObject(response, PaymentDTO[].class);
 
 		Assertions.assertThat(payments)
-				.hasSize(2);
-
-		for (PaymentDTO payment : payments) {
-			Assertions.assertThat(payment.getBorrowerName())
-					.isEqualTo(borrower.getName());
-
-			Assertions.assertThat(payment.getBorrowerSurname())
-					.isEqualTo(borrower.getSurname());
-
-			Assertions.assertThat(payment.getBorrowerId())
-					.isEqualTo(borrower.getId());
-		}
+                .hasSize(3);
 	}
 
 	@Test
