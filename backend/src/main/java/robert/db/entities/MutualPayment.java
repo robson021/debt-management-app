@@ -6,7 +6,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -20,7 +19,7 @@ public class MutualPayment extends BasicEntity {
 	@Column(nullable = false)
 	private String description;
 
-	@OneToMany(mappedBy = "mutualPayment", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "mutualPayment", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Fee> payedFees;
 
 	public Double getAmount() {

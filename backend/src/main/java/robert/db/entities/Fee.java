@@ -14,11 +14,11 @@ public class Fee extends BasicEntity {
 	@Column(nullable = false)
 	private Double payedFee;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "USER_ID")
 	private User user;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MUTUAL_PAYMENT_ID")
 	private MutualPayment mutualPayment;
 

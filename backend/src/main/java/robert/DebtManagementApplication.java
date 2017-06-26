@@ -17,8 +17,6 @@ import robert.web.security.auth.JwtUtils;
 @EnableCaching
 public class DebtManagementApplication {
 
-	//TODO: add lazy loading
-
 	public static void main(String[] args) {
 		SpringApplication.run(DebtManagementApplication.class, args);
 		System.out.println("Generated JWT key: " + JwtUtils.KEY);

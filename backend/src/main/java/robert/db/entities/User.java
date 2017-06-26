@@ -6,7 +6,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
@@ -35,10 +34,10 @@ public class User extends BasicEntity {
 	@Column(nullable = false)
 	private Boolean role = false; // is admin?
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Fee> fees = null;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Asset> assets = null;
 
 	public String getName() {
@@ -106,7 +105,7 @@ public class User extends BasicEntity {
 	}
 
 	public void addAsset(Asset asset) {
-		if ( asset == null ) {
+		if ( this.assets == null ) {
 			this.assets = Collections.singleton(asset);
 		} else {
 			this.assets.add(asset);
