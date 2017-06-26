@@ -22,7 +22,7 @@ public class Fee extends BasicEntity {
 	@JoinColumn(name = "MUTUAL_PAYMENT_ID")
 	private MutualPayment mutualPayment;
 
-	public Double getPayedFee() {
+	public double getPayedFee() {
 		return payedFee;
 	}
 

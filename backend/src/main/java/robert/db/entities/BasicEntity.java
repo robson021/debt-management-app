@@ -32,7 +32,7 @@ public abstract class BasicEntity {
 			return false;
 
 		BasicEntity that = (BasicEntity) o;
-		return hashCode() == that.hashCode();
+		return this.hashCode() == that.hashCode();
 	}
 
 	@Override

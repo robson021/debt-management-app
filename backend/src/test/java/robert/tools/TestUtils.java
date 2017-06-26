@@ -1,14 +1,16 @@
 package robert.tools;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.util.Collections;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import robert.db.entities.User;
 import robert.web.rest.dto.PaymentDTO;
 import robert.web.security.auth.JwtAuthenticationToken;
-
-import java.io.IOException;
-import java.util.Collections;
 
 public class TestUtils {
 
@@ -29,6 +31,7 @@ public class TestUtils {
 		user.setName(RandomStringUtils.randomAlphabetic(8));
 		user.setSurname(RandomStringUtils.randomAlphabetic(8));
 		user.setPassword("Passwd.123");
+		user.setAccountNo(RandomStringUtils.randomNumeric(12));
 		return user;
 	}
 

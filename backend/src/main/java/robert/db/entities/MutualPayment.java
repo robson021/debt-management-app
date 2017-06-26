@@ -21,7 +21,7 @@ public class MutualPayment extends BasicEntity {
 	private String description;
 
 	@OneToMany(mappedBy = "mutualPayment", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private Set<Fee> payedFees = null;
+	private Set<Fee> payedFees;
 
 	public Double getAmount() {
 		return amount;

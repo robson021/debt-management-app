@@ -39,18 +39,14 @@ public class Asset extends BasicEntity {
 	@Column(nullable = false)
 	private Long borrowerId;
 
-	public Double getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Double amount) {
+	public void setAmount(double amount) {
 		String formatted = decimalMoneyFormat.format(amount)
 				.replace(',', '.');
 		this.amount = Double.valueOf(formatted);
-	}
-
-	public static DecimalFormat getDecimalMoneyFormat() {
-		return decimalMoneyFormat;
 	}
 
 	public String getDescription() {
@@ -93,11 +89,11 @@ public class Asset extends BasicEntity {
 		this.borrowerSurname = borrowerSurname;
 	}
 
-	public Long getBorrowerId() {
+	public long getBorrowerId() {
 		return borrowerId;
 	}
 
-	public void setBorrowerId(Long borrowerId) {
+	public void setBorrowerId(long borrowerId) {
 		this.borrowerId = borrowerId;
 	}
 }

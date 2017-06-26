@@ -1,9 +1,15 @@
 package robert.db.entities;
 
-import javax.persistence.*;
-import javax.validation.constraints.Pattern;
 import java.util.Collections;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "USER")
@@ -23,10 +29,10 @@ public class User extends BasicEntity {
 	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$")
 	private String password;
 
-	@Column
+	@Column(nullable = false)
 	private String accountNo;
 
-	@Column
+	@Column(nullable = false)
 	private Boolean role = false; // is admin?
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
@@ -75,7 +81,7 @@ public class User extends BasicEntity {
 		this.accountNo = accountNo;
 	}
 
-	public Boolean getRole() {
+	public boolean getRole() {
 		return role;
 	}
 
