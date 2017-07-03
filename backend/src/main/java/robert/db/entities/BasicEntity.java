@@ -12,7 +12,6 @@ public abstract class BasicEntity {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "ID")
 	private Long id;
 
 	@Column
