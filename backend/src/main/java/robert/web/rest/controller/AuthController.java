@@ -1,10 +1,21 @@
 package robert.web.rest.controller;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
 import robert.db.entities.User;
 import robert.db.svc.api.UserService;
 import robert.exeptions.AuthException;
@@ -12,9 +23,6 @@ import robert.web.rest.dto.SimpleMessageDTO;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.security.auth.JwtUtils;
 import robert.web.svc.UserInfoProvider;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/auth")
@@ -56,8 +64,7 @@ public class AuthController {
 
 	@GetMapping("/am-i-logged-in")
 	public HttpStatus validateToken() {
-		if ( userInfoProvider.getUserDetails()
-				.getUserId() > 0 ) {
+		if ( userInfoProvider.getUserDetails().getUserId() > 0 ) {
 			return HttpStatus.OK;
 		}
 		throw new AuthException("Token is not valid");

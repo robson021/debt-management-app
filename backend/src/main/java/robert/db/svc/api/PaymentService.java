@@ -22,7 +22,7 @@ public interface PaymentService {
 
 	void addUserFeeToPayment(long userId, long mutualPaymentId, double feeAmount);
 
-	Set<Fee> getFeesForMutualPayment(long mpaymentId);
+	Set<Fee> getFeesForMutualPayment(long mutualPaymentId);
 
 	List<MutualPayment> getAllMutualPayments();
 

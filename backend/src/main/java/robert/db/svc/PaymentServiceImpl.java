@@ -1,6 +1,13 @@
 package robert.db.svc;
 
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
+
 import robert.db.entities.Asset;
 import robert.db.entities.Fee;
 import robert.db.entities.MutualPayment;
@@ -12,11 +19,6 @@ import robert.db.svc.api.PaymentService;
 import robert.exeptions.BadParameterException;
 import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
-
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Set;
 
 @Service
 @Transactional
@@ -40,15 +42,15 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public List<Asset> findUserDebts(long borrowerId) {
-        return em.createQuery("from Asset a where a.borrowerId = :id order by a.user.surname, a.amount desc", Asset.class)
-                .setParameter("id", borrowerId)
+		return em.createQuery("from Asset a where a.borrowerId = :id order by a.user.surname, a.amount desc", Asset.class)
+				.setParameter("id", borrowerId)
 				.getResultList();
 	}
 
 	@Override
 	public List<Asset> findUserDebtors(long userId) {
-        return em.createQuery("from Asset a where a.user.id = :id order by a.borrowerSurname, a.amount desc", Asset.class)
-                .setParameter("id", userId)
+		return em.createQuery("from Asset a where a.user.id = :id order by a.borrowerSurname, a.amount desc", Asset.class)
+				.setParameter("id", userId)
 				.getResultList();
 	}
 
@@ -89,8 +91,8 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	@Override
-	public Set<Fee> getFeesForMutualPayment(long mpaymentId) {
-		MutualPayment mutualPayment = mutualPaymentRepository.findOne(mpaymentId);
+	public Set<Fee> getFeesForMutualPayment(long mutualPaymentId) {
+		MutualPayment mutualPayment = mutualPaymentRepository.findOne(mutualPaymentId);
 		return mutualPayment.getPayedFees();
 	}
 

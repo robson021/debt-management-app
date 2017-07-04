@@ -38,12 +38,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.cacheControl();
 
 		httpSecurity.authorizeRequests()
-				.antMatchers(HttpMethod.GET, "/", "/**/*.html", "/**/*.css", "/**/*.js", "/**/*.ico")
-				.permitAll()
-				.antMatchers("/auth/**")
-				.permitAll()
-				.anyRequest()
-				.authenticated();
+				.antMatchers(HttpMethod.GET, "/", "/**/*.html", "/**/*.css", "/**/*.js", "/**/*.ico").permitAll()
+				.antMatchers("/auth/**").permitAll()
+				.anyRequest().authenticated();
 
 		httpSecurity.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
 	}

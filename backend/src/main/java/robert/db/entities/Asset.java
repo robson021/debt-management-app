@@ -46,6 +46,7 @@ public class Asset extends BasicEntity {
 	public void setAmount(double amount) {
 		String formatted = decimalMoneyFormat.format(amount)
 				.replace(',', '.');
+
 		this.amount = Double.valueOf(formatted);
 	}
 
