@@ -13,7 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import robert.web.rest.controller.ErrorHandler;
+import robert.web.rest.controllers.handlers.AuthEntryPoint;
 import robert.web.security.auth.filters.JwtFilter;
 
 @Configuration
@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public AuthenticationEntryPoint errorHandler() {
-		return new ErrorHandler();
+		return new AuthEntryPoint();
 	}
 
 	@Bean

@@ -1,4 +1,4 @@
-package robert.web.rest.controller;
+package robert.web.rest.controllers;
 
 import java.io.IOException;
 
