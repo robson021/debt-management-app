@@ -38,6 +38,7 @@ public class DevSettings {
 		user.setName("Example");
 		user.setSurname("User");
 		user.setPassword("Passwd.123");
+		user.setAccountNo(RandomStringUtils.randomNumeric(10));
 
 		List<User> users = Arrays.asList(new User(), new User(), new User(), new User());
 
@@ -47,6 +48,7 @@ public class DevSettings {
 			u.setSurname(RandomStringUtils.randomAlphabetic(6));
 			String password = "P.1" + RandomStringUtils.randomAlphanumeric(7);
 			u.setPassword(passwordEncoder.encode(password));
+			u.setAccountNo(RandomStringUtils.randomNumeric(10));
 		});
 
 		users.forEach(u -> {

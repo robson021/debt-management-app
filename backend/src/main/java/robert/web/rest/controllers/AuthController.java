@@ -14,9 +14,6 @@ import robert.web.rest.dto.UserInfoDTO;
 import robert.web.security.auth.JwtUtils;
 import robert.web.svc.UserInfoProvider;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -51,7 +48,7 @@ public class AuthController {
 	@PostMapping("/register")
 	@ResponseStatus(HttpStatus.OK)
 	public void registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
-		if ( !isRegistrationEnabled ) {
+		if (!isRegistrationEnabled) {
 			throw new RuntimeException("Registration is currently disabled");
 		}
 		String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
@@ -62,7 +59,7 @@ public class AuthController {
 
 	@GetMapping("/am-i-logged-in")
 	public HttpStatus validateToken() {
-		if ( userInfoProvider.getUserDetails().getUserId() > 0 ) {
+		if (userInfoProvider.getUserDetails().getUserId() > 0) {
 			return HttpStatus.OK;
 		}
 		throw new AuthException("Token is not valid");
@@ -70,19 +67,10 @@ public class AuthController {
 
 	private String tryToLogUserIn(UserInfoDTO userDto) {
 		User dbUser = userService.findUserByEmail(userDto.getEmail());
-		if ( !passwordEncoder.matches(userDto.getPassword(), dbUser.getPassword())) {
+		if (!passwordEncoder.matches(userDto.getPassword(), dbUser.getPassword())) {
 			throw new AuthException("Passwords do not match");
 		}
 		return JwtUtils.generateToken(dbUser);
 	}
 
-	@ExceptionHandler(AuthException.class)
-	public void exceptionHandler(AuthException ex, HttpServletResponse response) throws IOException {
-		response.sendError(HttpStatus.FORBIDDEN.value(), ex.getMessage());
-	}
-
-	@ExceptionHandler(Exception.class)
-	public void exceptionHandler(HttpServletResponse response) throws IOException {
-		response.sendError(HttpStatus.FORBIDDEN.value(), "Access denied");
-	}
 }

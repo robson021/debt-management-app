@@ -1,9 +1,7 @@
 package robert.web.rest.controllers.handlers;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletResponse;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -11,7 +9,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(Exception.class)
-	public void handleAll(HttpServletResponse response) throws IOException {
-		response.sendRedirect("/error-page.html");
+	public ResponseEntity<String> handleAll() {
+		return ResponseEntity
+				.status(HttpStatus.FORBIDDEN)
+				.body("Access denied");
 	}
 }
