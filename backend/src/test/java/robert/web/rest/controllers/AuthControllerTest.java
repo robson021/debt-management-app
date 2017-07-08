@@ -1,17 +1,13 @@
 package robert.web.rest.controllers;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import io.jsonwebtoken.Claims;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MvcResult;
-
-import io.jsonwebtoken.Claims;
 import robert.db.entities.User;
 import robert.db.repo.UserRepository;
 import robert.tools.SpringWebMvcTest;
@@ -21,6 +17,10 @@ import robert.web.security.auth.JwtAuthenticationToken;
 import robert.web.security.auth.JwtUtils;
 import robert.web.svc.UserInfoProvider;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 public class AuthControllerTest extends SpringWebMvcTest {
 
 	@Autowired
@@ -28,6 +28,9 @@ public class AuthControllerTest extends SpringWebMvcTest {
 
 	@Autowired
 	private UserInfoProvider userInfoProvider;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Test
 	public void registerNewUser() throws Exception {
@@ -43,7 +46,12 @@ public class AuthControllerTest extends SpringWebMvcTest {
 
 	@Test
 	public void loginUser() throws Exception {
-		User user = userRepository.save(TestUtils.generateNewUser());
+		User user = TestUtils.generateNewUser();
+		String originalPassword = user.getPassword();
+		user.setPassword(passwordEncoder.encode(originalPassword));
+		userRepository.save(user);
+
+		user.setPassword(originalPassword);
 
 		MvcResult mvcResult = mockMvc.perform(post("/auth/login/").content(TestUtils.asJsonString(user))
 				.contentType(MediaType.APPLICATION_JSON))
