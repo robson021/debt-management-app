@@ -10,12 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import robert.web.rest.controllers.handlers.AuthEntryPoint;
 import robert.web.security.auth.filters.JwtFilter;
-
-import javax.servlet.Filter;
 
 @Configuration
 @EnableWebSecurity
@@ -28,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.disable()
 
 				.exceptionHandling()
-				.authenticationEntryPoint(errorHandler())
+				.authenticationEntryPoint(new AuthEntryPoint())
 				.and()
 
 				.sessionManagement()
@@ -43,17 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/auth/**").permitAll()
 				.anyRequest().authenticated();
 
-		httpSecurity.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
-	}
-
-	@Bean
-	public AuthenticationEntryPoint errorHandler() {
-		return new AuthEntryPoint();
-	}
-
-	@Bean
-	public Filter jwtFilter() {
-		return new JwtFilter();
+		httpSecurity.addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 
 	@Bean
