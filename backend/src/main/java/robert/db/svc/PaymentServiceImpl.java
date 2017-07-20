@@ -157,12 +157,9 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	private double getDifference(Double x, Double y) {
-		if ( x == null )
-			x = .0;
+		double a = x == null ? .0 : x;
+		double b = y == null ? .0 : y;
 
-		if ( y == null )
-			y = .0;
-
-		return x - y;
+		return a - b;
 	}
 }
