@@ -1,6 +1,6 @@
 package robert.web.rest.dto;
 
-public final class FeeDTO {
+public class FeeDTO {
 
 	private String user;
 

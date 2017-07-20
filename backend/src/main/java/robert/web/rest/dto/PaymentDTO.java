@@ -2,7 +2,7 @@ package robert.web.rest.dto;
 
 import java.util.List;
 
-public final class PaymentDTO {
+public class PaymentDTO {
 
 	private long id;
 

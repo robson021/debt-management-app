@@ -1,6 +1,6 @@
 package robert.web.rest.dto;
 
-public final class UserInfoDTO {
+public class UserInfoDTO {
 
 	private long id;
 
