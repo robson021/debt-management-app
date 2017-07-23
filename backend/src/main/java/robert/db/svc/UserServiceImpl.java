@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> findAllUsers() {
-		return this.findOtherUsersExceptGiven(-1L);
+		return (List<User>) userRepository.findAll();
 	}
 
 	@Override

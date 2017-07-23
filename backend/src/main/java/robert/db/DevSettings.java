@@ -40,6 +40,7 @@ public class DevSettings {
 		user.setName("Example");
 		user.setSurname("User");
 		user.setPassword("Passwd.123");
+		user.setRole(true);
 		user.setAccountNo(RandomStringUtils.randomNumeric(10));
 
 		List<User> users = Arrays.asList(new User(), new User(), new User(), new User());
