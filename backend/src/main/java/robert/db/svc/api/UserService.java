@@ -16,5 +16,7 @@ public interface UserService {
 
 	List<User> findOtherUsersExceptGiven(long userId);
 
+	List<User> findAllUsers();
+
 	void changePassword(long userId, String newPassword);
 }

@@ -61,6 +61,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public List<User> findAllUsers() {
+		return this.findOtherUsersExceptGiven(-1L);
+	}
+
+	@Override
 	public void changePassword(long userId, String newPassword) {
 		User user = em.getReference(User.class, userId);
 		String encodedPassword = passwordEncoder.encode(newPassword);

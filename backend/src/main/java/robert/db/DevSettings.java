@@ -1,18 +1,20 @@
 package robert.db;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
 import robert.db.entities.User;
 import robert.db.svc.api.PaymentService;
 import robert.db.svc.api.UserService;
 import robert.web.rest.dto.PaymentDTO;
-
-import javax.annotation.PostConstruct;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
 
 @Profile("dev")
 @Component
@@ -56,8 +58,10 @@ public class DevSettings {
 			userService.saveNewUser(u);
 		});
 
+		String originalPassword = user.getPassword();
+		user.setPassword(passwordEncoder.encode(originalPassword));
 		userService.saveNewUser(user);
-		System.out.println("saved test user: " + user);
+		System.out.println("saved test user: " + user.getEmail() + "; password: " + originalPassword);
 
 		Long userId = userService.findUserByEmail(testUserEmail).getId();
 		User borrower = userService.findUserById(userId - 1);
