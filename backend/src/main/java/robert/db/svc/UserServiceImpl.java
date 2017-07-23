@@ -32,15 +32,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User saveNewUser(User user) {
+		String encodedPassword = passwordEncoder.encode(user.getPassword());
+		user.setPassword(encodedPassword);
 		return userRepository.save(user);
 	}
 
 	@Override
 	public User saveNewUser(UserInfoDTO userDTO) {
-		String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
-		userDTO.setPassword(encodedPassword);
 		User user = UserAssembler.convertDtoToUser(userDTO);
-		return userRepository.save(user);
+		return this.saveNewUser(user);
 	}
 
 	@Override

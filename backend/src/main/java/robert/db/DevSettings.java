@@ -8,7 +8,6 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import robert.db.entities.User;
@@ -24,12 +23,9 @@ public class DevSettings {
 
 	private final PaymentService paymentService;
 
-	private final PasswordEncoder passwordEncoder;
-
-	public DevSettings(UserService userService, PaymentService paymentService, PasswordEncoder passwordEncoder) {
+	public DevSettings(UserService userService, PaymentService paymentService) {
 		this.userService = userService;
 		this.paymentService = paymentService;
-		this.passwordEncoder = passwordEncoder;
 	}
 
 	@PostConstruct
@@ -50,7 +46,7 @@ public class DevSettings {
 			u.setName(RandomStringUtils.randomAlphabetic(6));
 			u.setSurname(RandomStringUtils.randomAlphabetic(6));
 			String password = "P.1" + RandomStringUtils.randomAlphanumeric(7);
-			u.setPassword(passwordEncoder.encode(password));
+			u.setPassword(password);
 			u.setAccountNo(RandomStringUtils.randomNumeric(10));
 		});
 
@@ -59,10 +55,8 @@ public class DevSettings {
 			userService.saveNewUser(u);
 		});
 
-		String originalPassword = user.getPassword();
-		user.setPassword(passwordEncoder.encode(originalPassword));
 		userService.saveNewUser(user);
-		System.out.println("saved test user: " + user.getEmail() + "; password: " + originalPassword);
+		System.out.println("saved test user: " + user.getEmail() + "; password: " + user.getPassword());
 
 		Long userId = userService.findUserByEmail(testUserEmail).getId();
 		User borrower = userService.findUserById(userId - 1);
