@@ -51,6 +51,13 @@ export class HttpConnectionService {
       .catch(this.serverError);
   }
 
+  performPut(uri, body): Observable<any> {
+    console.log('put:', uri, 'body:', body);
+    return this.http
+      .put(this.api + uri, JSON.stringify(body), {headers: this.headers})
+      .catch(this.serverError);
+  }
+
   private serverError(err: any) {
     console.log('sever error:', err);
     return Observable.throw('error');

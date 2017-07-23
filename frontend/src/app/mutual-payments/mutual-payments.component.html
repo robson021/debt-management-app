@@ -60,7 +60,7 @@
       <input type="number" min="1" class="form-control" formControlName="amount"/>
     </label>
     <label>Description:
-      <input type="text" minlength="3" class="form-control" formControlName="description"/>
+      <input minlength="3" class="form-control" formControlName="description"/>
     </label>
     <br>
     <button class="btn btn-success" (click)="submitNewPayment()" [disabled]="!newPaymentForm.valid">

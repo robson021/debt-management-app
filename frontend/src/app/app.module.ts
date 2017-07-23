@@ -12,6 +12,7 @@ import {MyDebtorsComponent} from "./my-debtors/my-debtors.component";
 import {MutualPaymentsComponent} from "./mutual-payments/mutual-payments.component";
 import {HttpConnectionService} from "./http-connection.service";
 import {UserDetailsComponent} from "./user-details/user-details.component";
+import {AdminAreaComponent} from './admin-area/admin-area.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {UserDetailsComponent} from "./user-details/user-details.component";
     MyDebtsComponent,
     MyDebtorsComponent,
     MutualPaymentsComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    AdminAreaComponent
   ],
   imports: [
     BrowserModule,

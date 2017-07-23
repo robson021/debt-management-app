@@ -1,0 +1,45 @@
+<div>
+  <table class="table table-hover table-striped">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>NAME</th>
+      <th>SURNAME</th>
+      <th>EMAIL</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{user.id}}</td>
+      <td>{{user.name}}</td>
+      <td>{{user.surname}}</td>
+      <td>{{user.email}}</td>
+      <td>
+        <button class="btn btn-warning" (click)="selectUser(user)">
+          Change password
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="selectedUser" style="margin-top: 10%">
+    <p>Selected user:<br>
+      <b style="color: darkgoldenrod">{{selectedUser.name}} {{selectedUser.surname}}</b>
+    </p>
+    <form class="small-form" [formGroup]="changePasswordForm" style="margin-top: 2%">
+      <label>New password:
+        <input type="password" minlength="5" class="form-control" formControlName="password"/>
+      </label>
+      <label>Repeat new password:
+        <input type="password" minlength="5" class="form-control" formControlName="repassword"/>
+      </label>
+      <br>
+      <button class="btn btn-success" (click)="submitNewPassword()"
+              [disabled]="!changePasswordForm.valid || (password != repassword)">
+        Submit
+      </button>
+    </form>
+  </div>
+
+</div>
