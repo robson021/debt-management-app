@@ -5,7 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
 import robert.db.entities.User;
 import robert.db.svc.api.UserService;
 import robert.exeptions.AuthException;
@@ -51,8 +57,6 @@ public class AuthController {
 		if (!isRegistrationEnabled) {
 			throw new RuntimeException("Registration is currently disabled");
 		}
-		String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
-		userDTO.setPassword(encodedPassword);
 		userService.saveNewUser(userDTO);
 		log.info("Registered new user:", userDTO);
 	}

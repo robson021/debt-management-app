@@ -1,22 +1,25 @@
 package robert.web.security.auth;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import robert.db.entities.User;
-
 import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
 
-public abstract class JwtUtils {
+import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import robert.db.entities.User;
+
+public class JwtUtils {
 
 	public static final String KEY = RandomStringUtils.randomAlphanumeric(16);
 
 	private static final JwtParser JWT_PARSER = Jwts.parser().setSigningKey(KEY);
+
+	private JwtUtils() {}
 
 	public static Claims getUserClaims(String authHeaderValue) throws Exception {
 		return JWT_PARSER
@@ -30,7 +33,7 @@ public abstract class JwtUtils {
 				.setId(String.valueOf(user.getId()))
 				.claim("role", user.getRole())
 				.setIssuedAt(new Date())
-				.signWith(SignatureAlgorithm.HS256, KEY)
+				.signWith(SignatureAlgorithm.HS512, KEY)
 				.compact();
 	}
 
@@ -43,14 +46,10 @@ public abstract class JwtUtils {
 	}
 
 	public static Set<SimpleGrantedAuthority> getRoles(Claims userClaims) {
-		if (JwtUtils.isAdmin(userClaims)) {
+		if (Boolean.valueOf(userClaims.get("role").toString())) {
 			return Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		}
 		return Collections.emptySet();
 	}
 
-	private static boolean isAdmin(Claims claims) {
-		return Boolean.valueOf(claims.get("role")
-				.toString());
-	}
 }

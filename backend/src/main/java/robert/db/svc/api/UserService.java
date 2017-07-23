@@ -1,9 +1,9 @@
 package robert.db.svc.api;
 
+import java.util.List;
+
 import robert.db.entities.User;
 import robert.web.rest.dto.UserInfoDTO;
-
-import java.util.List;
 
 public interface UserService {
 	User saveNewUser(User user);
@@ -15,4 +15,6 @@ public interface UserService {
 	User findUserById(long id);
 
 	List<User> findOtherUsersExceptGiven(long userId);
+
+	void changePassword(long userId, String newPassword);
 }

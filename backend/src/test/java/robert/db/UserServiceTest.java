@@ -3,9 +3,11 @@ package robert.db;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import robert.db.entities.User;
 import robert.db.svc.api.UserService;
@@ -17,6 +19,9 @@ public class UserServiceTest extends SpringTest {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	private User user;
 
@@ -53,6 +58,16 @@ public class UserServiceTest extends SpringTest {
 
 		Assertions.assertThat(user.getId())
 				.isGreaterThan(0);
+	}
+
+	@Test
+	public void changePassword() {
+		String newPassword = "newPassword";
+		userService.changePassword(user.getId(), newPassword);
+		user = userService.findUserById(user.getId());
+
+		boolean arePasswordsEqual = passwordEncoder.matches(newPassword, user.getPassword());
+		Assert.assertTrue(arePasswordsEqual);
 	}
 
 }
