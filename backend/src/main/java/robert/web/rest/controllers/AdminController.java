@@ -24,7 +24,7 @@ public class AdminController {
 		this.userService = userService;
 	}
 
-	@GetMapping
+	@GetMapping("all-users")
 	public List<UserInfoDTO> getAllUsers() {
 		List<User> allUsers = userService.findAllUsers();
 		return UserAssembler.convertToUserInfoDTOs(allUsers);
