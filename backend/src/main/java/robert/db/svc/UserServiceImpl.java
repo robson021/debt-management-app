@@ -67,8 +67,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void changePassword(long userId, String newPassword) {
+		if (newPassword.length() < 5) {
+			throw new IllegalArgumentException("Password is too short");
+		}
 		User user = em.getReference(User.class, userId);
-		String encodedPassword = passwordEncoder.encode(newPassword);
-		user.setPassword(encodedPassword);
+		user.setPassword(passwordEncoder.encode(newPassword));
 	}
 }

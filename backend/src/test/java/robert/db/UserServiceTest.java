@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.DirtiesContext;
 
 import robert.db.entities.User;
 import robert.db.svc.api.UserService;
@@ -43,6 +44,12 @@ public class UserServiceTest extends SpringTest {
 		User userByEmail = userService.findUserByEmail(user.getEmail());
 		Assertions.assertThat(userByEmail)
 				.isEqualTo(user);
+	}
+
+	@Test
+	@DirtiesContext
+	public void findAllUsers() {
+		userService.findAllUsers();
 	}
 
 	@Test
