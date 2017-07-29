@@ -11,7 +11,6 @@ import robert.web.rest.dto.asm.UserAssembler;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -85,11 +84,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<Note> getAllUsersNotes(long userId) {
-		User user = em.createQuery("from User u inner join fetch u.notes where u.id = :id", User.class)
+		return em.createQuery("from Note n where n.user.id = :id", Note.class)
 				.setParameter("id", userId)
-				.getSingleResult();
-
-		return new ArrayList<>(user.getNotes());
+				.getResultList();
 	}
 
 	@Override
