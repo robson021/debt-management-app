@@ -1,18 +1,18 @@
 package robert.db.svc;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import robert.db.entities.Note;
 import robert.db.entities.User;
 import robert.db.repo.UserRepository;
 import robert.db.svc.api.UserService;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.UserAssembler;
+
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -72,5 +72,29 @@ public class UserServiceImpl implements UserService {
 		}
 		User user = em.getReference(User.class, userId);
 		user.setPassword(passwordEncoder.encode(newPassword));
+	}
+
+	@Override
+	public void saveNewNote(Note note, long userId) {
+		User user = em.getReference(User.class, userId);
+		user.getNotes()
+				.add(note);
+
+		note.setUser(user);
+	}
+
+	@Override
+	public List<Note> getAllUsersNotes(long userId) {
+		User user = em.createQuery("from User u inner join fetch u.notes where u.id = :id", User.class)
+				.setParameter("id", userId)
+				.getSingleResult();
+
+		return new ArrayList<>(user.getNotes());
+	}
+
+	@Override
+	public List<Note> getAllNotes() {
+		return em.createQuery("from Note", Note.class)
+				.getResultList();
 	}
 }

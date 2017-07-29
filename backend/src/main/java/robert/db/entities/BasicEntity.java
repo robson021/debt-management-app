@@ -1,11 +1,11 @@
 package robert.db.entities;
 
-import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import java.util.UUID;
 
 @MappedSuperclass
 public abstract class BasicEntity {
@@ -14,7 +14,7 @@ public abstract class BasicEntity {
 	@GeneratedValue
 	private Long id;
 
-	@Column
+	@JsonIgnore
 	private String uuid = UUID.randomUUID()
 			.toString();
 

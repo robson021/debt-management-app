@@ -2,7 +2,6 @@ package robert.db.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
-import java.util.Collections;
 import java.util.Set;
 
 @Entity
@@ -33,6 +32,9 @@ public class User extends BasicEntity {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Asset> assets = null;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Note> notes = null;
 
 	public String getName() {
 		return name;
@@ -98,12 +100,12 @@ public class User extends BasicEntity {
 		this.assets = assets;
 	}
 
-	public void addAsset(Asset asset) {
-		if ( this.assets == null ) {
-			this.assets = Collections.singleton(asset);
-		} else {
-			this.assets.add(asset);
-		}
+	public Set<Note> getNotes() {
+		return notes;
+	}
+
+	public void setNotes(Set<Note> notes) {
+		this.notes = notes;
 	}
 
 	@Override

@@ -1,17 +1,11 @@
 package robert.web.rest.controllers;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-
 import robert.db.entities.User;
 import robert.db.repo.UserRepository;
 import robert.db.svc.api.PaymentService;
@@ -20,6 +14,9 @@ import robert.tools.TestUtils;
 import robert.web.rest.dto.PaymentDTO;
 import robert.web.security.auth.JwtAuthenticationToken;
 import robert.web.svc.UserInfoProvider;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class PaymentControllerTest extends SpringWebMvcTest {
 
@@ -124,7 +121,7 @@ public class PaymentControllerTest extends SpringWebMvcTest {
 				.getResponse()
 				.getContentAsString();
 
-		Double moneyBalance = Double.valueOf(response);
+		double moneyBalance = Double.valueOf(response);
 
 		Assertions.assertThat(moneyBalance)
 				.isGreaterThan(.0);
@@ -141,7 +138,7 @@ public class PaymentControllerTest extends SpringWebMvcTest {
 				.getResponse()
 				.getContentAsString();
 
-		Double moneyBalance = Double.valueOf(response);
+		double moneyBalance = Double.valueOf(response);
 
 		Assertions.assertThat(moneyBalance)
 				.isGreaterThan(.0);

@@ -1,7 +1,5 @@
 package robert.db;
 
-import java.util.List;
-
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,12 +7,14 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
-
+import robert.db.entities.Note;
 import robert.db.entities.User;
 import robert.db.svc.api.UserService;
 import robert.tools.SpringTest;
 import robert.tools.TestUtils;
 import robert.web.rest.dto.UserInfoDTO;
+
+import java.util.List;
 
 public class UserServiceTest extends SpringTest {
 
@@ -75,6 +75,52 @@ public class UserServiceTest extends SpringTest {
 
 		boolean arePasswordsEqual = passwordEncoder.matches(newPassword, user.getPassword());
 		Assert.assertTrue(arePasswordsEqual);
+	}
+
+	@Test
+	@DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
+	public void saveNewNote() {
+		Note note = createNote();
+		userService.saveNewNote(note, user.getId());
+
+		List<Note> allNotes = userService.getAllNotes();
+		Assertions.assertThat(allNotes)
+				.hasSize(1);
+
+		note = allNotes.get(0);
+		Assertions.assertThat(note.getText())
+				.isEqualTo("sample text");
+	}
+
+	@Test
+	@DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
+	public void getAllUsersNotes() {
+		final int NOTES_COUNT = 5;
+		for (int i = 0; i < NOTES_COUNT; i++) {
+			userService.saveNewNote(createNote(), user.getId());
+		}
+
+		List<Note> allUsersNotes = userService.getAllUsersNotes(user.getId());
+		Assertions.assertThat(allUsersNotes.size())
+				.isEqualTo(NOTES_COUNT);
+	}
+
+	@Test
+	public void getAllNotes() {
+		final int NOTES_COUNT = 2;
+		for (int i = 0; i < NOTES_COUNT; i++) {
+			userService.saveNewNote(createNote(), user.getId());
+		}
+
+		Assertions.assertThat(userService.getAllNotes().size())
+				.isGreaterThanOrEqualTo(NOTES_COUNT);
+	}
+
+	private Note createNote() {
+		Note note = new Note();
+		note.setText("sample text");
+
+		return note;
 	}
 
 }
