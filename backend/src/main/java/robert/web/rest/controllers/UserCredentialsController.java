@@ -38,8 +38,8 @@ public class UserCredentialsController {
 
 	@PostMapping("/add-note")
 	@ResponseStatus(HttpStatus.OK)
-	public void addNote(@RequestBody Note note) {
-		userService.saveNewNote(note, userInfoProvider.getUserDetails().getUserId());
+	public void addNote(@RequestBody String note) {
+		userService.saveNewNote(new Note(note), userInfoProvider.getUserDetails().getUserId());
 	}
 
 }

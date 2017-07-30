@@ -15,6 +15,13 @@ public class Note extends BasicEntity {
 	@JoinColumn(name = "USER_ID")
 	private User user;
 
+	public Note() {
+	}
+
+	public Note(String text) {
+		this.text = text;
+	}
+
 	public String getText() {
 		return text;
 	}
