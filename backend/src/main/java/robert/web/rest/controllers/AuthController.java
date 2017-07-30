@@ -75,6 +75,9 @@ public class AuthController {
 		if ( !passwordEncoder.matches(userDto.getPassword(), dbUser.getPassword()) ) {
 			throw new AuthException("Passwords do not match");
 		}
+		if ( log.isDebugEnabled() ) {
+			log.debug("generating token for user: {}", dbUser.toString());
+		}
 		return JwtUtils.generateToken(dbUser);
 	}
 
