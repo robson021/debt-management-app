@@ -1,18 +1,19 @@
 package robert.web.security.auth.filters;
 
-import io.jsonwebtoken.Claims;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.OncePerRequestFilter;
-import robert.exeptions.InvalidJwtException;
-import robert.web.security.auth.JwtAuthenticationToken;
-import robert.web.security.auth.JwtUtils;
+import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import io.jsonwebtoken.Claims;
+import robert.web.security.auth.JwtAuthenticationToken;
+import robert.web.security.auth.JwtUtils;
 
 public final class JwtFilter extends OncePerRequestFilter {
 
@@ -31,8 +32,7 @@ public final class JwtFilter extends OncePerRequestFilter {
 			Claims userClaims = JwtUtils.getUserClaims(authHeaderValue);
 			SecurityContextHolder.getContext()
 					.setAuthentication(generateAuthentication(userClaims));
-		} catch (Exception e) {
-			throw new InvalidJwtException("Invalid token.");
+		} catch (Exception ignored) {
 		}
 	}
 

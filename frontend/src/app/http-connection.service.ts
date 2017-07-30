@@ -34,7 +34,13 @@ export class HttpConnectionService {
     console.log('delete: ', uri);
     return this.http
       .delete(this.api + uri, {headers: this.headers})
-      .map(response => response.json());
+      .map(response => {
+        try {
+          response.json();
+        } catch (e) {
+          response.text();
+        }
+      });
   }
 
   performGet(uri): Observable<any> {

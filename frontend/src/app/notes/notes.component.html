@@ -2,12 +2,16 @@
   <table class="table table-hover table-striped" *ngIf="notes.length > 0">
     <thead>
     <tr>
-      <th>Note</th>
+      <th>NOTE</th>
+      <th>ACTION</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let note of notes">
       <td>{{note.text}}</td>
+      <td>
+        <button class="btn btn-danger" (click)="deleteNote(note.id)">Delete</button>
+      </td>
     </tr>
     </tbody>
   </table>

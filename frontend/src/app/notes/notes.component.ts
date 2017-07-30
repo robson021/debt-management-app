@@ -35,4 +35,9 @@ export class NotesComponent implements OnInit {
       .subscribe(data => this.loadNotes());
   }
 
+  deleteNote(noteId) {
+    this.http.performDelete('/credentials/remove-note/' + noteId + '/')
+      .subscribe(data => this.loadNotes());
+  }
+
 }
