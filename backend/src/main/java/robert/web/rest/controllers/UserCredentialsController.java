@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,7 +51,7 @@ public class UserCredentialsController {
 
 	@DeleteMapping("/remove-note/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public void removeNote(@RequestBody long id) {
+	public void removeNote(@PathVariable long id) {
 		userService.deleteNote(userInfoProvider.getUserId(), id);
 	}
 
