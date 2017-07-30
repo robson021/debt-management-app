@@ -89,7 +89,7 @@ public class AuthControllerTest extends SpringWebMvcTest {
 				.andExpect(status().isOk());
 	}
 
-	@Test()
+	@Test
 	public void shouldFailTokenValidation() throws Exception {
 		JwtAuthenticationToken details = new JwtAuthenticationToken(null, null, -1L);
 		Mockito.when(userInfoProvider.getUserDetails())
