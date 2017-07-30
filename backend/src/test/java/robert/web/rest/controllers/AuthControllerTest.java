@@ -1,6 +1,9 @@
 package robert.web.rest.controllers;
 
-import io.jsonwebtoken.Claims;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -8,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MvcResult;
+
+import io.jsonwebtoken.Claims;
 import robert.db.entities.User;
 import robert.db.repo.UserRepository;
 import robert.tools.SpringWebMvcTest;
@@ -16,10 +21,6 @@ import robert.web.rest.dto.SimpleMessageDTO;
 import robert.web.security.auth.JwtAuthenticationToken;
 import robert.web.security.auth.JwtUtils;
 import robert.web.svc.UserInfoProvider;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AuthControllerTest extends SpringWebMvcTest {
 
@@ -81,9 +82,8 @@ public class AuthControllerTest extends SpringWebMvcTest {
 
 	@Test
 	public void validateToken() throws Exception {
-		JwtAuthenticationToken details = new JwtAuthenticationToken(null, null, 1L);
-		Mockito.when(userInfoProvider.getUserDetails())
-				.thenReturn(details);
+		Mockito.when(userInfoProvider.getUserId())
+				.thenReturn(1L);
 
 		mockMvc.perform(get("/auth/am-i-logged-in"))
 				.andExpect(status().isOk());

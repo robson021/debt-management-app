@@ -1,5 +1,8 @@
 package robert.db;
 
+import java.util.List;
+import java.util.Random;
+
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
@@ -7,14 +10,14 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
+
 import robert.db.entities.Note;
 import robert.db.entities.User;
 import robert.db.svc.api.UserService;
+import robert.exeptions.NoteNotFoundException;
 import robert.tools.SpringTest;
 import robert.tools.TestUtils;
 import robert.web.rest.dto.UserInfoDTO;
-
-import java.util.List;
 
 public class UserServiceTest extends SpringTest {
 
@@ -78,7 +81,6 @@ public class UserServiceTest extends SpringTest {
 	}
 
 	@Test
-	@DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
 	public void saveNewNote() {
 		Note note = createNote();
 		userService.saveNewNote(note, user.getId());
@@ -92,9 +94,8 @@ public class UserServiceTest extends SpringTest {
 				.isEqualTo("sample text");
 	}
 
-	@Test
-	@DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
-	public void getAllUsersNotes() {
+	@Test(expected = NoteNotFoundException.class)
+	public void getAllUserNotesAndDeleteOne() {
 		final int NOTES_COUNT = 5;
 		for (int i = 0; i < NOTES_COUNT; i++) {
 			userService.saveNewNote(createNote(), user.getId());
@@ -103,6 +104,15 @@ public class UserServiceTest extends SpringTest {
 		List<Note> allUsersNotes = userService.getAllUsersNotes(user.getId());
 		Assertions.assertThat(allUsersNotes.size())
 				.isEqualTo(NOTES_COUNT);
+
+		int noteId = new Random().nextInt(NOTES_COUNT + 1);
+		userService.deleteNote(user.getId(), noteId);
+
+		allUsersNotes = userService.getAllUsersNotes(user.getId());
+		Assertions.assertThat(allUsersNotes.size())
+				.isEqualTo(NOTES_COUNT - 1);
+
+		userService.deleteNote(user.getId(), -1L);
 	}
 
 	@Test
@@ -112,7 +122,8 @@ public class UserServiceTest extends SpringTest {
 			userService.saveNewNote(createNote(), user.getId());
 		}
 
-		Assertions.assertThat(userService.getAllNotes().size())
+		Assertions.assertThat(userService.getAllNotes()
+				.size())
 				.isGreaterThanOrEqualTo(NOTES_COUNT);
 	}
 

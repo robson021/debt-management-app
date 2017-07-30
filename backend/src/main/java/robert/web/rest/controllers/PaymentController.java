@@ -38,27 +38,27 @@ public class PaymentController {
 	@PostMapping("/add-assets-to-user")
 	@ResponseStatus(HttpStatus.OK)
 	public void addAssetToTheUser(@RequestBody PaymentDTO borrowerInfo) {
-		long userId = userInfoProvider.getUserDetails().getUserId();
+		long userId = userInfoProvider.getUserId();
 		paymentService.addDebtor(userId, borrowerInfo);
 	}
 
 	@GetMapping("/my-debtors")
 	public List<PaymentDTO> getMyDebtors() {
-		long userId = userInfoProvider.getUserDetails().getUserId();
+		long userId = userInfoProvider.getUserId();
 		List<Asset> debtors = paymentService.findUserDebtors(userId);
 		return PaymentAssembler.convertToPaymentDTOs(debtors);
 	}
 
 	@GetMapping("/my-debts")
 	public List<PaymentDTO> getMyDebts() {
-		long userId = userInfoProvider.getUserDetails().getUserId();
+		long userId = userInfoProvider.getUserId();
 		List<Asset> userDebts = paymentService.findUserDebts(userId);
 		return PaymentAssembler.convertToPaymentDTOs(userDebts);
 	}
 
 	@DeleteMapping("/cancel-debt/{id}/")
 	public HttpStatus cancelDebt(@PathVariable long id) {
-		long userId = userInfoProvider.getUserDetails().getUserId();
+		long userId = userInfoProvider.getUserId();
 		paymentService.cancelDebt(id, userId);
 		return HttpStatus.OK;
 	}
@@ -71,7 +71,7 @@ public class PaymentController {
 
 	@PostMapping("/add-fee/{id}/{amount}/")
 	public HttpStatus addFeeToMutualPayment(@PathVariable long id, @PathVariable double amount) {
-		long userId = userInfoProvider.getUserDetails().getUserId();
+		long userId = userInfoProvider.getUserId();
 		paymentService.addUserFeeToPayment(userId, id, amount);
 		return HttpStatus.OK;
 	}
@@ -90,7 +90,7 @@ public class PaymentController {
 
 	@DeleteMapping("/delete-my-fees/{id}/")
 	public HttpStatus deleteMyFees(@PathVariable long id) {
-		long userId = userInfoProvider.getUserDetails().getUserId();
+		long userId = userInfoProvider.getUserId();
 		paymentService.deleteUserFees(userId, id);
 		return HttpStatus.OK;
 	}
@@ -103,13 +103,13 @@ public class PaymentController {
 
 	@GetMapping("/money-balance")
 	public double getMoneyBalance() {
-		long userId = userInfoProvider.getUserDetails().getUserId();
+		long userId = userInfoProvider.getUserId();
 		return paymentService.getUserDebtBalance(userId);
 	}
 
 	@GetMapping("/money-balance-with-other-user/{id}/")
 	public double getMoneyBalanceWithOtherUser(@PathVariable long id) {
-		long userId = userInfoProvider.getUserDetails().getUserId();
+		long userId = userInfoProvider.getUserId();
 		return paymentService.getMoneyBalanceWithOtherUser(userId, id);
 	}
 

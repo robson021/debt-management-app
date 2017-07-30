@@ -34,7 +34,8 @@ public class AuthController {
 
 	private final boolean isRegistrationEnabled;
 
-	public AuthController(@Value("${robert.registrationEnabled}") String registration, UserInfoProvider userInfoProvider, UserService userService, PasswordEncoder passwordEncoder) {
+	public AuthController(@Value("${robert.registrationEnabled}") String registration, UserInfoProvider userInfoProvider, UserService userService,
+			PasswordEncoder passwordEncoder) {
 		this.userInfoProvider = userInfoProvider;
 		this.userService = userService;
 		this.isRegistrationEnabled = Boolean.parseBoolean(registration);
@@ -45,7 +46,7 @@ public class AuthController {
 	@PostMapping("/login")
 	public SimpleMessageDTO loginUser(@RequestBody UserInfoDTO userDTO) throws Exception {
 		String token = tryToLogUserIn(userDTO);
-		if (log.isDebugEnabled()) {
+		if ( log.isDebugEnabled() ) {
 			log.debug("Logged user in: {}\nwith token: {}", userDTO, token);
 		}
 		return new SimpleMessageDTO(token);
@@ -54,7 +55,7 @@ public class AuthController {
 	@PostMapping("/register")
 	@ResponseStatus(HttpStatus.OK)
 	public void registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
-		if (!isRegistrationEnabled) {
+		if ( !isRegistrationEnabled ) {
 			throw new RuntimeException("Registration is currently disabled");
 		}
 		userService.saveNewUser(userDTO);
@@ -63,7 +64,7 @@ public class AuthController {
 
 	@GetMapping("/am-i-logged-in")
 	public HttpStatus validateToken() {
-		if (userInfoProvider.getUserDetails().getUserId() > 0) {
+		if ( userInfoProvider.getUserId() > 0 ) {
 			return HttpStatus.OK;
 		}
 		throw new AuthException("Token is not valid");
@@ -71,7 +72,7 @@ public class AuthController {
 
 	private String tryToLogUserIn(UserInfoDTO userDto) {
 		User dbUser = userService.findUserByEmail(userDto.getEmail());
-		if (!passwordEncoder.matches(userDto.getPassword(), dbUser.getPassword())) {
+		if ( !passwordEncoder.matches(userDto.getPassword(), dbUser.getPassword()) ) {
 			throw new AuthException("Passwords do not match");
 		}
 		return JwtUtils.generateToken(dbUser);

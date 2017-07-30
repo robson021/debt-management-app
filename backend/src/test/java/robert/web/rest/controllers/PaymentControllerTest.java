@@ -1,22 +1,24 @@
 package robert.web.rest.controllers;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+
 import robert.db.entities.User;
 import robert.db.repo.UserRepository;
 import robert.db.svc.api.PaymentService;
 import robert.tools.SpringWebMvcTest;
 import robert.tools.TestUtils;
 import robert.web.rest.dto.PaymentDTO;
-import robert.web.security.auth.JwtAuthenticationToken;
 import robert.web.svc.UserInfoProvider;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class PaymentControllerTest extends SpringWebMvcTest {
 
@@ -41,29 +43,26 @@ public class PaymentControllerTest extends SpringWebMvcTest {
 		paymentService.addDebtor(lender.getId(), TestUtils.generatePayment(borrower));
 		paymentService.addDebtor(lender.getId(), TestUtils.generatePayment(borrower));
 
-		JwtAuthenticationToken auth = new JwtAuthenticationToken(null, lender.getEmail(), lender.getId());
-
-		Mockito.when(userInfoProvider.getUserDetails())
-				.thenReturn(auth);
+		Mockito.when(userInfoProvider.getUserId())
+				.thenReturn(lender.getId());
 	}
 
 	@Test
 	public void addAssetToTheUser() throws Exception {
 		PaymentDTO paymentDTO = TestUtils.generatePayment(borrower);
-		mockMvc.perform(post("/payments/add-assets-to-user")
-				.content(TestUtils.asJsonString(paymentDTO))
+		mockMvc.perform(post("/payments/add-assets-to-user").content(TestUtils.asJsonString(paymentDTO))
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 	}
 
 	@Test
 	public void getMyDebtors() throws Exception {
-        // add extra debtor
-        User debtor = userRepository.save(TestUtils.generateNewUser());
-        paymentService.addDebtor(lender.getId(), TestUtils.generatePayment(debtor));
+		// add extra debtor
+		User debtor = userRepository.save(TestUtils.generateNewUser());
+		paymentService.addDebtor(lender.getId(), TestUtils.generatePayment(debtor));
 
-        String response = mockMvc.perform(get("/payments/my-debtors"))
-                .andExpect(status().isOk())
+		String response = mockMvc.perform(get("/payments/my-debtors"))
+				.andExpect(status().isOk())
 				.andReturn()
 				.getResponse()
 				.getContentAsString();
@@ -71,13 +70,13 @@ public class PaymentControllerTest extends SpringWebMvcTest {
 		PaymentDTO[] payments = TestUtils.jsonToObject(response, PaymentDTO[].class);
 
 		Assertions.assertThat(payments)
-                .hasSize(3);
+				.hasSize(3);
 	}
 
 	@Test
 	public void getMyDebts() throws Exception {
-		Mockito.when(userInfoProvider.getUserDetails())
-				.thenReturn(new JwtAuthenticationToken(null, borrower.getEmail(), borrower.getId()));
+		Mockito.when(userInfoProvider.getUserId())
+				.thenReturn(borrower.getId());
 
 		String response = mockMvc.perform(get("/payments/my-debts"))
 				.andExpect(status().isOk())
@@ -105,9 +104,10 @@ public class PaymentControllerTest extends SpringWebMvcTest {
 
 	@Test
 	public void cancelDebt() throws Exception {
-		Long debtId = paymentService.findUserDebtors(lender.getId()).get(0).getId();
-		String url = "/payments/cancel-debt/{id}/"
-				.replace("{id}", debtId.toString());
+		Long debtId = paymentService.findUserDebtors(lender.getId())
+				.get(0)
+				.getId();
+		String url = "/payments/cancel-debt/{id}/".replace("{id}", debtId.toString());
 
 		mockMvc.perform(delete(url))
 				.andExpect(status().isOk());
@@ -129,8 +129,8 @@ public class PaymentControllerTest extends SpringWebMvcTest {
 
 	@Test
 	public void getMoneyBalanceWithOtherUser() throws Exception {
-		String url = "/payments/money-balance-with-other-user/{id}/"
-				.replace("{id}", borrower.getId().toString());
+		String url = "/payments/money-balance-with-other-user/{id}/".replace("{id}", borrower.getId()
+				.toString());
 
 		String response = mockMvc.perform(get(url))
 				.andExpect(status().isOk())

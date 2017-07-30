@@ -29,8 +29,8 @@ public class UserCredentialsControllerTest extends SpringWebMvcTest {
 
 		User user = userService.saveNewUser(TestUtils.generateNewUser());
 
-		Mockito.when(userInfoProvider.getUserDetails())
-				.thenReturn(TestUtils.mockAuthWithNoRole(user));
+		Mockito.when(userInfoProvider.getUserId())
+				.thenReturn(user.getId());
 
 		String response = mockMvc.perform(get("/credentials/other-users/"))
 				.andReturn()
