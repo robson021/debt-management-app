@@ -9,7 +9,7 @@
     <tbody>
     <tr *ngFor="let note of notes">
       <td>{{note.text}}</td>
-      <td>
+      <td class="button-cell">
         <button class="btn btn-danger" (click)="deleteNote(note.id)">Delete</button>
       </td>
     </tr>

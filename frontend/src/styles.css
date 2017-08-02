@@ -39,3 +39,7 @@ form select {
 .green-text {
   color: green;
 }
+
+.button-cell {
+  width: 20%;
+}

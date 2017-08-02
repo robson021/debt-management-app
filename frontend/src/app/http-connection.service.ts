@@ -73,7 +73,18 @@ export class HttpConnectionService {
     let token = sessionStorage.getItem('token');
     if (token) {
       this.headers.append('Authorization', token);
+      this.checkAdminPrivileges();
       this.router.navigate(['/my-debts']);
     }
+  }
+
+  checkAdminPrivileges() {
+    this.performGet('auth/am-i-admin')
+      .subscribe(data => {
+        if (data !== "OK") {
+          let btn = document.getElementById('admin-button');
+          btn.style.display = 'none';
+        }
+      });
   }
 }

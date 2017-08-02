@@ -56,7 +56,7 @@ public class DevSettings {
 		});
 
 		userService.saveNewUser(user);
-		System.out.println("saved test user: " + user.getEmail() + "; password: " + user.getPassword());
+		System.out.println("saved test user: " + user.toString());
 
 		Long userId = userService.findUserByEmail(testUserEmail).getId();
 		User borrower = userService.findUserById(userId - 1);

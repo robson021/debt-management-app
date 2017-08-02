@@ -70,6 +70,13 @@ public class AuthController {
 		throw new AuthException("Token is not valid");
 	}
 
+	@GetMapping("/am-i-admin")
+	public HttpStatus checkIfAdmin() {
+		return userInfoProvider.getUserDetails()
+				.getAuthorities()
+				.isEmpty() ? HttpStatus.UNAUTHORIZED : HttpStatus.OK;
+	}
+
 	private String tryToLogUserIn(UserInfoDTO userDto) {
 		User dbUser = userService.findUserByEmail(userDto.getEmail());
 		if ( !passwordEncoder.matches(userDto.getPassword(), dbUser.getPassword()) ) {
