@@ -43,3 +43,8 @@ form select {
 .button-cell {
   width: 20%;
 }
+
+.with-border {
+  margin-bottom: 5%;
+  border: ridge;
+}
