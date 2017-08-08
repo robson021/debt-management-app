@@ -5,18 +5,16 @@ server:
 spring:
   profiles:
     active: dev
-  jackson:
-    serialization:
-      INDENT_OUTPUT: true
   datasource:
     dbcp2:
       max-total: 4
 
-
 logging:
   level:
-    robert: DEBUG
-    org.hibernate: WARN
+    robert: debug
+    org.hibernate: warn
+    org.springframework: error
+    org.springframework.boot.context.embedded: info
 
 robert:
   registrationEnabled: true
