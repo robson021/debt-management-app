@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import robert.db.svc.api.UserService;
+import robert.exeptions.NotAnAdminException;
+import robert.exeptions.UnsupportedFunctionalityException;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.svc.api.UserDetailsProvider;
 
@@ -32,19 +34,22 @@ public class AuthController {
 	@ResponseStatus(HttpStatus.OK)
 	public void registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
 		if (!isRegistrationEnabled) {
-			throw new RuntimeException("Registration is currently disabled");
+			throw new UnsupportedFunctionalityException();
 		}
 		userService.saveNewUser(userDTO);
 		log.info("Registered new user:", userDTO);
 	}
 
 	@GetMapping("/am-i-admin")
-	public HttpStatus checkIfAdmin() {
+	@ResponseStatus(HttpStatus.OK)
+	public void checkIfAdmin() {
 		boolean isAdmin = userDetailsProvider.getAuthorities()
 				.stream()
 				.anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
 
-		return isAdmin ? HttpStatus.OK : HttpStatus.UNAUTHORIZED;
+		if (!isAdmin) {
+			throw new NotAnAdminException();
+		}
 	}
 
 }

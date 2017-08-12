@@ -1,12 +1,12 @@
 package robert.web.rest.controllers;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.util.FieldUtils;
+import org.springframework.test.web.servlet.ResultActions;
 import robert.db.entities.User;
 import robert.tools.SpringWebMvcTest;
 import robert.tools.TestUtils;
@@ -47,23 +47,19 @@ public class AuthControllerTest extends SpringWebMvcTest {
 		Mockito.when(userDetailsProvider.getAuthorities())
 				.thenCallRealMethod();
 
-		Assertions.assertThat(checkIfAdminRequest())
-				.contains("OK");
+		checkIfUserHasAdminRole()
+				.andExpect(status().isOk());
 
 		user.setAdminRole(false);
 		Mockito.when(userDetailsProvider.getUserDetails())
 				.thenReturn(new UserDetailsImpl(user));
 
-		Assertions.assertThat(checkIfAdminRequest())
-				.contains("UNAUTHORIZED");
+		checkIfUserHasAdminRole()
+				.andExpect(status().isUnauthorized());
 	}
 
-	private String checkIfAdminRequest() throws Exception {
-		return mockMvc.perform(get("/auth/am-i-admin/"))
-				.andExpect(status().isOk())
-				.andReturn()
-				.getResponse()
-				.getContentAsString();
+	private ResultActions checkIfUserHasAdminRole() throws Exception {
+		return mockMvc.perform(get("/auth/am-i-admin/"));
 	}
 
 }
