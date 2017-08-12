@@ -19,12 +19,18 @@ export class HttpConnectionService {
   }
 
   logUserIn(credentials) {
+    let headers: Headers = new Headers();
+    headers.append('Authorization', 'Basic ' + btoa('client:secret'));
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+    let url = `oauth/token?password=${credentials.password}&username=${credentials.email}&grant_type=password&scope=openid&client_secret=secret&client_id=client`;
+
     this.http
-      .post(this.api + 'auth/login/', JSON.stringify(credentials), {headers: this.headers})
+      .post(this.api + url, null, {headers: headers})
       .map(response => response.json())
       .subscribe(
         data => {
-          sessionStorage.setItem('token', 'Bearer ' + data.message);
+          sessionStorage.setItem('token', 'Bearer ' + data.access_token);
           this.tryLogUserIn();
         }
       );
@@ -64,11 +70,6 @@ export class HttpConnectionService {
       .catch(this.serverError);
   }
 
-  private serverError(err: any) {
-    console.log('sever error:', err);
-    return Observable.throw('error');
-  }
-
   tryLogUserIn() {
     let token = sessionStorage.getItem('token');
     if (token) {
@@ -81,10 +82,15 @@ export class HttpConnectionService {
   checkAdminPrivileges() {
     this.performGet('auth/am-i-admin')
       .subscribe(data => {
-        if (data !== "OK") {
+        if (data !== 'OK') {
           let btn = document.getElementById('admin-button');
           btn.style.display = 'none';
         }
       });
+  }
+
+  private serverError(err: any) {
+    console.log('sever error:', err);
+    return Observable.throw('error');
   }
 }
