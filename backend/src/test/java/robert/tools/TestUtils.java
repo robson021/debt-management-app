@@ -1,16 +1,12 @@
 package robert.tools;
 
-import java.io.IOException;
-import java.util.Collections;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import robert.db.entities.User;
 import robert.web.rest.dto.PaymentDTO;
-import robert.web.security.auth.JwtAuthenticationToken;
+
+import java.io.IOException;
 
 public class TestUtils {
 
@@ -44,10 +40,6 @@ public class TestUtils {
 		paymentDTO.setBorrowerSurname(borrower.getSurname());
 
 		return paymentDTO;
-	}
-
-	public static JwtAuthenticationToken mockAuthWithNoRole(User user) {
-		return new JwtAuthenticationToken(Collections.emptySet(), user.getEmail(), user.getId());
 	}
 
 }

@@ -1,29 +1,26 @@
 package robert.web.rest.controllers;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-
 import robert.db.entities.User;
 import robert.db.repo.UserRepository;
 import robert.db.svc.api.PaymentService;
 import robert.tools.SpringWebMvcTest;
 import robert.tools.TestUtils;
 import robert.web.rest.dto.PaymentDTO;
-import robert.web.svc.UserInfoProvider;
+import robert.web.svc.api.UserDetailsProvider;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class PaymentControllerTest extends SpringWebMvcTest {
 
 	@Autowired
-	private UserInfoProvider userInfoProvider;
+	private UserDetailsProvider userDetailsProvider;
 
 	@Autowired
 	private PaymentService paymentService;
@@ -43,7 +40,7 @@ public class PaymentControllerTest extends SpringWebMvcTest {
 		paymentService.addDebtor(lender.getId(), TestUtils.generatePayment(borrower));
 		paymentService.addDebtor(lender.getId(), TestUtils.generatePayment(borrower));
 
-		Mockito.when(userInfoProvider.getUserId())
+		Mockito.when(userDetailsProvider.getUserId())
 				.thenReturn(lender.getId());
 	}
 
@@ -75,7 +72,7 @@ public class PaymentControllerTest extends SpringWebMvcTest {
 
 	@Test
 	public void getMyDebts() throws Exception {
-		Mockito.when(userInfoProvider.getUserId())
+		Mockito.when(userDetailsProvider.getUserId())
 				.thenReturn(borrower.getId());
 
 		String response = mockMvc.perform(get("/payments/my-debts"))

@@ -1,17 +1,16 @@
 package robert.web.rest.controllers;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import robert.db.entities.User;
 import robert.db.svc.api.UserService;
 import robert.tools.SpringWebMvcTest;
 import robert.tools.TestUtils;
-import robert.web.svc.UserInfoProvider;
+import robert.web.svc.api.UserDetailsProvider;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 public class UserCredentialsControllerTest extends SpringWebMvcTest {
 
@@ -19,7 +18,7 @@ public class UserCredentialsControllerTest extends SpringWebMvcTest {
 	private UserService userService;
 
 	@Autowired
-	private UserInfoProvider userInfoProvider;
+	private UserDetailsProvider userDetailsProvider;
 
 	@Test
 	public void getOtherUsersDetails() throws Exception {
@@ -29,7 +28,7 @@ public class UserCredentialsControllerTest extends SpringWebMvcTest {
 
 		User user = userService.saveNewUser(TestUtils.generateNewUser());
 
-		Mockito.when(userInfoProvider.getUserId())
+		Mockito.when(userDetailsProvider.getUserId())
 				.thenReturn(user.getId());
 
 		String response = mockMvc.perform(get("/credentials/other-users/"))

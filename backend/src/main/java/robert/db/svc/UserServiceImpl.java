@@ -1,13 +1,7 @@
 package robert.db.svc;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import robert.db.entities.Note;
 import robert.db.entities.User;
 import robert.db.repo.UserRepository;
@@ -15,6 +9,10 @@ import robert.db.svc.api.UserService;
 import robert.exeptions.NoteNotFoundException;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.UserAssembler;
+
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -69,7 +67,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void changePassword(long userId, String newPassword) {
-		if ( newPassword.length() < 5 ) {
+		if (newPassword.length() < 5) {
 			throw new IllegalArgumentException("Password is too short");
 		}
 		User user = em.getReference(User.class, userId);
@@ -88,12 +86,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteNote(long userId, long noteId) {
 		int deletedEntities = em //
-				.createQuery("delete from Note n where n.user.id = :uid and n.id = :nid")
-				.setParameter("uid", userId)
+				.createQuery("delete from Note n where n.id = :nid and n.user.id = :uid")
 				.setParameter("nid", noteId)
+				.setParameter("uid", userId)
 				.executeUpdate();
 
-		if ( deletedEntities < 1 ) {
+		if (deletedEntities < 1) {
 			throw new NoteNotFoundException();
 		}
 	}

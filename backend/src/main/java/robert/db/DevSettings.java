@@ -1,19 +1,17 @@
 package robert.db;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-
 import robert.db.entities.User;
 import robert.db.svc.api.PaymentService;
 import robert.db.svc.api.UserService;
 import robert.web.rest.dto.PaymentDTO;
+
+import javax.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 @Profile("dev")
 @Component
@@ -36,7 +34,7 @@ public class DevSettings {
 		user.setName("Example");
 		user.setSurname("User");
 		user.setPassword("Passwd.123");
-		user.setRole(true);
+		user.setAdminRole(true);
 		user.setAccountNo(RandomStringUtils.randomNumeric(10));
 
 		List<User> users = Arrays.asList(new User(), new User(), new User(), new User());
@@ -48,9 +46,6 @@ public class DevSettings {
 			String password = "P.1" + RandomStringUtils.randomAlphanumeric(7);
 			u.setPassword(password);
 			u.setAccountNo(RandomStringUtils.randomNumeric(10));
-		});
-
-		users.forEach(u -> {
 			u.setAccountNo(RandomStringUtils.randomNumeric(12));
 			userService.saveNewUser(u);
 		});

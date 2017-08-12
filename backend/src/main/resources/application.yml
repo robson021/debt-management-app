@@ -1,6 +1,9 @@
-server:
-  undertow:
-    worker-threads: 4
+logging:
+  level:
+    robert: debug
+    org.hibernate: warn
+    org.springframework: warn
+    org.springframework.boot.context.embedded: info
 
 spring:
   profiles:
@@ -9,12 +12,10 @@ spring:
     dbcp2:
       max-total: 4
 
-logging:
-  level:
-    robert: debug
-    org.hibernate: warn
-    org.springframework: error
-    org.springframework.boot.context.embedded: info
+server:
+  undertow:
+    worker-threads: 4
+    io-threads: 4
 
 robert:
   registrationEnabled: true
