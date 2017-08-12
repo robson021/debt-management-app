@@ -6,8 +6,6 @@ import org.apache.commons.lang3.RandomUtils;
 import robert.db.entities.User;
 import robert.web.rest.dto.PaymentDTO;
 
-import java.io.IOException;
-
 public class TestUtils {
 
 	private static final ObjectMapper mapper = new ObjectMapper();
@@ -16,7 +14,7 @@ public class TestUtils {
 		return mapper.writeValueAsString(obj);
 	}
 
-	public static <T> T jsonToObject(String json, Class<T> clazz) throws IOException {
+	public static <T> T jsonToObject(String json, Class<T> clazz) throws Exception {
 		return mapper.readValue(json, clazz);
 	}
 

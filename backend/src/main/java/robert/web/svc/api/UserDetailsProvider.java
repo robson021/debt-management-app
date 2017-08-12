@@ -1,6 +1,9 @@
 package robert.web.svc.api;
 
+import org.springframework.security.core.GrantedAuthority;
 import robert.web.security.userdetails.UserDetailsImpl;
+
+import java.util.Collection;
 
 public interface UserDetailsProvider {
 
@@ -9,4 +12,6 @@ public interface UserDetailsProvider {
 	long getUserId();
 
 	String getUserEmail();
+
+	Collection<? extends GrantedAuthority> getAuthorities();
 }
