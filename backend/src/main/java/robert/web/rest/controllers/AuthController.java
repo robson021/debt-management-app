@@ -40,9 +40,11 @@ public class AuthController {
 
 	@GetMapping("/am-i-admin")
 	public HttpStatus checkIfAdmin() {
-		return userDetailsProvider.getUserDetails()
-				.getAuthorities()
-				.isEmpty() ? HttpStatus.UNAUTHORIZED : HttpStatus.OK;
+		boolean isAdmin = userDetailsProvider.getUserDetails()
+				.getAuthorities().stream()
+				.anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
+
+		return isAdmin ? HttpStatus.OK : HttpStatus.UNAUTHORIZED;
 	}
 
 }
