@@ -1,11 +1,7 @@
 # debt-management-app
 Simple aplicatin with Angular and Spring Boot.
-Securit is done with JWT tokens, based on:
 <br>
-https://github.com/szerhusenBC/jwt-spring-security-demo
+<b>UPDATE<b>
 <br>
-https://github.com/nielsutrecht/jwt-angular-spring
-<br>
-https://github.com/oharsta/spring-jwt
-<br>
-My implementation is mix of code used in projects mentioned above.
+Authentication changed from JWT to Oauth2.<br>
+For older auth mechanism check JWT branch.
