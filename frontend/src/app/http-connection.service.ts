@@ -80,13 +80,17 @@ export class HttpConnectionService {
   }
 
   checkAdminPrivileges() {
-    this.performGet('auth/am-i-admin')
-      .subscribe(data => {
-        if (data !== 'OK') {
-          let btn = document.getElementById('admin-button');
-          btn.style.display = 'none';
+    this.http
+      .get(this.api + 'auth/am-i-admin', {headers: this.headers})
+      .subscribe(
+        (data) => {
+          document.getElementById('admin-button')
+            .style
+            .display = 'list-item';
+        },
+        (err) => {
         }
-      });
+      );
   }
 
   private serverError(err: any) {
