@@ -31,7 +31,7 @@ export class HttpConnectionService {
       .subscribe(
         data => {
           sessionStorage.setItem('token', 'Bearer ' + data.access_token);
-          this.tryLogUserIn();
+          this.checkTokenAndEnterApplication();
         }
       );
   }
@@ -70,11 +70,12 @@ export class HttpConnectionService {
       .catch(this.serverError);
   }
 
-  tryLogUserIn() {
+  checkTokenAndEnterApplication() {
     let token = sessionStorage.getItem('token');
     if (token) {
       this.headers.append('Authorization', token);
       this.checkAdminPrivileges();
+      document.getElementById('navbar').style.display = 'block';
       this.router.navigate(['/my-debts']);
     }
   }

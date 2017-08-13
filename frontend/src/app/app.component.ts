@@ -11,6 +11,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.tryLogUserIn();
+    this.http.checkTokenAndEnterApplication();
   }
 }
