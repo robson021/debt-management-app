@@ -1,8 +1,8 @@
 logging:
   level:
     robert: debug
-    org.hibernate: warn
-    org.springframework: warn
+    org.hibernate: error
+    org.springframework: error
     org.springframework.boot.context.embedded: info
 
 spring:
