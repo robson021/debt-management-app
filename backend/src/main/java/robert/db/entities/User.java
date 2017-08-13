@@ -76,7 +76,7 @@ public class User extends BasicEntity {
 		this.accountNo = accountNo;
 	}
 
-	public boolean getRole() {
+	public boolean hasAdminRole() {
 		return role;
 	}
 

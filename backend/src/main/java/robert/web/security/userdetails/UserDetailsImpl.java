@@ -1,14 +1,11 @@
 package robert.web.security.userdetails;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
 import robert.db.entities.User;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class UserDetailsImpl implements UserDetails {
@@ -26,10 +23,10 @@ public class UserDetailsImpl implements UserDetails {
 		this.userId = user.getId();
 		this.username = user.getEmail();
 		this.password = user.getPassword();
-		if (user.getRole()) {
-			this.authorities = getAdminAuthorities();
+		if (user.hasAdminRole()) {
+			this.authorities = Roles.ROLE_ADMIN;
 		} else {
-			this.authorities = getUserAuthority();
+			this.authorities = Roles.ROLE_USER;
 		}
 	}
 
@@ -77,11 +74,4 @@ public class UserDetailsImpl implements UserDetails {
 		return "UserDetailsImpl{" + "userId=" + userId + ", username='" + username + '\'' + ", authorities=" + authorities + '}';
 	}
 
-	private List<SimpleGrantedAuthority> getUserAuthority() {
-		return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-	}
-
-	private List<SimpleGrantedAuthority> getAdminAuthorities() {
-		return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"), new SimpleGrantedAuthority("ROLE_ADMIN"));
-	}
 }
