@@ -25,7 +25,7 @@ public class User extends BasicEntity {
 	private String accountNo;
 
 	@Column(nullable = false)
-	private Boolean adminRole = false; // is admin?
+	private Boolean adminRole = false;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Fee> fees = null;
