@@ -25,7 +25,7 @@ public class User extends BasicEntity {
 	private String accountNo;
 
 	@Column(nullable = false)
-	private Boolean role = false; // is admin?
+	private Boolean adminRole = false; // is admin?
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Fee> fees = null;
@@ -77,11 +77,11 @@ public class User extends BasicEntity {
 	}
 
 	public boolean hasAdminRole() {
-		return role;
+		return adminRole;
 	}
 
 	public void setAdminRole(Boolean role) {
-		this.role = role;
+		this.adminRole = role;
 	}
 
 	public Set<Fee> getFees() {
@@ -110,6 +110,6 @@ public class User extends BasicEntity {
 
 	@Override
 	public String toString() {
-		return "User{" + "name='" + name + '\'' + ", surname='" + surname + '\'' + ", email='" + email + '\'' + ", role=" + role + '}';
+		return "User{" + "name='" + name + '\'' + ", surname='" + surname + '\'' + ", email='" + email + '\'' + ", adminRole=" + adminRole + '}';
 	}
 }
