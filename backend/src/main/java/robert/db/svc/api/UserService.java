@@ -21,6 +21,8 @@ public interface UserService {
 
 	void changePassword(long userId, String newPassword);
 
+	void changeEmail(long userId, String newEmail);
+
 	void saveNewNote(Note note, long userId);
 
 	void deleteNote(long userId, long noteId);

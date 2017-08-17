@@ -1,7 +1,13 @@
 package robert.db.svc;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import robert.db.entities.Note;
 import robert.db.entities.User;
 import robert.db.repo.UserRepository;
@@ -9,10 +15,6 @@ import robert.db.svc.api.UserService;
 import robert.exeptions.NoteNotFoundException;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.UserAssembler;
-
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 @Transactional
@@ -72,6 +74,12 @@ public class UserServiceImpl implements UserService {
 		}
 		User user = em.getReference(User.class, userId);
 		user.setPassword(passwordEncoder.encode(newPassword));
+	}
+
+	@Override
+	public void changeEmail(long userId, String newEmail) {
+		User user = em.getReference(User.class, userId);
+		user.setEmail(newEmail);
 	}
 
 	@Override

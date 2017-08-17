@@ -81,6 +81,18 @@ public class UserServiceTest extends SpringTest {
 	}
 
 	@Test
+	public void changeEmail() {
+		final String newEmail = "new@email.com";
+		userService.changeEmail(user.getId(), newEmail);
+
+		String email = userService.findUserById(user.getId())
+				.getEmail();
+
+		Assertions.assertThat(newEmail)
+				.isEqualTo(email);
+	}
+
+	@Test
 	public void saveNewNote() {
 		Note note = createNote();
 		userService.saveNewNote(note, user.getId());

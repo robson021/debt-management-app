@@ -15,7 +15,7 @@ import javax.persistence.Transient;
 public class Asset extends BasicEntity {
 
 	@Transient
-	private static final DecimalFormat decimalMoneyFormat = new DecimalFormat("#.##");
+	private static final transient DecimalFormat decimalMoneyFormat = new DecimalFormat("#.##");
 
 	@Column(nullable = false)
 	private Double amount;
@@ -25,7 +25,7 @@ public class Asset extends BasicEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "USER_ID")
-	private User user;
+	private User user; // lender
 
 	@Column(/*nullable = false*/)
 	private String borrowerEmail;
