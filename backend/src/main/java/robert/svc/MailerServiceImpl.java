@@ -9,7 +9,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import robert.svc.api.AsyncTaskService;
 import robert.svc.api.MailerService;
 
 import javax.mail.internet.MimeMessage;

@@ -3,14 +3,13 @@ package robert.svc;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
-import robert.svc.api.AsyncTaskService;
 
 @Service
-public class AsyncTaskServiceImpl implements AsyncTaskService {
+public class AsyncTaskService {
 
 	private final TaskExecutor taskExecutor;
 
-	public AsyncTaskServiceImpl() {
+	public AsyncTaskService() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		executor.setCorePoolSize(1);
 		executor.setQueueCapacity(3);
@@ -19,8 +18,7 @@ public class AsyncTaskServiceImpl implements AsyncTaskService {
 		this.taskExecutor = executor;
 	}
 
-	@Override
-	public void submit(Runnable task) {
+	void submit(Runnable task) {
 		taskExecutor.execute(task);
 	}
 }
