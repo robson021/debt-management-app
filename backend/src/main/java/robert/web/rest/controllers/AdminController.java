@@ -1,29 +1,31 @@
 package robert.web.rest.controllers;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import robert.db.entities.Note;
 import robert.db.entities.User;
 import robert.db.svc.api.UserService;
+import robert.svc.api.MailerService;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.UserAssembler;
+import robert.web.svc.api.UserDetailsProvider;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
 
+	private final UserDetailsProvider userDetailsProvider;
+
 	private final UserService userService;
 
-	public AdminController(UserService userService) {
+	private final MailerService mailerService;
+
+	public AdminController(UserDetailsProvider userDetailsProvider, UserService userService, MailerService mailerService) {
+		this.userDetailsProvider = userDetailsProvider;
 		this.userService = userService;
+		this.mailerService = mailerService;
 	}
 
 	@GetMapping("/all-users")
@@ -47,6 +49,12 @@ public class AdminController {
 	@GetMapping("/all-notes")
 	public List<Note> getAllNotes() {
 		return userService.getAllNotes();
+	}
+
+	@PostMapping("/send-server-logs")
+	@ResponseStatus(HttpStatus.OK)
+	public void sendServerLogs() {
+		mailerService.sendServerLogs(userDetailsProvider.getUserEmail());
 	}
 
 }

@@ -4,6 +4,7 @@ logging:
     org.hibernate: error
     org.springframework: error
     org.springframework.boot.context.embedded: info
+  file: app.log
 
 spring:
   profiles:
