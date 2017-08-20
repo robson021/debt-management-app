@@ -34,7 +34,7 @@ public class DebtManagementApplication {
 	@Bean
 	@ConditionalOnMissingBean
 	public MailerService mailerService() {
-		return receiverEmail -> System.out.println("Fake mailer service");
+		return receiverEmail -> System.out.println("Fake mailer service for " + receiverEmail);
 	}
 
 	@Autowired
