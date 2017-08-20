@@ -3,6 +3,7 @@ package robert.svc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -15,6 +16,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Date;
 
 @Service
+@Profile("prod")
 public class MailerServiceImpl implements MailerService {
 
 	private static final Logger log = LoggerFactory.getLogger(MailerServiceImpl.class);
