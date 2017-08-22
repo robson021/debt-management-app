@@ -1,14 +1,19 @@
 package robert.tools;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.test.util.ReflectionTestUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import robert.db.entities.User;
 import robert.web.rest.dto.PaymentDTO;
 
 public class TestUtils {
 
 	private static final ObjectMapper mapper = new ObjectMapper();
+
+	private static long idCounter = 1;
 
 	public static String asJsonString(final Object obj) throws Exception {
 		return mapper.writeValueAsString(obj);
@@ -26,6 +31,12 @@ public class TestUtils {
 		user.setSurname(RandomStringUtils.randomAlphabetic(8));
 		user.setPassword("Passwd.123");
 		user.setAccountNo(RandomStringUtils.randomNumeric(12));
+		return user;
+	}
+
+	public static User generateNewUserWithId() {
+		User user = generateNewUser();
+		ReflectionTestUtils.setField(user, "id", idCounter++);
 		return user;
 	}
 
