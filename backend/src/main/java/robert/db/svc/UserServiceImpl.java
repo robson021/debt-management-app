@@ -12,6 +12,7 @@ import robert.db.entities.Note;
 import robert.db.entities.User;
 import robert.db.repo.UserRepository;
 import robert.db.svc.api.UserService;
+import robert.exeptions.InvalidPasswordPatternException;
 import robert.exeptions.NoteNotFoundException;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.UserAssembler;
@@ -70,7 +71,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void changePassword(long userId, String newPassword) {
 		if ( newPassword.length() < 5 ) {
-			throw new IllegalArgumentException("Password is too short");
+			throw new InvalidPasswordPatternException();
 		}
 		User user = em.getReference(User.class, userId);
 		user.setPassword(passwordEncoder.encode(newPassword));
