@@ -1,16 +1,18 @@
 package robert.db;
 
+import java.util.Random;
+import java.util.stream.Stream;
+
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+
 import robert.db.entities.User;
 import robert.db.svc.api.PaymentService;
 import robert.db.svc.api.UserService;
 import robert.web.rest.dto.PaymentDTO;
-
-import javax.annotation.PostConstruct;
-import java.util.Random;
-import java.util.stream.Stream;
 
 @Profile("dev")
 @Component
@@ -38,7 +40,8 @@ public class DevSettings {
 
 		Stream.of(new User(), new User(), new User(), new User())
 				.forEach(u -> {
-					u.setEmail("user@mail." + RandomStringUtils.randomAlphabetic(3).toLowerCase());
+					u.setEmail("user@mail." + RandomStringUtils.randomAlphabetic(3)
+							.toLowerCase());
 					u.setName(RandomStringUtils.randomAlphabetic(6));
 					u.setSurname(RandomStringUtils.randomAlphabetic(6));
 					String password = "P.1" + RandomStringUtils.randomAlphanumeric(7);
@@ -51,7 +54,8 @@ public class DevSettings {
 		userService.saveNewUser(user);
 		System.out.println("saved test user: " + user.toString());
 
-		long userId = userService.findUserByEmail(testUserEmail).getId();
+		long userId = userService.findUserByEmail(testUserEmail)
+				.getId();
 		User borrower = userService.findUserById(userId - 1);
 
 		Stream.of(new PaymentDTO(), new PaymentDTO())

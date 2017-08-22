@@ -1,5 +1,9 @@
 package robert.svc;
 
+import java.util.Date;
+
+import javax.mail.internet.MimeMessage;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,10 +13,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import robert.svc.api.MailerService;
 
-import javax.mail.internet.MimeMessage;
-import java.util.Date;
+import robert.svc.api.MailerService;
 
 @Service
 @Profile("prod")

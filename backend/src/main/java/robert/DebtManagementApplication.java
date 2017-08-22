@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
 import robert.svc.api.MailerService;
 
 @SpringBootApplication
@@ -39,8 +40,7 @@ public class DebtManagementApplication {
 
 	@Autowired
 	public void authenticationManager(AuthenticationManagerBuilder builder, UserDetailsService details, PasswordEncoder encoder) throws Exception {
-		builder
-				.userDetailsService(details)
+		builder.userDetailsService(details)
 				.passwordEncoder(encoder);
 	}
 }

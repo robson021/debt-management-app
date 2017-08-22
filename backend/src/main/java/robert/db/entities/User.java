@@ -1,8 +1,13 @@
 package robert.db.entities;
 
-import javax.persistence.*;
-import javax.validation.constraints.Pattern;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "USER")
@@ -15,7 +20,7 @@ public class User extends BasicEntity {
 	private String surname;
 
 	@Column(name = "EMAIL", unique = true, nullable = false)
-	@Pattern(regexp = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,6}$")
+	@Pattern(regexp = ".*(^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,6}$)")
 	private String email;
 
 	@Column(nullable = false)

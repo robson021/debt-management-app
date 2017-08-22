@@ -4,7 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
 import robert.db.svc.api.UserService;
 import robert.exeptions.NotAnAdminException;
 import robert.exeptions.UnsupportedFunctionalityException;
@@ -33,11 +39,11 @@ public class AuthController {
 	@PostMapping("/register")
 	@ResponseStatus(HttpStatus.OK)
 	public void registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
-		if (!isRegistrationEnabled) {
+		if ( !isRegistrationEnabled ) {
 			throw new UnsupportedFunctionalityException();
 		}
 		userService.saveNewUser(userDTO);
-		log.info("Registered new user:", userDTO);
+		log.info("Registered new user: {}", userDTO);
 	}
 
 	@GetMapping("/am-i-admin")
@@ -45,9 +51,10 @@ public class AuthController {
 	public void checkIfAdmin() {
 		boolean isAdmin = userDetailsProvider.getAuthorities()
 				.stream()
-				.anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
+				.anyMatch(role -> role.getAuthority()
+						.equals("ROLE_ADMIN"));
 
-		if (!isAdmin) {
+		if ( !isAdmin ) {
 			throw new NotAnAdminException();
 		}
 	}

@@ -1,5 +1,9 @@
 package robert.web.rest.controllers;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -7,15 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.util.FieldUtils;
 import org.springframework.test.web.servlet.ResultActions;
+
 import robert.db.entities.User;
 import robert.tools.SpringWebMvcTest;
 import robert.tools.TestUtils;
 import robert.web.security.userdetails.UserDetailsImpl;
 import robert.web.svc.api.UserDetailsProvider;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AuthControllerTest extends SpringWebMvcTest {
 
@@ -47,15 +48,13 @@ public class AuthControllerTest extends SpringWebMvcTest {
 		Mockito.when(userDetailsProvider.getAuthorities())
 				.thenCallRealMethod();
 
-		checkIfUserHasAdminRole()
-				.andExpect(status().isOk());
+		checkIfUserHasAdminRole().andExpect(status().isOk());
 
 		user.setAdminRole(false);
 		Mockito.when(userDetailsProvider.getUserDetails())
 				.thenReturn(new UserDetailsImpl(user));
 
-		checkIfUserHasAdminRole()
-				.andExpect(status().isUnauthorized());
+		checkIfUserHasAdminRole().andExpect(status().isUnauthorized());
 	}
 
 	private ResultActions checkIfUserHasAdminRole() throws Exception {

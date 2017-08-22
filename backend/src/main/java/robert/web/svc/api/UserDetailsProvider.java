@@ -1,9 +1,10 @@
 package robert.web.svc.api;
 
-import org.springframework.security.core.GrantedAuthority;
-import robert.web.security.userdetails.UserDetailsImpl;
-
 import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+
+import robert.web.security.userdetails.UserDetailsImpl;
 
 public interface UserDetailsProvider {
 

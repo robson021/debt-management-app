@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void changePassword(long userId, String newPassword) {
-		if (newPassword.length() < 5) {
+		if ( newPassword.length() < 5 ) {
 			throw new IllegalArgumentException("Password is too short");
 		}
 		User user = em.getReference(User.class, userId);
@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
 				.setParameter("uid", userId)
 				.executeUpdate();
 
-		if (deletedEntities < 1) {
+		if ( deletedEntities < 1 ) {
 			throw new NoteNotFoundException();
 		}
 	}

@@ -1,17 +1,18 @@
 package robert.web.rest.dto.asm;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.util.CollectionUtils;
+
 import robert.db.entities.Asset;
 import robert.db.entities.Fee;
 import robert.db.entities.MutualPayment;
 import robert.db.entities.User;
 import robert.web.rest.dto.FeeDTO;
 import robert.web.rest.dto.PaymentDTO;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class PaymentAssembler {
 

@@ -4,6 +4,7 @@ import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+
 import robert.web.svc.UserDetailsProviderImpl;
 import robert.web.svc.api.UserDetailsProvider;
 

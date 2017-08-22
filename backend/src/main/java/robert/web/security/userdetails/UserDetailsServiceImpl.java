@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
 import robert.db.entities.User;
 import robert.db.repo.UserRepository;
 
@@ -24,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		User user = userRepository.findOneByEmail(email);
 		UserDetailsImpl userDetails = new UserDetailsImpl(user);
-		if (log.isDebugEnabled()) {
+		if ( log.isDebugEnabled() ) {
 			log.debug("Loaded: {}", userDetails);
 		}
 		return userDetails;
