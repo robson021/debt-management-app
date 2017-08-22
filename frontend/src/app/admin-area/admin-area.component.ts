@@ -10,6 +10,8 @@ export class AdminAreaComponent implements OnInit {
 
   changePasswordForm: FormGroup;
 
+  changeEmailForm: FormGroup;
+
   users = [];
 
   selectedUser = null;
@@ -18,6 +20,10 @@ export class AdminAreaComponent implements OnInit {
     this.changePasswordForm = fb.group({
       password: ['', Validators.required],
       repassword: ['', Validators.required]
+    });
+
+    this.changeEmailForm = fb.group({
+      email: ['', Validators.required]
     });
   }
 
@@ -38,6 +44,15 @@ export class AdminAreaComponent implements OnInit {
       .subscribe(data => {
         this.selectedUser = null;
         this.changePasswordForm.reset();
+      });
+  }
+
+  submitNewEmail() {
+    this.selectedUser.email = this.changeEmailForm.value.email;
+    this.http.performPut('admin/change-email', this.selectedUser)
+      .subscribe(data => {
+        this.selectedUser = null;
+        this.changeEmailForm.reset();
       });
   }
 

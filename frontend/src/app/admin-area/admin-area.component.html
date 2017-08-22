@@ -15,9 +15,7 @@
       <td>{{user.surname}}</td>
       <td>{{user.email}}</td>
       <td class="button-cell">
-        <button class="btn btn-warning" (click)="selectUser(user)">
-          Change password
-        </button>
+        <button class="btn btn-warning" (click)="selectUser(user)">Select</button>
       </td>
     </tr>
     </tbody>
@@ -27,6 +25,7 @@
     <p>Selected user:<br>
       <b style="color: darkgoldenrod">{{selectedUser.name}} {{selectedUser.surname}}</b>
     </p>
+
     <form class="small-form" [formGroup]="changePasswordForm">
       <label>New password:
         <input type="password" minlength="5" class="form-control" formControlName="password"/>
@@ -36,8 +35,20 @@
       </label>
       <br>
       <button class="btn btn-success" (click)="submitNewPassword()"
-              [disabled]="!changePasswordForm.valid || (password != repassword)">
-        Submit
+              [disabled]="!changePasswordForm.valid || (changePasswordForm.value.password !== changePasswordForm.value.repassword)">
+        Submit new password
+      </button>
+    </form>
+    <br>
+    <form class="small-form" [formGroup]="changeEmailForm">
+      <label>New Email:
+        <input type="email" minlength="5" class="form-control" formControlName="email"
+               pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,6}$"/>
+      </label>
+      <br>
+      <button class="btn btn-success" (click)="submitNewEmail()"
+              [disabled]="!changeEmailForm.valid">
+        Submit new email
       </button>
     </form>
   </div>
