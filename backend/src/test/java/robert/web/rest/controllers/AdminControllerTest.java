@@ -1,15 +1,17 @@
 package robert.web.rest.controllers;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import robert.db.entities.Note;
@@ -18,11 +20,15 @@ import robert.db.svc.api.UserService;
 import robert.tools.SpringWebMvcTest;
 import robert.tools.TestUtils;
 import robert.web.rest.dto.UserInfoDTO;
+import robert.web.svc.api.UserDetailsProvider;
 
 public class AdminControllerTest extends SpringWebMvcTest {
 
     @MockBean
     private UserService userService;
+
+    @Autowired
+    private UserDetailsProvider userDetailsProvider;
 
     @Test
     public void getAllUsers() throws Exception {
@@ -41,15 +47,16 @@ public class AdminControllerTest extends SpringWebMvcTest {
         Assertions.assertThat(users.size())
                 .isEqualTo(userInfoDTOs.length);
 
-        IntStream.range(0, users.size())
-                .forEach(i -> {
-                    User userA = users.get(i);
-                    UserInfoDTO userB = userInfoDTOs[i];
-                    Assertions.assertThat(userA.getId())
-                            .isEqualTo(userB.getId());
-                    Assertions.assertThat(userA.getEmail())
-                            .isEqualTo(userB.getEmail());
-                });
+        for (int i = 0; i < users.size(); i++) {
+            User userA = users.get(i);
+            UserInfoDTO userB = userInfoDTOs[i];
+
+            Assertions.assertThat(userA.getId())
+                    .isEqualTo(userB.getId());
+
+            Assertions.assertThat(userA.getEmail())
+                    .isEqualTo(userB.getEmail());
+        }
     }
 
     @Test
@@ -73,6 +80,14 @@ public class AdminControllerTest extends SpringWebMvcTest {
         Arrays.stream(notesArray)
                 .forEach(note -> Assertions.assertThat(note.getText())
                         .isEqualTo(TEXT));
+    }
+
+    @Test
+    public void sendLogs() throws Exception {
+        when(userDetailsProvider.getUserEmail()).thenReturn("admin@test.pl");
+
+        mockMvc.perform(post("/admin/send-server-logs"))
+                .andExpect(status().isOk());
     }
 
 }

@@ -1,5 +1,9 @@
 package robert;
 
+import java.io.File;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,24 +27,40 @@ import robert.svc.api.MailerService;
 @PropertySource("classpath:mailer.properties")
 public class DebtManagementApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(DebtManagementApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(DebtManagementApplication.class, args);
+	}
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(11);
-    }
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder(11);
+	}
 
-    @Bean
-    @ConditionalOnMissingBean
-    public MailerService mailerService() {
-        return receiverEmail -> System.out.println("Fake mailer service for " + receiverEmail);
-    }
+	@Bean
+	@ConditionalOnMissingBean
+	public MailerService mailerService() {
+		return new MailerService() {
+			private final Logger log = LoggerFactory.getLogger(MailerService.class);
 
-    @Autowired
-    public void authenticationManager(AuthenticationManagerBuilder builder, UserDetailsService details, PasswordEncoder encoder) throws Exception {
-        builder.userDetailsService(details)
-                .passwordEncoder(encoder);
-    }
+			@Override
+			public void sendServerLogs(String receiverEmail) {
+				logMessage();
+			}
+
+			@Override
+			public void sendEmail(String receiverEmail, String topic, String body, File file, boolean deleteFileAfterIsSend) {
+				logMessage();
+			}
+
+			private void logMessage() {
+				log.debug("fake mail service is running");
+			}
+		};
+	}
+
+	@Autowired
+	public void authenticationManager(AuthenticationManagerBuilder builder, UserDetailsService details, PasswordEncoder encoder) throws Exception {
+		builder.userDetailsService(details)
+				.passwordEncoder(encoder);
+	}
 }
