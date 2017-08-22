@@ -33,6 +33,8 @@ export class NotesComponent implements OnInit {
     let note = this.noteForm.value.noteText;
     this.http.performPost('credentials/add-note', note)
       .subscribe(data => this.loadNotes());
+
+    this.noteForm.reset();
   }
 
   deleteNote(noteId) {

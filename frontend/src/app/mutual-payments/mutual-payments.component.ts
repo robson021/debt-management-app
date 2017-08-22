@@ -41,6 +41,8 @@ export class MutualPaymentsComponent implements OnInit {
   submitNewPayment() {
     this.http.performPost('payments/add-mutual-payment/', this.newPaymentForm.value)
       .subscribe(data => this.loadMutualPayments());
+
+    this.newPaymentForm.reset();
   }
 
   private loadMutualPayments() {

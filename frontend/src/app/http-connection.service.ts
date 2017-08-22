@@ -75,7 +75,7 @@ export class HttpConnectionService {
     if (token) {
       this.headers.append('Authorization', token);
       this.checkAdminPrivileges();
-      document.getElementById('navbar').style.display = 'block';
+      this.showNavBar();
       this.router.navigate(['/my-debts']);
     }
   }
@@ -85,13 +85,21 @@ export class HttpConnectionService {
       .get(this.api + 'auth/am-i-admin', {headers: this.headers})
       .subscribe(
         (data) => {
-          document.getElementById('admin-button')
-            .style
-            .display = 'list-item';
+          this.showAdminButton();
         },
         (err) => {
         }
       );
+  }
+
+  private showNavBar() {
+    document.getElementById('navbar').style.display = 'block';
+  }
+
+  private showAdminButton() {
+    document.getElementById('admin-button')
+      .style
+      .display = 'list-item';
   }
 
   private serverError(err: any) {
