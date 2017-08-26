@@ -21,100 +21,100 @@ import robert.web.rest.dto.asm.UserAssembler;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-	private final EntityManager em;
+    private final EntityManager em;
 
-	private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
-	private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-	public UserServiceImpl(EntityManager em, UserRepository userRepository, PasswordEncoder passwordEncoder) {
-		this.em = em;
-		this.userRepository = userRepository;
-		this.passwordEncoder = passwordEncoder;
-	}
+    public UserServiceImpl(EntityManager em, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.em = em;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
-	@Override
-	public User saveNewUser(User user) {
-		String encodedPassword = passwordEncoder.encode(user.getPassword());
-		user.setPassword(encodedPassword);
-		return userRepository.save(user);
-	}
+    @Override
+    public User saveNewUser(User user) {
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        return userRepository.save(user);
+    }
 
-	@Override
-	public User saveNewUser(UserInfoDTO userDTO) {
-		User user = UserAssembler.convertDtoToUser(userDTO);
-		return this.saveNewUser(user);
-	}
+    @Override
+    public User saveNewUser(UserInfoDTO userDTO) {
+        User user = UserAssembler.convertDtoToUser(userDTO);
+        return this.saveNewUser(user);
+    }
 
-	@Override
-	public User findUserByEmail(String email) {
-		return userRepository.findOneByEmail(email);
-	}
+    @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findOneByEmail(email);
+    }
 
-	@Override
-	public User findUserById(long id) {
-		return userRepository.findOne(id);
-	}
+    @Override
+    public User findUserById(long id) {
+        return userRepository.findOne(id);
+    }
 
-	@Override
-	public List<User> findOtherUsersExceptGiven(long userId) {
-		return em.createQuery("from User u where u.id != :id order by u.surname", User.class)
-				.setParameter("id", userId)
-				.getResultList();
-	}
+    @Override
+    public List<User> findOtherUsersExceptGiven(long userId) {
+        return em.createQuery("from User u where u.id != :id order by u.surname", User.class)
+                .setParameter("id", userId)
+                .getResultList();
+    }
 
-	@Override
-	public List<User> findAllUsers() {
-		return (List<User>) userRepository.findAll();
-	}
+    @Override
+    public List<User> findAllUsers() {
+        return (List<User>) userRepository.findAll();
+    }
 
-	@Override
-	public void changePassword(long userId, String newPassword) {
-		if ( newPassword.length() < 5 ) {
-			throw new InvalidPasswordPatternException();
-		}
-		User user = em.getReference(User.class, userId);
-		user.setPassword(passwordEncoder.encode(newPassword));
-	}
+    @Override
+    public void changePassword(long userId, String newPassword) {
+        if ( newPassword.length() < 5 ) {
+            throw new InvalidPasswordPatternException();
+        }
+        User user = em.getReference(User.class, userId);
+        user.setPassword(passwordEncoder.encode(newPassword));
+    }
 
-	@Override
-	public void changeEmail(long userId, String newEmail) {
-		User user = em.getReference(User.class, userId);
-		user.setEmail(newEmail);
-	}
+    @Override
+    public void changeEmail(long userId, String newEmail) {
+        User user = em.getReference(User.class, userId);
+        user.setEmail(newEmail);
+    }
 
-	@Override
-	public void saveNewNote(Note note, long userId) {
-		User user = em.getReference(User.class, userId);
-		user.getNotes()
-				.add(note);
+    @Override
+    public void saveNewNote(Note note, long userId) {
+        User user = em.getReference(User.class, userId);
+        user.getNotes()
+                .add(note);
 
-		note.setUser(user);
-	}
+        note.setUser(user);
+    }
 
-	@Override
-	public void deleteNote(long userId, long noteId) {
-		int deletedEntities = em //
-				.createQuery("delete from Note n where n.id = :nid and n.user.id = :uid")
-				.setParameter("nid", noteId)
-				.setParameter("uid", userId)
-				.executeUpdate();
+    @Override
+    public void deleteNote(long userId, long noteId) {
+        int deletedEntities = em //
+                .createQuery("delete from Note n where n.id = :nid and n.user.id = :uid")
+                .setParameter("nid", noteId)
+                .setParameter("uid", userId)
+                .executeUpdate();
 
-		if ( deletedEntities < 1 ) {
-			throw new NoteNotFoundException();
-		}
-	}
+        if ( deletedEntities < 1 ) {
+            throw new NoteNotFoundException();
+        }
+    }
 
-	@Override
-	public List<Note> getAllUsersNotes(long userId) {
-		return em.createQuery("from Note n where n.user.id = :id", Note.class)
-				.setParameter("id", userId)
-				.getResultList();
-	}
+    @Override
+    public List<Note> getAllUsersNotes(long userId) {
+        return em.createQuery("from Note n where n.user.id = :id", Note.class)
+                .setParameter("id", userId)
+                .getResultList();
+    }
 
-	@Override
-	public List<Note> getAllNotes() {
-		return em.createQuery("from Note", Note.class)
-				.getResultList();
-	}
+    @Override
+    public List<Note> getAllNotes() {
+        return em.createQuery("from Note", Note.class)
+                .getResultList();
+    }
 }

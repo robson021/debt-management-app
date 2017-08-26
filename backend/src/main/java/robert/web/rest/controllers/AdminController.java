@@ -23,45 +23,45 @@ import robert.web.svc.api.UserDetailsProvider;
 @RequestMapping("/admin")
 public class AdminController {
 
-	private final UserDetailsProvider userDetailsProvider;
+    private final UserDetailsProvider userDetailsProvider;
 
-	private final UserService userService;
+    private final UserService userService;
 
-	private final MailerService mailerService;
+    private final MailerService mailerService;
 
-	public AdminController(UserDetailsProvider userDetailsProvider, UserService userService, MailerService mailerService) {
-		this.userDetailsProvider = userDetailsProvider;
-		this.userService = userService;
-		this.mailerService = mailerService;
-	}
+    public AdminController(UserDetailsProvider userDetailsProvider, UserService userService, MailerService mailerService) {
+        this.userDetailsProvider = userDetailsProvider;
+        this.userService = userService;
+        this.mailerService = mailerService;
+    }
 
-	@GetMapping("/all-users")
-	public List<UserInfoDTO> getAllUsers() {
-		List<User> allUsers = userService.findAllUsers();
-		return UserAssembler.convertToUserInfoDTOs(allUsers);
-	}
+    @GetMapping("/all-users")
+    public List<UserInfoDTO> getAllUsers() {
+        List<User> allUsers = userService.findAllUsers();
+        return UserAssembler.convertToUserInfoDTOs(allUsers);
+    }
 
-	@PutMapping("/change-password")
-	@ResponseStatus(HttpStatus.OK)
-	public void changeUserPassword(@RequestBody UserInfoDTO user) {
-		userService.changePassword(user.getId(), user.getPassword());
-	}
+    @PutMapping("/change-password")
+    @ResponseStatus(HttpStatus.OK)
+    public void changeUserPassword(@RequestBody UserInfoDTO user) {
+        userService.changePassword(user.getId(), user.getPassword());
+    }
 
-	@PutMapping("/change-email")
-	@ResponseStatus(HttpStatus.OK)
-	public void changeUserEmail(@RequestBody UserInfoDTO user) {
-		userService.changeEmail(user.getId(), user.getEmail());
-	}
+    @PutMapping("/change-email")
+    @ResponseStatus(HttpStatus.OK)
+    public void changeUserEmail(@RequestBody UserInfoDTO user) {
+        userService.changeEmail(user.getId(), user.getEmail());
+    }
 
-	@GetMapping("/all-notes")
-	public List<Note> getAllNotes() {
-		return userService.getAllNotes();
-	}
+    @GetMapping("/all-notes")
+    public List<Note> getAllNotes() {
+        return userService.getAllNotes();
+    }
 
-	@PostMapping("/send-server-logs")
-	@ResponseStatus(HttpStatus.OK)
-	public void sendServerLogs() {
-		mailerService.sendServerLogs(userDetailsProvider.getUserEmail());
-	}
+    @PostMapping("/send-server-logs")
+    @ResponseStatus(HttpStatus.OK)
+    public void sendServerLogs() {
+        mailerService.sendServerLogs(userDetailsProvider.getUserEmail());
+    }
 
 }

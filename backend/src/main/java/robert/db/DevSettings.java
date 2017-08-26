@@ -18,54 +18,54 @@ import robert.web.rest.dto.PaymentDTO;
 @Component
 public class DevSettings {
 
-	private final UserService userService;
+    private final UserService userService;
 
-	private final PaymentService paymentService;
+    private final PaymentService paymentService;
 
-	public DevSettings(UserService userService, PaymentService paymentService) {
-		this.userService = userService;
-		this.paymentService = paymentService;
-	}
+    public DevSettings(UserService userService, PaymentService paymentService) {
+        this.userService = userService;
+        this.paymentService = paymentService;
+    }
 
-	@PostConstruct
-	void init() throws Exception {
-		String testUserEmail = "test@t.pl";
-		User user = new User();
-		user.setEmail(testUserEmail);
-		user.setName("Example");
-		user.setSurname("User");
-		user.setPassword("Passwd.123");
-		user.setAdminRole(true);
-		user.setAccountNo(RandomStringUtils.randomNumeric(10));
+    @PostConstruct
+    void init() throws Exception {
+        String testUserEmail = "test@t.pl";
+        User user = new User();
+        user.setEmail(testUserEmail);
+        user.setName("Example");
+        user.setSurname("User");
+        user.setPassword("Passwd.123");
+        user.setAdminRole(true);
+        user.setAccountNo(RandomStringUtils.randomNumeric(10));
 
-		Stream.of(new User(), new User(), new User(), new User())
-				.forEach(u -> {
-					u.setEmail("user@mail." + RandomStringUtils.randomAlphabetic(3)
-							.toLowerCase());
-					u.setName(RandomStringUtils.randomAlphabetic(6));
-					u.setSurname(RandomStringUtils.randomAlphabetic(6));
-					String password = "P.1" + RandomStringUtils.randomAlphanumeric(7);
-					u.setPassword(password);
-					u.setAccountNo(RandomStringUtils.randomNumeric(10));
-					u.setAccountNo(RandomStringUtils.randomNumeric(12));
-					userService.saveNewUser(u);
-				});
+        Stream.of(new User(), new User(), new User(), new User())
+                .forEach(u -> {
+                    u.setEmail("user@mail." + RandomStringUtils.randomAlphabetic(3)
+                            .toLowerCase());
+                    u.setName(RandomStringUtils.randomAlphabetic(6));
+                    u.setSurname(RandomStringUtils.randomAlphabetic(6));
+                    String password = "P.1" + RandomStringUtils.randomAlphanumeric(7);
+                    u.setPassword(password);
+                    u.setAccountNo(RandomStringUtils.randomNumeric(10));
+                    u.setAccountNo(RandomStringUtils.randomNumeric(12));
+                    userService.saveNewUser(u);
+                });
 
-		userService.saveNewUser(user);
-		System.out.println("saved test user: " + user.toString());
+        userService.saveNewUser(user);
+        System.out.println("saved test user: " + user.toString());
 
-		long userId = userService.findUserByEmail(testUserEmail)
-				.getId();
-		User borrower = userService.findUserById(userId - 1);
+        long userId = userService.findUserByEmail(testUserEmail)
+                .getId();
+        User borrower = userService.findUserById(userId - 1);
 
-		Stream.of(new PaymentDTO(), new PaymentDTO())
-				.forEach(p -> {
-					p.setAmount(new Random().nextDouble() * 150);
-					p.setDescription("Example Paymnet");
-					p.setBorrowerSurname(borrower.getSurname());
-					p.setBorrowerName(borrower.getName());
-					p.setBorrowerId(borrower.getId());
-					paymentService.addDebtor(userId, p);
-				});
-	}
+        Stream.of(new PaymentDTO(), new PaymentDTO())
+                .forEach(p -> {
+                    p.setAmount(new Random().nextDouble() * 150);
+                    p.setDescription("Example Paymnet");
+                    p.setBorrowerSurname(borrower.getSurname());
+                    p.setBorrowerName(borrower.getName());
+                    p.setBorrowerId(borrower.getId());
+                    paymentService.addDebtor(userId, p);
+                });
+    }
 }

@@ -10,27 +10,27 @@ import robert.web.rest.dto.PaymentDTO;
 
 public interface PaymentService {
 
-	List<Asset> findUserDebts(long borrowerId);
+    List<Asset> findUserDebts(long borrowerId);
 
-	List<Asset> findUserDebtors(long userId);
+    List<Asset> findUserDebtors(long userId);
 
-	void cancelDebt(long assetId, long userId);
+    void cancelDebt(long assetId, long userId);
 
-	void addDebtor(long lenderId, PaymentDTO borrowerInfo);
+    void addDebtor(long lenderId, PaymentDTO borrowerInfo);
 
-	void addMutualPayment(PaymentDTO paymentDTO);
+    void addMutualPayment(PaymentDTO paymentDTO);
 
-	void addUserFeeToPayment(long userId, long mutualPaymentId, double feeAmount);
+    void addUserFeeToPayment(long userId, long mutualPaymentId, double feeAmount);
 
-	Set<Fee> getFeesForMutualPayment(long mutualPaymentId);
+    Set<Fee> getFeesForMutualPayment(long mutualPaymentId);
 
-	List<MutualPayment> getAllMutualPayments();
+    List<MutualPayment> getAllMutualPayments();
 
-	void deleteUserFees(long userId, long mutualPaymentId);
+    void deleteUserFees(long userId, long mutualPaymentId);
 
-	void deleteMutualPayment(long mutualPaymentId);
+    void deleteMutualPayment(long mutualPaymentId);
 
-	double getUserDebtBalance(long userId);
+    double getUserDebtBalance(long userId);
 
-	double getMoneyBalanceWithOtherUser(long userId, long otherUserId);
+    double getMoneyBalanceWithOtherUser(long userId, long otherUserId);
 }

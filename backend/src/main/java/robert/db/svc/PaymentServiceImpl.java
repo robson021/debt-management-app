@@ -24,142 +24,142 @@ import robert.web.rest.dto.asm.PaymentAssembler;
 @Transactional
 public class PaymentServiceImpl implements PaymentService {
 
-	private final EntityManager em;
+    private final EntityManager em;
 
-	private final AssetRepository assetRepository;
+    private final AssetRepository assetRepository;
 
-	private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
-	private final MutualPaymentRepository mutualPaymentRepository;
+    private final MutualPaymentRepository mutualPaymentRepository;
 
-	public PaymentServiceImpl(EntityManager em, AssetRepository assetRepository, UserRepository userRepository,
-			MutualPaymentRepository mutualPaymentRepository) {
-		this.em = em;
-		this.assetRepository = assetRepository;
-		this.userRepository = userRepository;
-		this.mutualPaymentRepository = mutualPaymentRepository;
-	}
+    public PaymentServiceImpl(EntityManager em, AssetRepository assetRepository, UserRepository userRepository,
+            MutualPaymentRepository mutualPaymentRepository) {
+        this.em = em;
+        this.assetRepository = assetRepository;
+        this.userRepository = userRepository;
+        this.mutualPaymentRepository = mutualPaymentRepository;
+    }
 
-	@Override
-	public List<Asset> findUserDebts(long borrowerId) {
-		return em.createQuery("from Asset a where a.borrowerId = :id order by a.user.surname, a.amount desc", Asset.class)
-				.setParameter("id", borrowerId)
-				.getResultList();
-	}
+    @Override
+    public List<Asset> findUserDebts(long borrowerId) {
+        return em.createQuery("from Asset a where a.borrowerId = :id order by a.user.surname, a.amount desc", Asset.class)
+                .setParameter("id", borrowerId)
+                .getResultList();
+    }
 
-	@Override
-	public List<Asset> findUserDebtors(long userId) {
-		return em.createQuery("from Asset a where a.user.id = :id order by a.borrowerSurname, a.amount desc", Asset.class)
-				.setParameter("id", userId)
-				.getResultList();
-	}
+    @Override
+    public List<Asset> findUserDebtors(long userId) {
+        return em.createQuery("from Asset a where a.user.id = :id order by a.borrowerSurname, a.amount desc", Asset.class)
+                .setParameter("id", userId)
+                .getResultList();
+    }
 
-	@Override
-	public void cancelDebt(long assetId, long userId) {
-		if ( !doesAssetBelongToUser(assetId, userId) )
-			throw new BadParameterException("User tried to cancel not his debt");
+    @Override
+    public void cancelDebt(long assetId, long userId) {
+        if ( !doesAssetBelongToUser(assetId, userId) )
+            throw new BadParameterException("User tried to cancel not his debt");
 
-		em.createQuery("delete from Asset a where a.id = :id")
-				.setParameter("id", assetId)
-				.executeUpdate();
-	}
+        em.createQuery("delete from Asset a where a.id = :id")
+                .setParameter("id", assetId)
+                .executeUpdate();
+    }
 
-	@Override
-	public void addDebtor(long lenderId, PaymentDTO borrowerInfo) {
-		User lender = userRepository.findOne(lenderId);
-		Asset asset = PaymentAssembler.paymentDtoToAsset(borrowerInfo);
-		asset.setUser(lender);
-		assetRepository.save(asset);
-	}
+    @Override
+    public void addDebtor(long lenderId, PaymentDTO borrowerInfo) {
+        User lender = userRepository.findOne(lenderId);
+        Asset asset = PaymentAssembler.paymentDtoToAsset(borrowerInfo);
+        asset.setUser(lender);
+        assetRepository.save(asset);
+    }
 
-	@Override
-	public void addMutualPayment(PaymentDTO paymentDTO) {
-		MutualPayment payment = PaymentAssembler.convertMutualPaymentDTO(paymentDTO);
-		mutualPaymentRepository.save(payment);
-	}
+    @Override
+    public void addMutualPayment(PaymentDTO paymentDTO) {
+        MutualPayment payment = PaymentAssembler.convertMutualPaymentDTO(paymentDTO);
+        mutualPaymentRepository.save(payment);
+    }
 
-	@Override
-	public void addUserFeeToPayment(long userId, long mutualPaymentId, double feeAmount) {
-		MutualPayment mutualPayment = mutualPaymentRepository.findOne(mutualPaymentId);
-		Fee fee = new Fee();
-		fee.setUser(userRepository.findOne(userId));
-		fee.setPayedFee(feeAmount);
-		fee.setMutualPayment(mutualPayment);
+    @Override
+    public void addUserFeeToPayment(long userId, long mutualPaymentId, double feeAmount) {
+        MutualPayment mutualPayment = mutualPaymentRepository.findOne(mutualPaymentId);
+        Fee fee = new Fee();
+        fee.setUser(userRepository.findOne(userId));
+        fee.setPayedFee(feeAmount);
+        fee.setMutualPayment(mutualPayment);
 
-		mutualPayment.addFee(fee);
-		mutualPaymentRepository.save(mutualPayment);
-	}
+        mutualPayment.addFee(fee);
+        mutualPaymentRepository.save(mutualPayment);
+    }
 
-	@Override
-	public Set<Fee> getFeesForMutualPayment(long mutualPaymentId) {
-		MutualPayment mutualPayment = mutualPaymentRepository.findOne(mutualPaymentId);
-		return mutualPayment.getPayedFees();
-	}
+    @Override
+    public Set<Fee> getFeesForMutualPayment(long mutualPaymentId) {
+        MutualPayment mutualPayment = mutualPaymentRepository.findOne(mutualPaymentId);
+        return mutualPayment.getPayedFees();
+    }
 
-	@Override
-	public List<MutualPayment> getAllMutualPayments() {
-		return mutualPaymentRepository.findAll();
-	}
+    @Override
+    public List<MutualPayment> getAllMutualPayments() {
+        return mutualPaymentRepository.findAll();
+    }
 
-	@Override
-	public void deleteUserFees(long userId, long mutualPaymentId) {
-		em.createQuery("delete from Fee f where f.user.id = :uid and f.mutualPayment.id = :pid")
-				.setParameter("uid", userId)
-				.setParameter("pid", mutualPaymentId)
-				.executeUpdate();
-	}
+    @Override
+    public void deleteUserFees(long userId, long mutualPaymentId) {
+        em.createQuery("delete from Fee f where f.user.id = :uid and f.mutualPayment.id = :pid")
+                .setParameter("uid", userId)
+                .setParameter("pid", mutualPaymentId)
+                .executeUpdate();
+    }
 
-	@Override
-	public void deleteMutualPayment(long mutualPaymentId) {
-		em.createQuery("delete from Fee f where f.mutualPayment.id = :pid")
-				.setParameter("pid", mutualPaymentId)
-				.executeUpdate();
+    @Override
+    public void deleteMutualPayment(long mutualPaymentId) {
+        em.createQuery("delete from Fee f where f.mutualPayment.id = :pid")
+                .setParameter("pid", mutualPaymentId)
+                .executeUpdate();
 
-		mutualPaymentRepository.delete(mutualPaymentId);
-	}
+        mutualPaymentRepository.delete(mutualPaymentId);
+    }
 
-	@Override
-	public double getUserDebtBalance(long userId) {
-		Double debtorsSum = em.createQuery("select sum(amount) from Asset a where a.user.id = :id", Double.class)
-				.setParameter("id", userId)
-				.getSingleResult();
+    @Override
+    public double getUserDebtBalance(long userId) {
+        Double debtorsSum = em.createQuery("select sum(amount) from Asset a where a.user.id = :id", Double.class)
+                .setParameter("id", userId)
+                .getSingleResult();
 
-		Double userSum = em.createQuery("select sum(amount) from Asset a where a.borrowerId = :id", Double.class)
-				.setParameter("id", userId)
-				.getSingleResult();
+        Double userSum = em.createQuery("select sum(amount) from Asset a where a.borrowerId = :id", Double.class)
+                .setParameter("id", userId)
+                .getSingleResult();
 
-		return getDifference(debtorsSum, userSum);
-	}
+        return getDifference(debtorsSum, userSum);
+    }
 
-	@Override
-	public double getMoneyBalanceWithOtherUser(long userId, long otherUserId) {
-		String query = "select sum(amount) from Asset a where a.user.id = :id1 and borrowerId = :id2";
+    @Override
+    public double getMoneyBalanceWithOtherUser(long userId, long otherUserId) {
+        String query = "select sum(amount) from Asset a where a.user.id = :id1 and borrowerId = :id2";
 
-		Double otherUserDebts = em.createQuery(query, Double.class)
-				.setParameter("id1", userId)
-				.setParameter("id2", otherUserId)
-				.getSingleResult();
+        Double otherUserDebts = em.createQuery(query, Double.class)
+                .setParameter("id1", userId)
+                .setParameter("id2", otherUserId)
+                .getSingleResult();
 
-		Double userDebts = em.createQuery(query, Double.class)
-				.setParameter("id1", otherUserId)
-				.setParameter("id2", userId)
-				.getSingleResult();
+        Double userDebts = em.createQuery(query, Double.class)
+                .setParameter("id1", otherUserId)
+                .setParameter("id2", userId)
+                .getSingleResult();
 
-		return getDifference(otherUserDebts, userDebts);
-	}
+        return getDifference(otherUserDebts, userDebts);
+    }
 
-	private boolean doesAssetBelongToUser(long assetId, long userId) {
-		long id = assetRepository.findOne(assetId)
-				.getUser()
-				.getId();
+    private boolean doesAssetBelongToUser(long assetId, long userId) {
+        long id = assetRepository.findOne(assetId)
+                .getUser()
+                .getId();
 
-		return id == userId;
-	}
+        return id == userId;
+    }
 
-	private double getDifference(Double x, Double y) {
-		double a = x == null ? .0 : x;
-		double b = y == null ? .0 : y;
+    private double getDifference(Double x, Double y) {
+        double a = x == null ? .0 : x;
+        double b = y == null ? .0 : y;
 
-		return a - b;
-	}
+        return a - b;
+    }
 }

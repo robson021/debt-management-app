@@ -22,126 +22,126 @@ import robert.web.svc.api.UserDetailsProvider;
 
 public class PaymentControllerTest extends SpringWebMvcTest {
 
-	@Autowired
-	private UserDetailsProvider userDetailsProvider;
+    @Autowired
+    private UserDetailsProvider userDetailsProvider;
 
-	@Autowired
-	private PaymentService paymentService;
+    @Autowired
+    private PaymentService paymentService;
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	private User borrower;
+    private User borrower;
 
-	private User lender;
+    private User lender;
 
-	@Before
-	public void setup() {
-		borrower = userRepository.save(TestUtils.generateNewUser());
-		lender = userRepository.save(TestUtils.generateNewUser());
+    @Before
+    public void setup() {
+        borrower = userRepository.save(TestUtils.generateNewUser());
+        lender = userRepository.save(TestUtils.generateNewUser());
 
-		paymentService.addDebtor(lender.getId(), TestUtils.generatePayment(borrower));
-		paymentService.addDebtor(lender.getId(), TestUtils.generatePayment(borrower));
+        paymentService.addDebtor(lender.getId(), TestUtils.generatePayment(borrower));
+        paymentService.addDebtor(lender.getId(), TestUtils.generatePayment(borrower));
 
-		Mockito.when(userDetailsProvider.getUserId())
-				.thenReturn(lender.getId());
-	}
+        Mockito.when(userDetailsProvider.getUserId())
+                .thenReturn(lender.getId());
+    }
 
-	@Test
-	public void addAssetToTheUser() throws Exception {
-		PaymentDTO paymentDTO = TestUtils.generatePayment(borrower);
-		mockMvc.perform(post("/payments/add-assets-to-user").content(TestUtils.asJsonString(paymentDTO))
-				.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());
-	}
+    @Test
+    public void addAssetToTheUser() throws Exception {
+        PaymentDTO paymentDTO = TestUtils.generatePayment(borrower);
+        mockMvc.perform(post("/payments/add-assets-to-user").content(TestUtils.asJsonString(paymentDTO))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
 
-	@Test
-	public void getMyDebtors() throws Exception {
-		// add extra debtor
-		User debtor = userRepository.save(TestUtils.generateNewUser());
-		paymentService.addDebtor(lender.getId(), TestUtils.generatePayment(debtor));
+    @Test
+    public void getMyDebtors() throws Exception {
+        // add extra debtor
+        User debtor = userRepository.save(TestUtils.generateNewUser());
+        paymentService.addDebtor(lender.getId(), TestUtils.generatePayment(debtor));
 
-		String response = mockMvc.perform(get("/payments/my-debtors"))
-				.andExpect(status().isOk())
-				.andReturn()
-				.getResponse()
-				.getContentAsString();
+        String response = mockMvc.perform(get("/payments/my-debtors"))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
-		PaymentDTO[] payments = TestUtils.jsonToObject(response, PaymentDTO[].class);
+        PaymentDTO[] payments = TestUtils.jsonToObject(response, PaymentDTO[].class);
 
-		Assertions.assertThat(payments)
-				.hasSize(3);
-	}
+        Assertions.assertThat(payments)
+                .hasSize(3);
+    }
 
-	@Test
-	public void getMyDebts() throws Exception {
-		Mockito.when(userDetailsProvider.getUserId())
-				.thenReturn(borrower.getId());
+    @Test
+    public void getMyDebts() throws Exception {
+        Mockito.when(userDetailsProvider.getUserId())
+                .thenReturn(borrower.getId());
 
-		String response = mockMvc.perform(get("/payments/my-debts"))
-				.andExpect(status().isOk())
-				.andReturn()
-				.getResponse()
-				.getContentAsString();
+        String response = mockMvc.perform(get("/payments/my-debts"))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
-		PaymentDTO[] debts = TestUtils.jsonToObject(response, PaymentDTO[].class);
+        PaymentDTO[] debts = TestUtils.jsonToObject(response, PaymentDTO[].class);
 
-		Assertions.assertThat(debts)
-				.hasSize(2);
+        Assertions.assertThat(debts)
+                .hasSize(2);
 
-		for (PaymentDTO debt : debts) {
-			Assertions.assertThat(debt.getBorrowerId())
-					.isEqualTo(borrower.getId());
+        for (PaymentDTO debt : debts) {
+            Assertions.assertThat(debt.getBorrowerId())
+                    .isEqualTo(borrower.getId());
 
-			Assertions.assertThat(debt.getBorrowerName())
-					.isEqualTo(borrower.getName());
+            Assertions.assertThat(debt.getBorrowerName())
+                    .isEqualTo(borrower.getName());
 
-			Assertions.assertThat(debt.getBorrowerSurname())
-					.isEqualTo(borrower.getSurname());
-		}
+            Assertions.assertThat(debt.getBorrowerSurname())
+                    .isEqualTo(borrower.getSurname());
+        }
 
-	}
+    }
 
-	@Test
-	public void cancelDebt() throws Exception {
-		Long debtId = paymentService.findUserDebtors(lender.getId())
-				.get(0)
-				.getId();
-		String url = "/payments/cancel-debt/{id}/".replace("{id}", debtId.toString());
+    @Test
+    public void cancelDebt() throws Exception {
+        Long debtId = paymentService.findUserDebtors(lender.getId())
+                .get(0)
+                .getId();
+        String url = "/payments/cancel-debt/{id}/".replace("{id}", debtId.toString());
 
-		mockMvc.perform(delete(url))
-				.andExpect(status().isOk());
-	}
+        mockMvc.perform(delete(url))
+                .andExpect(status().isOk());
+    }
 
-	@Test
-	public void getMoneyBalance() throws Exception {
-		String response = mockMvc.perform(get("/payments/money-balance"))
-				.andExpect(status().isOk())
-				.andReturn()
-				.getResponse()
-				.getContentAsString();
+    @Test
+    public void getMoneyBalance() throws Exception {
+        String response = mockMvc.perform(get("/payments/money-balance"))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
-		double moneyBalance = Double.valueOf(response);
+        double moneyBalance = Double.valueOf(response);
 
-		Assertions.assertThat(moneyBalance)
-				.isGreaterThan(.0);
-	}
+        Assertions.assertThat(moneyBalance)
+                .isGreaterThan(.0);
+    }
 
-	@Test
-	public void getMoneyBalanceWithOtherUser() throws Exception {
-		String url = "/payments/money-balance-with-other-user/{id}/".replace("{id}", borrower.getId()
-				.toString());
+    @Test
+    public void getMoneyBalanceWithOtherUser() throws Exception {
+        String url = "/payments/money-balance-with-other-user/{id}/".replace("{id}", borrower.getId()
+                .toString());
 
-		String response = mockMvc.perform(get(url))
-				.andExpect(status().isOk())
-				.andReturn()
-				.getResponse()
-				.getContentAsString();
+        String response = mockMvc.perform(get(url))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
-		double moneyBalance = Double.valueOf(response);
+        double moneyBalance = Double.valueOf(response);
 
-		Assertions.assertThat(moneyBalance)
-				.isGreaterThan(.0);
-	}
+        Assertions.assertThat(moneyBalance)
+                .isGreaterThan(.0);
+    }
 
 }

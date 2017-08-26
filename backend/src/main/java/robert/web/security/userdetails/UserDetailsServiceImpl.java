@@ -13,21 +13,21 @@ import robert.db.repo.UserRepository;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-	private static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
-	private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
-	public UserDetailsServiceImpl(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
+    public UserDetailsServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
-	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		User user = userRepository.findOneByEmail(email);
-		UserDetailsImpl userDetails = new UserDetailsImpl(user);
-		if ( log.isDebugEnabled() ) {
-			log.debug("Loaded: {}", userDetails);
-		}
-		return userDetails;
-	}
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findOneByEmail(email);
+        UserDetailsImpl userDetails = new UserDetailsImpl(user);
+        if ( log.isDebugEnabled() ) {
+            log.debug("Loaded: {}", userDetails);
+        }
+        return userDetails;
+    }
 }

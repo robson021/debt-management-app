@@ -8,15 +8,15 @@ import org.springframework.web.context.WebApplicationContext;
 
 public abstract class SpringWebMvcTest extends SpringTest {
 
-	@Autowired
-	private WebApplicationContext wac;
+    @Autowired
+    private WebApplicationContext wac;
 
-	protected MockMvc mockMvc;
+    protected MockMvc mockMvc;
 
-	@Before
-	public void init() throws Exception {
-		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
-				.build();
-	}
+    @Before
+    public void init() throws Exception {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
+                .build();
+    }
 
 }

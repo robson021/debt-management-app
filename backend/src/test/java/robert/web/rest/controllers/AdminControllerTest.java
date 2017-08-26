@@ -21,59 +21,59 @@ import robert.web.rest.dto.UserInfoDTO;
 
 public class AdminControllerTest extends SpringWebMvcTest {
 
-	@MockBean
-	private UserService userService;
+    @MockBean
+    private UserService userService;
 
-	@Test
-	public void getAllUsers() throws Exception {
-		List<User> users = Arrays.asList(TestUtils.generateNewUserWithId(), TestUtils.generateNewUserWithId(), TestUtils.generateNewUserWithId());
+    @Test
+    public void getAllUsers() throws Exception {
+        List<User> users = Arrays.asList(TestUtils.generateNewUserWithId(), TestUtils.generateNewUserWithId(), TestUtils.generateNewUserWithId());
 
-		given(userService.findAllUsers()).willReturn(users);
+        given(userService.findAllUsers()).willReturn(users);
 
-		String response = mockMvc.perform(get("/admin/all-users"))
-				.andExpect(status().isOk())
-				.andReturn()
-				.getResponse()
-				.getContentAsString();
+        String response = mockMvc.perform(get("/admin/all-users"))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
-		UserInfoDTO[] userInfoDTOs = TestUtils.jsonToObject(response, UserInfoDTO[].class);
+        UserInfoDTO[] userInfoDTOs = TestUtils.jsonToObject(response, UserInfoDTO[].class);
 
-		Assertions.assertThat(users.size())
-				.isEqualTo(userInfoDTOs.length);
+        Assertions.assertThat(users.size())
+                .isEqualTo(userInfoDTOs.length);
 
-		for (int i = 0; i < users.size(); i++) {
-			User userA = users.get(i);
-			UserInfoDTO userB = userInfoDTOs[i];
+        for (int i = 0; i < users.size(); i++) {
+            User userA = users.get(i);
+            UserInfoDTO userB = userInfoDTOs[i];
 
-			Assertions.assertThat(userA.getId())
-					.isEqualTo(userB.getId());
+            Assertions.assertThat(userA.getId())
+                    .isEqualTo(userB.getId());
 
-			Assertions.assertThat(userA.getEmail())
-					.isEqualTo(userB.getEmail());
-		}
-	}
+            Assertions.assertThat(userA.getEmail())
+                    .isEqualTo(userB.getEmail());
+        }
+    }
 
-	@Test
-	public void getAllNotes() throws Exception {
-		final String TEXT = "abc xyz";
-		List<Note> notes = Arrays.asList(new Note(TEXT), new Note(TEXT));
+    @Test
+    public void getAllNotes() throws Exception {
+        final String TEXT = "abc xyz";
+        List<Note> notes = Arrays.asList(new Note(TEXT), new Note(TEXT));
 
-		given(userService.getAllNotes()).willReturn(notes);
+        given(userService.getAllNotes()).willReturn(notes);
 
-		String response = mockMvc.perform(get("/admin/all-notes"))
-				.andExpect(status().isOk())
-				.andReturn()
-				.getResponse()
-				.getContentAsString();
+        String response = mockMvc.perform(get("/admin/all-notes"))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
-		Note[] notesArray = TestUtils.jsonToObject(response, Note[].class);
+        Note[] notesArray = TestUtils.jsonToObject(response, Note[].class);
 
-		Assertions.assertThat(notes.size())
-				.isEqualTo(notesArray.length);
+        Assertions.assertThat(notes.size())
+                .isEqualTo(notesArray.length);
 
-		Stream.of(notesArray)
-				.forEach(note -> Assertions.assertThat(note.getText())
-						.isEqualTo(TEXT));
-	}
+        Stream.of(notesArray)
+                .forEach(note -> Assertions.assertThat(note.getText())
+                        .isEqualTo(TEXT));
+    }
 
 }

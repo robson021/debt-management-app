@@ -11,33 +11,33 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @MappedSuperclass
 public abstract class BasicEntity {
 
-	@Id
-	@GeneratedValue
-	private Long id;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-	@JsonIgnore
-	private String uuid = UUID.randomUUID()
-			.toString();
+    @JsonIgnore
+    private String uuid = UUID.randomUUID()
+            .toString();
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if ( this == o )
-			return true;
+    @Override
+    public boolean equals(Object o) {
+        if ( this == o )
+            return true;
 
-		if ( o == null || getClass() != o.getClass() )
-			return false;
+        if ( o == null || getClass() != o.getClass() )
+            return false;
 
-		BasicEntity that = (BasicEntity) o;
-		return this.hashCode() == that.hashCode();
-	}
+        BasicEntity that = (BasicEntity) o;
+        return this.hashCode() == that.hashCode();
+    }
 
-	@Override
-	public int hashCode() {
-		return uuid.hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return uuid.hashCode();
+    }
 
 }

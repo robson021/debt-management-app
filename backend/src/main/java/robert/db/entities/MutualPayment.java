@@ -13,44 +13,44 @@ import javax.persistence.Table;
 @Table(name = "MUTUAL_PAYMENT")
 public class MutualPayment extends BasicEntity {
 
-	@Column(nullable = false)
-	private Double amount;
+    @Column(nullable = false)
+    private Double amount;
 
-	@Column(nullable = false)
-	private String description;
+    @Column(nullable = false)
+    private String description;
 
-	@OneToMany(mappedBy = "mutualPayment", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<Fee> payedFees;
+    @OneToMany(mappedBy = "mutualPayment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Fee> payedFees;
 
-	public Double getAmount() {
-		return amount;
-	}
+    public Double getAmount() {
+        return amount;
+    }
 
-	public void setAmount(Double amount) {
-		this.amount = amount;
-	}
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public Set<Fee> getPayedFees() {
-		return payedFees;
-	}
+    public Set<Fee> getPayedFees() {
+        return payedFees;
+    }
 
-	public void setPayedFees(Set<Fee> payedFees) {
-		this.payedFees = payedFees;
-	}
+    public void setPayedFees(Set<Fee> payedFees) {
+        this.payedFees = payedFees;
+    }
 
-	public void addFee(Fee fee) {
-		if ( payedFees == null ) {
-			payedFees = Collections.singleton(fee);
-		} else {
-			payedFees.add(fee);
-		}
-	}
+    public void addFee(Fee fee) {
+        if ( payedFees == null ) {
+            payedFees = Collections.singleton(fee);
+        } else {
+            payedFees.add(fee);
+        }
+    }
 }

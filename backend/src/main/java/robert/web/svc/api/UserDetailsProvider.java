@@ -8,11 +8,11 @@ import robert.web.security.userdetails.UserDetailsImpl;
 
 public interface UserDetailsProvider {
 
-	UserDetailsImpl getUserDetails();
+    UserDetailsImpl getUserDetails();
 
-	long getUserId();
+    long getUserId();
 
-	String getUserEmail();
+    String getUserEmail();
 
-	Collection<? extends GrantedAuthority> getAuthorities();
+    Collection<? extends GrantedAuthority> getAuthorities();
 }

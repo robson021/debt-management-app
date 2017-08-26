@@ -2,23 +2,23 @@ package robert.web.rest.dto;
 
 public class FeeDTO {
 
-	private String user;
+    private String user;
 
-	private double amount;
+    private double amount;
 
-	public String getUser() {
-		return user;
-	}
+    public String getUser() {
+        return user;
+    }
 
-	public void setUser(String user) {
-		this.user = user;
-	}
+    public void setUser(String user) {
+        this.user = user;
+    }
 
-	public double getAmount() {
-		return amount;
-	}
+    public double getAmount() {
+        return amount;
+    }
 
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
 }

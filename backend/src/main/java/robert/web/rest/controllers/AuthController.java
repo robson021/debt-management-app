@@ -21,42 +21,42 @@ import robert.web.svc.api.UserDetailsProvider;
 @RequestMapping("/auth")
 public class AuthController {
 
-	private static final Logger log = LoggerFactory.getLogger(AuthController.class);
+    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
-	private final UserService userService;
+    private final UserService userService;
 
-	private final UserDetailsProvider userDetailsProvider;
+    private final UserDetailsProvider userDetailsProvider;
 
-	private final boolean isRegistrationEnabled;
+    private final boolean isRegistrationEnabled;
 
-	public AuthController(@Value("${robert.registrationEnabled}") String registration, UserDetailsProvider userDetailsProvider, UserService userService) {
-		this.userDetailsProvider = userDetailsProvider;
-		this.userService = userService;
-		this.isRegistrationEnabled = Boolean.parseBoolean(registration);
-		log.info("Is registration enabled? - {}", isRegistrationEnabled);
-	}
+    public AuthController(@Value("${robert.registrationEnabled}") String registration, UserDetailsProvider userDetailsProvider, UserService userService) {
+        this.userDetailsProvider = userDetailsProvider;
+        this.userService = userService;
+        this.isRegistrationEnabled = Boolean.parseBoolean(registration);
+        log.info("Is registration enabled? - {}", isRegistrationEnabled);
+    }
 
-	@PostMapping("/register")
-	@ResponseStatus(HttpStatus.OK)
-	public void registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
-		if ( !isRegistrationEnabled ) {
-			throw new UnsupportedFunctionalityException();
-		}
-		userService.saveNewUser(userDTO);
-		log.info("Registered new user: {}", userDTO);
-	}
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.OK)
+    public void registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
+        if ( !isRegistrationEnabled ) {
+            throw new UnsupportedFunctionalityException();
+        }
+        userService.saveNewUser(userDTO);
+        log.info("Registered new user: {}", userDTO);
+    }
 
-	@GetMapping("/am-i-admin")
-	@ResponseStatus(HttpStatus.OK)
-	public void checkIfAdmin() {
-		boolean isAdmin = userDetailsProvider.getAuthorities()
-				.stream()
-				.anyMatch(role -> role.getAuthority()
-						.equals("ROLE_ADMIN"));
+    @GetMapping("/am-i-admin")
+    @ResponseStatus(HttpStatus.OK)
+    public void checkIfAdmin() {
+        boolean isAdmin = userDetailsProvider.getAuthorities()
+                .stream()
+                .anyMatch(role -> role.getAuthority()
+                        .equals("ROLE_ADMIN"));
 
-		if ( !isAdmin ) {
-			throw new NotAnAdminException();
-		}
-	}
+        if ( !isAdmin ) {
+            throw new NotAnAdminException();
+        }
+    }
 
 }

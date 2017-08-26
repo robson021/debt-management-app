@@ -6,8 +6,20 @@ import java.util.List;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-public interface Roles {
-	List<SimpleGrantedAuthority> ROLE_USER = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+class Roles {
 
-	List<SimpleGrantedAuthority> ROLE_ADMIN = Arrays.asList(ROLE_USER.get(0), new SimpleGrantedAuthority("ROLE_ADMIN"));
+    static final List<SimpleGrantedAuthority> ROLE_USER;
+
+    static final List<SimpleGrantedAuthority> ROLE_ADMIN;
+
+    static {
+        SimpleGrantedAuthority roleUser = new SimpleGrantedAuthority("ROLE_USER");
+        SimpleGrantedAuthority roleAdmin = new SimpleGrantedAuthority("ROLE_ADMIN");
+
+        ROLE_USER = Collections.singletonList(roleUser);
+        ROLE_ADMIN = Collections.unmodifiableList(Arrays.asList(roleUser, roleAdmin));
+    }
+
+    private Roles() {
+    }
 }

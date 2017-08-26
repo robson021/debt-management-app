@@ -23,24 +23,24 @@ import robert.svc.api.MailerService;
 @PropertySource("classpath:mailer.properties")
 public class DebtManagementApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DebtManagementApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DebtManagementApplication.class, args);
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder(11);
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(11);
+    }
 
-	@Bean
-	@ConditionalOnMissingBean
-	public MailerService mailerService() {
-		return receiverEmail -> System.out.println("Fake mailer service for " + receiverEmail);
-	}
+    @Bean
+    @ConditionalOnMissingBean
+    public MailerService mailerService() {
+        return receiverEmail -> System.out.println("Fake mailer service for " + receiverEmail);
+    }
 
-	@Autowired
-	public void authenticationManager(AuthenticationManagerBuilder builder, UserDetailsService details, PasswordEncoder encoder) throws Exception {
-		builder.userDetailsService(details)
-				.passwordEncoder(encoder);
-	}
+    @Autowired
+    public void authenticationManager(AuthenticationManagerBuilder builder, UserDetailsService details, PasswordEncoder encoder) throws Exception {
+        builder.userDetailsService(details)
+                .passwordEncoder(encoder);
+    }
 }

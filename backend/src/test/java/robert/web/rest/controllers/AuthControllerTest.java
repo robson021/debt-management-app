@@ -20,45 +20,45 @@ import robert.web.svc.api.UserDetailsProvider;
 
 public class AuthControllerTest extends SpringWebMvcTest {
 
-	@Autowired
-	private UserDetailsProvider userDetailsProvider;
+    @Autowired
+    private UserDetailsProvider userDetailsProvider;
 
-	private User user;
+    private User user;
 
-	@Before
-	public void setup() {
-		user = TestUtils.generateNewUser();
-	}
+    @Before
+    public void setup() {
+        user = TestUtils.generateNewUser();
+    }
 
-	@Test
-	public void registerNewUser() throws Exception {
-		mockMvc.perform(post("/auth/register/").content(TestUtils.asJsonString(user))
-				.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());
-	}
+    @Test
+    public void registerNewUser() throws Exception {
+        mockMvc.perform(post("/auth/register/").content(TestUtils.asJsonString(user))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
 
-	@Test
-	public void isAdmin() throws Exception {
-		FieldUtils.setProtectedFieldValue("id", user, 1L);
-		user.setAdminRole(true);
+    @Test
+    public void isAdmin() throws Exception {
+        FieldUtils.setProtectedFieldValue("id", user, 1L);
+        user.setAdminRole(true);
 
-		Mockito.when(userDetailsProvider.getUserDetails())
-				.thenReturn(new UserDetailsImpl(user));
+        Mockito.when(userDetailsProvider.getUserDetails())
+                .thenReturn(new UserDetailsImpl(user));
 
-		Mockito.when(userDetailsProvider.getAuthorities())
-				.thenCallRealMethod();
+        Mockito.when(userDetailsProvider.getAuthorities())
+                .thenCallRealMethod();
 
-		checkIfUserHasAdminRole().andExpect(status().isOk());
+        checkIfUserHasAdminRole().andExpect(status().isOk());
 
-		user.setAdminRole(false);
-		Mockito.when(userDetailsProvider.getUserDetails())
-				.thenReturn(new UserDetailsImpl(user));
+        user.setAdminRole(false);
+        Mockito.when(userDetailsProvider.getUserDetails())
+                .thenReturn(new UserDetailsImpl(user));
 
-		checkIfUserHasAdminRole().andExpect(status().isUnauthorized());
-	}
+        checkIfUserHasAdminRole().andExpect(status().isUnauthorized());
+    }
 
-	private ResultActions checkIfUserHasAdminRole() throws Exception {
-		return mockMvc.perform(get("/auth/am-i-admin/"));
-	}
+    private ResultActions checkIfUserHasAdminRole() throws Exception {
+        return mockMvc.perform(get("/auth/am-i-admin/"));
+    }
 
 }

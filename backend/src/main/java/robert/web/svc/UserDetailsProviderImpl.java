@@ -12,27 +12,27 @@ import robert.web.svc.api.UserDetailsProvider;
 @Service
 public class UserDetailsProviderImpl implements UserDetailsProvider {
 
-	@Override
-	public UserDetailsImpl getUserDetails() {
-		Object principal = SecurityContextHolder.getContext()
-				.getAuthentication()
-				.getPrincipal();
+    @Override
+    public UserDetailsImpl getUserDetails() {
+        Object principal = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
 
-		return (UserDetailsImpl) principal;
-	}
+        return (UserDetailsImpl) principal;
+    }
 
-	@Override
-	public long getUserId() {
-		return getUserDetails().getUserId();
-	}
+    @Override
+    public long getUserId() {
+        return getUserDetails().getUserId();
+    }
 
-	@Override
-	public String getUserEmail() {
-		return getUserDetails().getUsername();
-	}
+    @Override
+    public String getUserEmail() {
+        return getUserDetails().getUsername();
+    }
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return getUserDetails().getAuthorities();
-	}
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getUserDetails().getAuthorities();
+    }
 }

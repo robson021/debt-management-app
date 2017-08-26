@@ -11,9 +11,9 @@ import robert.web.svc.api.UserDetailsProvider;
 @Configuration
 public class TestConfig {
 
-	@Bean
-	@Primary
-	public UserDetailsProvider userInfoProvider() {
-		return Mockito.mock(UserDetailsProviderImpl.class);
-	}
+    @Bean
+    @Primary
+    public UserDetailsProvider userInfoProvider() {
+        return Mockito.mock(UserDetailsProviderImpl.class);
+    }
 }

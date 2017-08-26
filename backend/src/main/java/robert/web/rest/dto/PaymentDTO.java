@@ -4,83 +4,83 @@ import java.util.List;
 
 public class PaymentDTO {
 
-	private long id;
+    private long id;
 
-	private long borrowerId;
+    private long borrowerId;
 
-	private String borrowerName;
+    private String borrowerName;
 
-	private String borrowerSurname;
+    private String borrowerSurname;
 
-	private String owner;
+    private String owner;
 
-	private double amount;
+    private double amount;
 
-	private String description;
+    private String description;
 
-	private List<FeeDTO> fees;
+    private List<FeeDTO> fees;
 
-	public long getId() {
-		return id;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public long getBorrowerId() {
-		return borrowerId;
-	}
+    public long getBorrowerId() {
+        return borrowerId;
+    }
 
-	public void setBorrowerId(long borrowerId) {
-		this.borrowerId = borrowerId;
-	}
+    public void setBorrowerId(long borrowerId) {
+        this.borrowerId = borrowerId;
+    }
 
-	public String getBorrowerName() {
-		return borrowerName;
-	}
+    public String getBorrowerName() {
+        return borrowerName;
+    }
 
-	public void setBorrowerName(String borrowerName) {
-		this.borrowerName = borrowerName;
-	}
+    public void setBorrowerName(String borrowerName) {
+        this.borrowerName = borrowerName;
+    }
 
-	public String getBorrowerSurname() {
-		return borrowerSurname;
-	}
+    public String getBorrowerSurname() {
+        return borrowerSurname;
+    }
 
-	public void setBorrowerSurname(String borrowerSurname) {
-		this.borrowerSurname = borrowerSurname;
-	}
+    public void setBorrowerSurname(String borrowerSurname) {
+        this.borrowerSurname = borrowerSurname;
+    }
 
-	public String getOwner() {
-		return owner;
-	}
+    public String getOwner() {
+        return owner;
+    }
 
-	public void setOwner(String owner) {
-		this.owner = owner;
-	}
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
 
-	public double getAmount() {
-		return amount;
-	}
+    public double getAmount() {
+        return amount;
+    }
 
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public List<FeeDTO> getFees() {
-		return fees;
-	}
+    public List<FeeDTO> getFees() {
+        return fees;
+    }
 
-	public void setFees(List<FeeDTO> fees) {
-		this.fees = fees;
-	}
+    public void setFees(List<FeeDTO> fees) {
+        this.fees = fees;
+    }
 }
