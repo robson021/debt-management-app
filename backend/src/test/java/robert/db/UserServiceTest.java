@@ -2,6 +2,7 @@ package robert.db;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
@@ -130,9 +131,8 @@ public class UserServiceTest extends SpringTest {
     @Test
     public void getAllNotes() {
         final int NOTES_COUNT = 2;
-        for (int i = 0; i < NOTES_COUNT; i++) {
-            userService.saveNewNote(createNote(), user.getId());
-        }
+        IntStream.range(0, NOTES_COUNT)
+                .forEach(i -> userService.saveNewNote(createNote(), user.getId()));
 
         Assertions.assertThat(userService.getAllNotes()
                 .size())

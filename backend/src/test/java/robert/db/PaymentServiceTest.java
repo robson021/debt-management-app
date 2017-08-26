@@ -46,10 +46,8 @@ public class PaymentServiceTest extends SpringTest {
                 .getAmount())
                 .isGreaterThan(.0);
 
-        for (Asset userDebt : userDebts) {
-            Assertions.assertThat(userDebt.getAmount())
-                    .isGreaterThan(.0);
-        }
+        userDebts.forEach(userDebt -> Assertions.assertThat(userDebt.getAmount())
+                .isGreaterThan(.0));
     }
 
     @Test
@@ -59,11 +57,10 @@ public class PaymentServiceTest extends SpringTest {
         Assertions.assertThat(userDebtors.size())
                 .isEqualTo(2);
 
-        for (Asset debtor : userDebtors) {
-            double amount = debtor.getAmount();
-            Assertions.assertThat(amount)
-                    .isGreaterThan(.0);
-        }
+        userDebtors.stream()
+                .mapToDouble(Asset::getAmount)
+                .forEach(amount -> Assertions.assertThat(amount)
+                        .isGreaterThan(.0));
     }
 
     @Test

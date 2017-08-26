@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.stream.IntStream;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -41,16 +41,15 @@ public class AdminControllerTest extends SpringWebMvcTest {
         Assertions.assertThat(users.size())
                 .isEqualTo(userInfoDTOs.length);
 
-        for (int i = 0; i < users.size(); i++) {
-            User userA = users.get(i);
-            UserInfoDTO userB = userInfoDTOs[i];
-
-            Assertions.assertThat(userA.getId())
-                    .isEqualTo(userB.getId());
-
-            Assertions.assertThat(userA.getEmail())
-                    .isEqualTo(userB.getEmail());
-        }
+        IntStream.range(0, users.size())
+                .forEach(i -> {
+                    User userA = users.get(i);
+                    UserInfoDTO userB = userInfoDTOs[i];
+                    Assertions.assertThat(userA.getId())
+                            .isEqualTo(userB.getId());
+                    Assertions.assertThat(userA.getEmail())
+                            .isEqualTo(userB.getEmail());
+                });
     }
 
     @Test
@@ -71,7 +70,7 @@ public class AdminControllerTest extends SpringWebMvcTest {
         Assertions.assertThat(notes.size())
                 .isEqualTo(notesArray.length);
 
-        Stream.of(notesArray)
+        Arrays.stream(notesArray)
                 .forEach(note -> Assertions.assertThat(note.getText())
                         .isEqualTo(TEXT));
     }

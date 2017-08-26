@@ -5,6 +5,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Arrays;
+
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -89,16 +91,15 @@ public class PaymentControllerTest extends SpringWebMvcTest {
         Assertions.assertThat(debts)
                 .hasSize(2);
 
-        for (PaymentDTO debt : debts) {
-            Assertions.assertThat(debt.getBorrowerId())
-                    .isEqualTo(borrower.getId());
-
-            Assertions.assertThat(debt.getBorrowerName())
-                    .isEqualTo(borrower.getName());
-
-            Assertions.assertThat(debt.getBorrowerSurname())
-                    .isEqualTo(borrower.getSurname());
-        }
+        Arrays.stream(debts)
+                .forEach(debt -> {
+                    Assertions.assertThat(debt.getBorrowerId())
+                            .isEqualTo(borrower.getId());
+                    Assertions.assertThat(debt.getBorrowerName())
+                            .isEqualTo(borrower.getName());
+                    Assertions.assertThat(debt.getBorrowerSurname())
+                            .isEqualTo(borrower.getSurname());
+                });
 
     }
 
