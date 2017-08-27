@@ -34,6 +34,11 @@ export class AdminAreaComponent implements OnInit {
       });
   }
 
+  sendLogs() {
+    this.http.performPost('admin/send-server-logs', null)
+      .subscribe();
+  }
+
   selectUser(user) {
     this.selectedUser = user;
   }
