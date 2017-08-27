@@ -28,12 +28,13 @@ public class MailerServiceImpl implements MailerService {
 
     private final JavaMailSender mailSender;
 
-    private final AsyncTaskService asyncTaskService;
+    private final AsyncTaskExecutorService asyncTaskExecutorService;
 
-    public MailerServiceImpl(@Value("${logging.file}") String applicationLogFile, JavaMailSender mailSender, AsyncTaskService asyncTaskService) {
+    public MailerServiceImpl(@Value("${logging.file}") String applicationLogFile, JavaMailSender mailSender,
+            AsyncTaskExecutorService asyncTaskExecutorService) {
         this.applicationLogFile = applicationLogFile;
         this.mailSender = mailSender;
-        this.asyncTaskService = asyncTaskService;
+        this.asyncTaskExecutorService = asyncTaskExecutorService;
         log.info("Application log file for mail service: '{}'", this.applicationLogFile);
     }
 
@@ -46,7 +47,7 @@ public class MailerServiceImpl implements MailerService {
     @Override
     public void sendEmail(String receiverEmail, String topic, String body, File file, boolean deleteFileAfterIsSent) {
         Assert.hasText(receiverEmail, "Receiver cannot be null");
-        asyncTaskService.submit(() -> {
+        asyncTaskExecutorService.submit(() -> {
             try {
                 MimeMessage mimeMessage = mailSender.createMimeMessage();
                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
