@@ -44,7 +44,7 @@ public class MailerServiceImpl implements MailerService {
 	}
 
 	@Override
-	public void sendEmail(String receiverEmail, String topic, String body, File file, boolean deleteFileAfterIsSend) {
+	public void sendEmail(String receiverEmail, String topic, String body, File file, boolean deleteFileAfterIsSent) {
 		Assert.hasText(receiverEmail, "Receiver cannot be null");
 		asyncTaskService.submit(() -> {
 			try {
@@ -60,7 +60,7 @@ public class MailerServiceImpl implements MailerService {
 			} catch (Exception ignored) {
 				log.error("Could not send server logs to {}", receiverEmail);
 			} finally {
-				if ( deleteFileAfterIsSend && file != null ) {
+				if ( deleteFileAfterIsSent && file != null ) {
 					FileSystemUtils.deleteRecursively(file);
 				}
 			}

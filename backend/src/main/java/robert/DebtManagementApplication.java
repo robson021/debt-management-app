@@ -27,40 +27,37 @@ import robert.svc.api.MailerService;
 @PropertySource("classpath:mailer.properties")
 public class DebtManagementApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DebtManagementApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DebtManagementApplication.class, args);
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder(11);
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(11);
+    }
 
-	@Bean
-	@ConditionalOnMissingBean
-	public MailerService mailerService() {
-		return new MailerService() {
-			private final Logger log = LoggerFactory.getLogger(MailerService.class);
+    @Bean
+    @ConditionalOnMissingBean
+    public MailerService mailerService() {
+        return new MailerService() {
+            private final Logger log = LoggerFactory.getLogger(MailerService.class);
 
-			@Override
-			public void sendServerLogs(String receiverEmail) {
-				logMessage();
-			}
+            @Override
+            public void sendServerLogs(String receiverEmail) {
+                log.debug("sending logs to {}", receiverEmail);
+            }
 
-			@Override
-			public void sendEmail(String receiverEmail, String topic, String body, File file, boolean deleteFileAfterIsSend) {
-				logMessage();
-			}
+            @Override
+            public void sendEmail(String receiverEmail, String topic, String body, File file, boolean deleteFileAfterIsSent) {
+                log.debug("sending email to {}", receiverEmail);
+            }
 
-			private void logMessage() {
-				log.debug("fake mail service is running");
-			}
-		};
-	}
+        };
+    }
 
-	@Autowired
-	public void authenticationManager(AuthenticationManagerBuilder builder, UserDetailsService details, PasswordEncoder encoder) throws Exception {
-		builder.userDetailsService(details)
-				.passwordEncoder(encoder);
-	}
+    @Autowired
+    public void authenticationManager(AuthenticationManagerBuilder builder, UserDetailsService details, PasswordEncoder encoder) throws Exception {
+        builder.userDetailsService(details)
+                .passwordEncoder(encoder);
+    }
 }

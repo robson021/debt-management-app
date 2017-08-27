@@ -6,6 +6,6 @@ public interface MailerService {
 
     void sendServerLogs(String receiverEmail);
 
-    void sendEmail(String receiverEmail, String topic, String body, File file, boolean deleteFileAfterIsSend);
+    void sendEmail(String receiverEmail, String topic, String body, File file, boolean deleteFileAfterIsSent);
 
 }
