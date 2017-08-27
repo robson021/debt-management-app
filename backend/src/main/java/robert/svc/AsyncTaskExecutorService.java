@@ -19,6 +19,7 @@ public class AsyncTaskExecutorService {
         executor.setMaxPoolSize(8);
         executor.setKeepAliveSeconds(30);
         this.taskExecutor = executor;
+        this.taskExecutor.initialize();
     }
 
     void submit(Runnable task) {
