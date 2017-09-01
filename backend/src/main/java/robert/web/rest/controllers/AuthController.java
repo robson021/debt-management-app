@@ -39,6 +39,7 @@ public class AuthController {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.OK)
     public void registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
+        log.info("Registration attempt: {}", userDTO);
         if ( !isRegistrationEnabled ) {
             throw new UnsupportedFunctionalityException();
         }
