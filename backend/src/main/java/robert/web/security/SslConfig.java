@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@Profile("ssl")
+@Profile("prod")
 @PropertySource("classpath:ssl.properties")
 public class SslConfig {
 }
