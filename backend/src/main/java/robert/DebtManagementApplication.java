@@ -44,7 +44,7 @@ public class DebtManagementApplication {
 
             @Override
             public void sendServerLogs(String receiverEmail) {
-                log.debug("sending logs to {}", receiverEmail);
+                log.debug("[mock] sending logs to '{}'", receiverEmail);
             }
 
             @Override

@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
@@ -33,6 +35,8 @@ import robert.web.svc.api.UserDetailsProvider;
 @RequestMapping("/admin")
 public class AdminController {
 
+    private static final Logger log = LoggerFactory.getLogger(AdminController.class);
+
     private final UserDetailsProvider userDetailsProvider;
 
     private final UserService userService;
@@ -45,7 +49,8 @@ public class AdminController {
         this.userDetailsProvider = userDetailsProvider;
         this.userService = userService;
         this.mailerService = mailerService;
-        logFileName = env.getProperty("logging.file");
+        this.logFileName = env.getProperty("logging.file");
+        log.info("Logging file to download '{}'", this.logFileName);
     }
 
     @GetMapping("/all-users")
@@ -79,6 +84,7 @@ public class AdminController {
 
     @GetMapping("/server-logs")
     public ResponseEntity<?> downloadLogs() throws IOException {
+        log.info("'{}' requested file log download", userDetailsProvider.getUserEmail());
         if ( logFileName == null ) {
             throw new UnsupportedFunctionalityException();
         }
