@@ -82,14 +82,19 @@ public class AdminController {
         if ( logFileName == null ) {
             throw new UnsupportedFunctionalityException();
         }
+
         File file = new File(logFileName);
-        Path path = Paths.get(file.getAbsolutePath());
-        ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
+        ByteArrayResource resource = getByteArrayResource(file);
 
         return ResponseEntity.ok()
                 .contentLength(file.length())
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(resource);
+    }
+
+    private ByteArrayResource getByteArrayResource(File file) throws IOException {
+        Path path = Paths.get(file.getAbsolutePath());
+        return new ByteArrayResource(Files.readAllBytes(path));
     }
 
 }
