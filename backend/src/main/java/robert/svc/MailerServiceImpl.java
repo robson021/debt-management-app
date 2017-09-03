@@ -61,7 +61,7 @@ public class MailerServiceImpl implements MailerService {
                 mailSender.send(mimeMessage);
                 log.info("Mail has been sent to {}", receiverEmail);
             } catch (Exception ex) {
-                log.error("Could not send server logs to {}\n{}", receiverEmail, ex.getMessage());
+                log.error("Could not send email to {}\n{}", receiverEmail, ex.getMessage());
             } finally {
                 if ( deleteFileAfterIsSent && file != null ) {
                     FileSystemUtils.deleteRecursively(file);
