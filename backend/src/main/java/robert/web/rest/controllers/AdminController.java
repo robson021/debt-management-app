@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import robert.db.entities.Note;
 import robert.db.entities.User;
 import robert.db.svc.api.UserService;
+import robert.exeptions.BadParameterException;
 import robert.exeptions.UnsupportedFunctionalityException;
 import robert.svc.api.MailerService;
 import robert.web.rest.dto.UserInfoDTO;
@@ -45,12 +48,17 @@ public class AdminController {
 
     private final String logFileName;
 
+    private final String logFileCode;
+
     public AdminController(UserDetailsProvider userDetailsProvider, UserService userService, MailerService mailerService, Environment env) {
         this.userDetailsProvider = userDetailsProvider;
         this.userService = userService;
         this.mailerService = mailerService;
         this.logFileName = env.getProperty("logging.file");
+        this.logFileCode = RandomStringUtils.randomAlphanumeric(8);
+
         log.info("Logging file to download '{}'", this.logFileName);
+        log.info("File code: '{}'", this.logFileCode);
     }
 
     @GetMapping("/all-users")
@@ -82,11 +90,15 @@ public class AdminController {
         mailerService.sendServerLogs(userDetailsProvider.getUserEmail());
     }
 
-    @GetMapping("/server-logs")
-    public ResponseEntity<?> downloadLogs() throws IOException {
-        log.info("'{}' requested file log download", userDetailsProvider.getUserEmail());
+    @GetMapping("/server-logs/{code}/")
+    public ResponseEntity<?> downloadLogs(@PathVariable String code) throws IOException {
+        log.info("Log file request with code: '{}'", code);
         if ( logFileName == null ) {
             throw new UnsupportedFunctionalityException();
+        }
+
+        if ( !logFileCode.equals(code) ) {
+            throw new BadParameterException("Invalid code");
         }
 
         File file = new File(logFileName);
