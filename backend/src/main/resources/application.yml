@@ -4,18 +4,16 @@ logging:
     org.hibernate: error
     org.springframework: error
     org.springframework.boot.context.embedded: info
-
+#
 spring:
-  profiles:
-    active: dev
-  datasource:
-    dbcp2:
-      max-total: 4
-
-server:
-  undertow:
-    worker-threads: 4
-    io-threads: 4
-
-robert:
-  registrationEnabled: true
+  profiles.active: dev
+  jackson.serialization.indent_output: true
+  datasource.dbcp2.max-total: 4
+#
+server.undertow:
+  io-threads: 1
+  worker-threads: 4
+#
+management.contextPath: /actuator
+#
+robert.registrationEnabled: true

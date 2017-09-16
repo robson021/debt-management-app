@@ -15,9 +15,10 @@ class Roles {
     static {
         SimpleGrantedAuthority roleUser = new SimpleGrantedAuthority("ROLE_USER");
         SimpleGrantedAuthority roleAdmin = new SimpleGrantedAuthority("ROLE_ADMIN");
+        SimpleGrantedAuthority roleActuator = new SimpleGrantedAuthority("ROLE_ACTUATOR");
 
         ROLE_USER = Collections.singletonList(roleUser);
-        ROLE_ADMIN = Collections.unmodifiableList(Arrays.asList(roleUser, roleAdmin));
+        ROLE_ADMIN = Arrays.asList(roleUser, roleAdmin, roleActuator);
     }
 
     private Roles() {
