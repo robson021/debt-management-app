@@ -43,11 +43,6 @@ public class DebtManagementApplication {
             private final Logger log = LoggerFactory.getLogger(MailerService.class);
 
             @Override
-            public void sendServerLogs(String receiverEmail) {
-                log.debug("[mock] sending logs to '{}'", receiverEmail);
-            }
-
-            @Override
             public void sendEmail(String receiverEmail, String topic, String body, File file, boolean deleteFileAfterIsSent) {
                 log.debug("sending email to {}", receiverEmail);
             }

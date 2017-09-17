@@ -1,13 +1,11 @@
 package robert.svc;
 
 import java.io.File;
-import java.util.Date;
 
 import javax.mail.internet.MimeMessage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -19,29 +17,18 @@ import org.springframework.util.FileSystemUtils;
 import robert.svc.api.MailerService;
 
 @Service
-@Profile("prod")
+@Profile("mailer")
 public class MailerServiceImpl implements MailerService {
 
     private static final Logger log = LoggerFactory.getLogger(MailerServiceImpl.class);
-
-    private final String applicationLogFile;
 
     private final JavaMailSender mailSender;
 
     private final AsyncTaskExecutorService asyncTaskExecutorService;
 
-    public MailerServiceImpl(@Value("${logging.file}") String applicationLogFile, JavaMailSender mailSender,
-            AsyncTaskExecutorService asyncTaskExecutorService) {
-        this.applicationLogFile = applicationLogFile;
+    public MailerServiceImpl(JavaMailSender mailSender, AsyncTaskExecutorService asyncTaskExecutorService) {
         this.mailSender = mailSender;
         this.asyncTaskExecutorService = asyncTaskExecutorService;
-        log.info("Application log file for mail service: '{}'", this.applicationLogFile);
-    }
-
-    @Override
-    public void sendServerLogs(String receiverEmail) {
-        log.info("Server logs request to {}", receiverEmail);
-        sendEmail(receiverEmail, "Server log", "Debts management app - " + new Date(), new File(applicationLogFile), false);
     }
 
     @Override

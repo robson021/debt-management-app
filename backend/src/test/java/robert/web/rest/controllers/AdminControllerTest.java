@@ -1,9 +1,7 @@
 package robert.web.rest.controllers;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Arrays;
@@ -80,14 +78,6 @@ public class AdminControllerTest extends SpringWebMvcTest {
         Arrays.stream(notesArray)
                 .forEach(note -> Assertions.assertThat(note.getText())
                         .isEqualTo(TEXT));
-    }
-
-    @Test
-    public void sendLogs() throws Exception {
-        when(userDetailsProvider.getUserEmail()).thenReturn("admin@test.pl");
-
-        mockMvc.perform(post("/admin/send-server-logs"))
-                .andExpect(status().isOk());
     }
 
 }
