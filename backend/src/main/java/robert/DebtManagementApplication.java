@@ -1,15 +1,12 @@
 package robert;
 
-import java.io.File;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -37,17 +34,10 @@ public class DebtManagementApplication {
     }
 
     @Bean
+    @Lazy
     @ConditionalOnMissingBean
     public MailerService mailerService() {
-        return new MailerService() {
-            private final Logger log = LoggerFactory.getLogger(MailerService.class);
-
-            @Override
-            public void sendEmail(String receiverEmail, String topic, String body, File file, boolean deleteFileAfterIsSent) {
-                log.debug("sending email to {}", receiverEmail);
-            }
-
-        };
+        return (receiverEmail, topic, body, file, deleteFileAfterIsSent) -> System.out.println("[mock] sending email to: " + receiverEmail);
     }
 
     @Autowired
