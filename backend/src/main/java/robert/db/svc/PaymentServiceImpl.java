@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import robert.db.entities.Asset;
@@ -23,6 +25,8 @@ import robert.web.rest.dto.asm.PaymentAssembler;
 @Service
 @Transactional
 public class PaymentServiceImpl implements PaymentService {
+
+    private static final Logger log = LoggerFactory.getLogger(PaymentService.class);
 
     private final EntityManager em;
 
@@ -59,9 +63,14 @@ public class PaymentServiceImpl implements PaymentService {
         if ( !doesAssetBelongToUser(assetId, userId) )
             throw new BadParameterException("User tried to cancel not his debt");
 
-        em.createQuery("delete from Asset a where a.id = :id")
+        Asset asset = em.createQuery("from Asset a where a.id = :id", Asset.class)
                 .setParameter("id", assetId)
-                .executeUpdate();
+                .getSingleResult();
+
+        log.info("Canceling debt...\nborrower: '{}', lender: '{}', amount: '{}', desc: '{}'", //
+                asset.getBorrowerSurname(), asset.getUser().getSurname(), asset.getAmount(), asset.getDescription());
+
+        em.remove(asset);
     }
 
     @Override
