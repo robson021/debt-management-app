@@ -7,6 +7,7 @@ import robert.db.entities.User;
 import robert.web.rest.dto.UserInfoDTO;
 
 public interface UserService {
+
     User saveNewUser(User user);
 
     User saveNewUser(UserInfoDTO userDTO);

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
+import javax.persistence.NoResultException;
+
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,7 +17,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import robert.db.entities.Note;
 import robert.db.entities.User;
 import robert.db.svc.api.UserService;
-import robert.exeptions.NoteNotFoundException;
 import robert.tools.SpringTest;
 import robert.tools.TestUtils;
 import robert.web.rest.dto.UserInfoDTO;
@@ -107,7 +108,7 @@ public class UserServiceTest extends SpringTest {
                 .isEqualTo("sample text");
     }
 
-    @Test(expected = NoteNotFoundException.class)
+    @Test(expected = NoResultException.class)
     public void getAllUserNotesAndDeleteOne() {
         final int NOTES_COUNT = 5;
         for (int i = 0; i < NOTES_COUNT; i++) {
@@ -118,7 +119,7 @@ public class UserServiceTest extends SpringTest {
         Assertions.assertThat(allUsersNotes.size())
                 .isEqualTo(NOTES_COUNT);
 
-        int noteId = new Random().nextInt(NOTES_COUNT + 1);
+        int noteId = new Random().nextInt(NOTES_COUNT) + 1;
         userService.deleteNote(user.getId(), noteId);
 
         allUsersNotes = userService.getAllUsersNotes(user.getId());

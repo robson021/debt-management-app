@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +15,14 @@ import robert.db.entities.User;
 import robert.db.repo.UserRepository;
 import robert.db.svc.api.UserService;
 import robert.exeptions.InvalidPasswordPatternException;
-import robert.exeptions.NoteNotFoundException;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.UserAssembler;
 
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
+
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
     private final EntityManager em;
 
@@ -94,15 +97,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteNote(long userId, long noteId) {
-        int deletedEntities = em //
-                .createQuery("delete from Note n where n.id = :nid and n.user.id = :uid")
+        Note note = em.createQuery("from Note n where n.id = :nid and n.user.id = :uid", Note.class)
                 .setParameter("nid", noteId)
                 .setParameter("uid", userId)
-                .executeUpdate();
+                .getSingleResult();
 
-        if ( deletedEntities < 1 ) {
-            throw new NoteNotFoundException();
-        }
+        log.info("deleting note '{}' of user '{}'", note.getText(), note.getUser().getEmail());
+        em.remove(note);
     }
 
     @Override
