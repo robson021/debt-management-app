@@ -1,4 +1,15 @@
 <div>
+  <form class="small-form" [formGroup]="noteForm">
+    <label>New note:
+      <input minlength="3" class="form-control" formControlName="noteText"/>
+    </label>
+    <button class="btn btn-success" (click)="submitNewNote()"
+            [disabled]="!noteForm.valid">
+      Submit
+    </button>
+  </form>
+  <br>
+  <br>
   <table class="table table-hover table-striped" *ngIf="notes.length > 0">
     <thead>
     <tr>
@@ -15,15 +26,4 @@
     </tr>
     </tbody>
   </table>
-
-  <form class="small-form" [formGroup]="noteForm">
-    <label>New note:
-      <input minlength="3" class="form-control" formControlName="noteText"/>
-    </label>
-    <br>
-    <button class="btn btn-success" (click)="submitNewNote()"
-            [disabled]="!noteForm.valid">
-      Submit
-    </button>
-  </form>
 </div>

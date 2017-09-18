@@ -25,7 +25,7 @@ export class NotesComponent implements OnInit {
   loadNotes() {
     this.http.performGet('credentials/my-notes')
       .subscribe(data => {
-        this.notes = data;
+        this.notes = data.reverse();
       });
   }
 
