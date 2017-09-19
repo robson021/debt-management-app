@@ -1,5 +1,7 @@
 package robert.web.rest.controllers.handlers;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -15,8 +17,14 @@ public class GlobalRestExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(GlobalRestExceptionHandler.class);
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleAccessDeniedException(Exception ex) {
-        log.error("Error: {}", ex.getMessage());
+    public ResponseEntity<?> handleAccessDeniedException(Exception ex, HttpServletRequest request) {
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");
+        if ( ipAddress == null ) {
+            ipAddress = request.getRemoteAddr();
+        }
+
+        log.error("Error: '{}', uri: '{}', ip: '{}'", ex.getMessage(), request.getRequestURI(), ipAddress);
+
         return ResponseEntity //
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Unexpected error");
