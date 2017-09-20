@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import robert.db.entities.Note;
@@ -18,15 +17,11 @@ import robert.db.svc.api.UserService;
 import robert.tools.SpringWebMvcTest;
 import robert.tools.TestUtils;
 import robert.web.rest.dto.UserInfoDTO;
-import robert.web.svc.api.UserDetailsProvider;
 
 public class AdminControllerTest extends SpringWebMvcTest {
 
     @MockBean
     private UserService userService;
-
-    @Autowired
-    private UserDetailsProvider userDetailsProvider;
 
     @Test
     public void getAllUsers() throws Exception {

@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
 import robert.db.entities.User;
@@ -20,11 +21,11 @@ import robert.db.svc.api.PaymentService;
 import robert.tools.SpringWebMvcTest;
 import robert.tools.TestUtils;
 import robert.web.rest.dto.PaymentDTO;
-import robert.web.svc.api.UserDetailsProvider;
+import robert.web.svc.UserDetailsProvider;
 
 public class PaymentControllerTest extends SpringWebMvcTest {
 
-    @Autowired
+    @MockBean
     private UserDetailsProvider userDetailsProvider;
 
     @Autowired

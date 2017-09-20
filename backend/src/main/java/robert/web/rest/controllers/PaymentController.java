@@ -20,7 +20,7 @@ import robert.db.svc.api.PaymentService;
 import robert.web.rest.dto.FeeDTO;
 import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
-import robert.web.svc.api.UserDetailsProvider;
+import robert.web.svc.UserDetailsProvider;
 
 @RestController
 @RequestMapping("/payments")

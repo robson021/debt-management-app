@@ -17,7 +17,7 @@ import robert.db.entities.User;
 import robert.db.svc.api.UserService;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.UserAssembler;
-import robert.web.svc.api.UserDetailsProvider;
+import robert.web.svc.UserDetailsProvider;
 
 @RestController
 @RequestMapping("/credentials")

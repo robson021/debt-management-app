@@ -1,5 +1,7 @@
 package robert.web.rest.controllers;
 
+import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +17,7 @@ import robert.db.svc.api.UserService;
 import robert.exeptions.NotAnAdminException;
 import robert.exeptions.UnsupportedFunctionalityException;
 import robert.web.rest.dto.UserInfoDTO;
-import robert.web.svc.api.UserDetailsProvider;
+import robert.web.svc.UserDetailsProvider;
 
 @RestController
 @RequestMapping("/auth")
@@ -52,8 +54,7 @@ public class AuthController {
     public void checkIfAdmin() {
         boolean isAdmin = userDetailsProvider.getAuthorities()
                 .stream()
-                .anyMatch(role -> role.getAuthority()
-                        .equals("ROLE_ADMIN"));
+                .anyMatch(role -> Objects.equals(role.getAuthority(), "ROLE_ADMIN"));
 
         if ( !isAdmin ) {
             throw new NotAnAdminException();
