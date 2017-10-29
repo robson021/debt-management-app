@@ -19,7 +19,7 @@ public class UserDetailsImpl implements UserDetails {
 
     private final List<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(User user) {
+    UserDetailsImpl(User user) {
         Assert.notNull(user, "No user has been found");
         this.userId = user.getId();
         this.username = user.getEmail();
