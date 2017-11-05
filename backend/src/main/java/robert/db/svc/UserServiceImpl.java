@@ -1,15 +1,9 @@
 package robert.db.svc;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import robert.db.entities.Note;
 import robert.db.entities.User;
 import robert.db.repo.UserRepository;
@@ -17,6 +11,10 @@ import robert.db.svc.api.UserService;
 import robert.exeptions.InvalidPasswordPatternException;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.UserAssembler;
+
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -73,7 +71,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changePassword(long userId, String newPassword) {
-        if ( newPassword.length() < 5 ) {
+        if (newPassword.length() < 5) {
             throw new InvalidPasswordPatternException();
         }
         User user = em.getReference(User.class, userId);

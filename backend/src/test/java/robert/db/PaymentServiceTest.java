@@ -1,18 +1,17 @@
 package robert.db;
 
-import java.util.List;
-
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import robert.db.entities.Asset;
 import robert.db.entities.User;
 import robert.db.svc.api.PaymentService;
 import robert.db.svc.api.UserService;
 import robert.tools.SpringTest;
 import robert.tools.TestUtils;
+
+import java.util.List;
 
 public class PaymentServiceTest extends SpringTest {
 

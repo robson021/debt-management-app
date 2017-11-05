@@ -1,9 +1,5 @@
 package robert.svc;
 
-import java.io.File;
-
-import javax.mail.internet.MimeMessage;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -13,8 +9,10 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.FileSystemUtils;
-
 import robert.svc.api.MailerService;
+
+import javax.mail.internet.MimeMessage;
+import java.io.File;
 
 @Service
 @Profile("mailer")
@@ -41,7 +39,7 @@ public class MailerServiceImpl implements MailerService {
                 helper.setTo(receiverEmail);
                 helper.setSubject(topic);
                 helper.setText(body);
-                if ( file != null ) {
+                if (file != null) {
                     FileSystemResource attachment = new FileSystemResource(file);
                     helper.addAttachment(attachment.getFilename(), attachment);
                 }
@@ -50,7 +48,7 @@ public class MailerServiceImpl implements MailerService {
             } catch (Exception ex) {
                 log.error("Could not send email to {}\n{}", receiverEmail, ex.getMessage());
             } finally {
-                if ( deleteFileAfterIsSent && file != null ) {
+                if (deleteFileAfterIsSent && file != null) {
                     FileSystemUtils.deleteRecursively(file);
                 }
             }

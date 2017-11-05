@@ -1,15 +1,8 @@
 package robert.db.svc;
 
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import robert.db.entities.Asset;
 import robert.db.entities.Fee;
 import robert.db.entities.MutualPayment;
@@ -21,6 +14,11 @@ import robert.db.svc.api.PaymentService;
 import robert.exeptions.BadParameterException;
 import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
+
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -36,8 +34,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final MutualPaymentRepository mutualPaymentRepository;
 
-    public PaymentServiceImpl(EntityManager em, AssetRepository assetRepository, UserRepository userRepository,
-            MutualPaymentRepository mutualPaymentRepository) {
+    public PaymentServiceImpl(EntityManager em, AssetRepository assetRepository, UserRepository userRepository, MutualPaymentRepository mutualPaymentRepository) {
         this.em = em;
         this.assetRepository = assetRepository;
         this.userRepository = userRepository;
@@ -60,15 +57,15 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void cancelDebt(long assetId, long userId) {
-        if ( !doesAssetBelongToUser(assetId, userId) )
+        if (!doesAssetBelongToUser(assetId, userId))
             throw new BadParameterException("User tried to cancel not his debt");
 
         Asset asset = em.createQuery("from Asset a where a.id = :id", Asset.class)
                 .setParameter("id", assetId)
                 .getSingleResult();
 
-        log.info("Canceling debt...\nborrower: '{}', lender: '{}', amount: '{}', desc: '{}'", //
-                asset.getBorrowerSurname(), asset.getUser().getSurname(), asset.getAmount(), asset.getDescription());
+        log.info("Canceling debt: borrower: '{} {}', lender: '{} {}', amount: '{}', desc: '{}'", //
+                asset.getBorrowerSurname(), asset.getBorrowerName(), asset.getUser().getSurname(), asset.getUser().getName(), asset.getAmount(), asset.getDescription());
 
         em.remove(asset);
     }
@@ -142,7 +139,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public double getMoneyBalanceWithOtherUser(long userId, long otherUserId) {
-        String query = "select sum(amount) from Asset a where a.user.id = :id1 and borrowerId = :id2";
+        final String query = "select sum(amount) from Asset a where a.user.id = :id1 and borrowerId = :id2";
 
         Double otherUserDebts = em.createQuery(query, Double.class)
                 .setParameter("id1", userId)

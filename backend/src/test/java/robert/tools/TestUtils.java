@@ -1,11 +1,9 @@
 package robert.tools;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.test.util.ReflectionTestUtils;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import robert.db.entities.User;
 import robert.web.rest.dto.PaymentDTO;
 
@@ -25,8 +23,7 @@ public class TestUtils {
 
     public static User generateNewUser() {
         User user = new User();
-        user.setEmail((RandomStringUtils.randomAlphabetic(10)
-                .toLowerCase() + "@test.pl").toLowerCase());
+        user.setEmail((RandomStringUtils.randomAlphabetic(10) + "@test.pl").toLowerCase());
         user.setName(RandomStringUtils.randomAlphabetic(8));
         user.setSurname(RandomStringUtils.randomAlphabetic(8));
         user.setPassword("Passwd.123");

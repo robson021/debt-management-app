@@ -1,13 +1,8 @@
 package robert.db.entities;
 
+import javax.persistence.*;
 import java.util.Collections;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "MUTUAL_PAYMENT")
@@ -47,7 +42,7 @@ public class MutualPayment extends BasicEntity {
     }
 
     public void addFee(Fee fee) {
-        if ( payedFees == null ) {
+        if (payedFees == null) {
             payedFees = Collections.singleton(fee);
         } else {
             payedFees.add(fee);

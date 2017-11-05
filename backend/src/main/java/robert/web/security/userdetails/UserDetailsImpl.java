@@ -1,13 +1,12 @@
 package robert.web.security.userdetails;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
-
 import robert.db.entities.User;
+
+import java.util.Collection;
+import java.util.List;
 
 public class UserDetailsImpl implements UserDetails {
 
@@ -24,7 +23,7 @@ public class UserDetailsImpl implements UserDetails {
         this.userId = user.getId();
         this.username = user.getEmail();
         this.password = user.getPassword();
-        if ( user.hasAdminRole() ) {
+        if (user.hasAdminRole()) {
             this.authorities = Roles.ROLE_ADMIN;
         } else {
             this.authorities = Roles.ROLE_USER;

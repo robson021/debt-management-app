@@ -1,12 +1,11 @@
 package robert.db.entities;
 
-import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.UUID;
 
 @MappedSuperclass
 public abstract class BasicEntity {
@@ -25,10 +24,10 @@ public abstract class BasicEntity {
 
     @Override
     public boolean equals(Object o) {
-        if ( this == o )
+        if (this == o)
             return true;
 
-        if ( o == null || getClass() != o.getClass() )
+        if (o == null || getClass() != o.getClass())
             return false;
 
         BasicEntity that = (BasicEntity) o;

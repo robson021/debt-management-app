@@ -1,18 +1,17 @@
 package robert.web.rest.controllers;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
 import robert.db.entities.User;
 import robert.db.svc.api.UserService;
 import robert.tools.SpringWebMvcTest;
 import robert.tools.TestUtils;
 import robert.web.svc.UserDetailsProvider;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 public class UserCredentialsControllerTest extends SpringWebMvcTest {
 

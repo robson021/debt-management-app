@@ -1,7 +1,5 @@
 package robert.web.rest.controllers.handlers;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -9,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
 @Profile("prod")
@@ -19,7 +19,7 @@ public class GlobalRestExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleAccessDeniedException(Exception ex, HttpServletRequest request) {
         String ipAddress = request.getHeader("X-FORWARDED-FOR");
-        if ( ipAddress == null ) {
+        if (ipAddress == null) {
             ipAddress = request.getRemoteAddr();
         }
 

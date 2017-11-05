@@ -1,12 +1,12 @@
 package robert.db.svc.api;
 
-import java.util.List;
-import java.util.Set;
-
 import robert.db.entities.Asset;
 import robert.db.entities.Fee;
 import robert.db.entities.MutualPayment;
 import robert.web.rest.dto.PaymentDTO;
+
+import java.util.List;
+import java.util.Set;
 
 public interface PaymentService {
 

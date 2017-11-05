@@ -1,22 +1,21 @@
 package robert.web.rest.controllers;
 
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.Arrays;
-import java.util.List;
-
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
 import robert.db.entities.Note;
 import robert.db.entities.User;
 import robert.db.svc.api.UserService;
 import robert.tools.SpringWebMvcTest;
 import robert.tools.TestUtils;
 import robert.web.rest.dto.UserInfoDTO;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AdminControllerTest extends SpringWebMvcTest {
 

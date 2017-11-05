@@ -1,10 +1,10 @@
 package robert.db.svc.api;
 
-import java.util.List;
-
 import robert.db.entities.Note;
 import robert.db.entities.User;
 import robert.web.rest.dto.UserInfoDTO;
+
+import java.util.List;
 
 public interface UserService {
 

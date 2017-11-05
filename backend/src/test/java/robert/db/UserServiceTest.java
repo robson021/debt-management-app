@@ -1,11 +1,5 @@
 package robert.db;
 
-import java.util.List;
-import java.util.Random;
-import java.util.stream.IntStream;
-
-import javax.persistence.NoResultException;
-
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,13 +7,17 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
-
 import robert.db.entities.Note;
 import robert.db.entities.User;
 import robert.db.svc.api.UserService;
 import robert.tools.SpringTest;
 import robert.tools.TestUtils;
 import robert.web.rest.dto.UserInfoDTO;
+
+import javax.persistence.NoResultException;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.IntStream;
 
 public class UserServiceTest extends SpringTest {
 

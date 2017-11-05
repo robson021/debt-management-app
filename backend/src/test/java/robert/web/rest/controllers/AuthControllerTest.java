@@ -1,14 +1,13 @@
 package robert.web.rest.controllers;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import org.junit.Test;
 import org.springframework.http.MediaType;
-
 import robert.db.entities.User;
 import robert.tools.SpringWebMvcTest;
 import robert.tools.TestUtils;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AuthControllerTest extends SpringWebMvcTest {
 
