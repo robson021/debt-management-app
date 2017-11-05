@@ -70,8 +70,7 @@ public class AdminControllerTest extends SpringWebMvcTest {
                 .isEqualTo(notesArray.length);
 
         Arrays.stream(notesArray)
-                .forEach(note -> Assertions.assertThat(note.getText())
-                        .isEqualTo(TEXT));
+                .forEach(note -> Assertions.assertThat(note.getText()).isEqualTo(TEXT));
     }
 
 }

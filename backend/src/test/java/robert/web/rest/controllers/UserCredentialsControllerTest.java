@@ -23,9 +23,8 @@ public class UserCredentialsControllerTest extends SpringWebMvcTest {
 
     @Test
     public void getOtherUsersDetails() throws Exception {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++)
             userService.saveNewUser(TestUtils.generateNewUser());
-        }
 
         User user = userService.saveNewUser(TestUtils.generateNewUser());
 
