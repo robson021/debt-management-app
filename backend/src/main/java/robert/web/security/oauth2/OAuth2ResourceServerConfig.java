@@ -20,7 +20,7 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
                 .and().headers().frameOptions().disable()
                 .and().authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers(HttpMethod.GET, "/", "/**/*.html", "/**/*.css", "/**/*.js", "/**/*.ico").permitAll()
+                .antMatchers(HttpMethod.GET, "/", "/login/**", "/**/*.html", "/**/*.css", "/**/*.js", "/**/*.ico").permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
