@@ -76,6 +76,9 @@ public class PaymentServiceImpl implements PaymentService {
         Asset asset = PaymentAssembler.paymentDtoToAsset(borrowerInfo);
         asset.setUser(lender);
         assetRepository.save(asset);
+        log.info("Added debt for '{} {}' (lender '{} {}'): {}, {}$", //
+                asset.getBorrowerName(), asset.getBorrowerSurname(), lender.getName(), lender.getSurname(), asset.getDescription(), asset.getAmount()
+        );
     }
 
     @Override
