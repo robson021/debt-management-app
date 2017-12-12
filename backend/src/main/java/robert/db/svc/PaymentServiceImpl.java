@@ -3,6 +3,7 @@ package robert.db.svc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import robert.db.entities.Asset;
 import robert.db.entities.Fee;
 import robert.db.entities.MutualPayment;
@@ -16,7 +17,6 @@ import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
 
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 
