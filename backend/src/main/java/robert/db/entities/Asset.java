@@ -2,6 +2,7 @@ package robert.db.entities;
 
 import javax.persistence.*;
 import java.text.DecimalFormat;
+import java.util.Date;
 
 @Entity
 @Table(name = "ASSET")
@@ -15,6 +16,9 @@ public class Asset extends BasicEntity {
 
     @Column(nullable = false)
     private String description;
+
+    @Column
+    private Date creationDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
@@ -89,5 +93,13 @@ public class Asset extends BasicEntity {
 
     public void setBorrowerId(long borrowerId) {
         this.borrowerId = borrowerId;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 }

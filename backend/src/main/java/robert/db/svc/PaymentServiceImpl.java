@@ -17,6 +17,7 @@ import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
 
 import javax.persistence.EntityManager;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -75,6 +76,7 @@ public class PaymentServiceImpl implements PaymentService {
         User lender = userRepository.findOne(lenderId);
         Asset asset = PaymentAssembler.paymentDtoToAsset(borrowerInfo);
         asset.setUser(lender);
+        asset.setCreationDate(new Date());
         assetRepository.save(asset);
         log.info("Added debt for '{} {}' (lender '{} {}'): {}, {}$", //
                 asset.getBorrowerName(), asset.getBorrowerSurname(), lender.getName(), lender.getSurname(), asset.getDescription(), asset.getAmount()

@@ -1,6 +1,6 @@
-import {Component, OnInit} from "@angular/core";
-import {HttpConnectionService} from "../http-connection.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {HttpConnectionService} from '../http-connection.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-my-debtors',
@@ -35,8 +35,8 @@ export class MyDebtorsComponent implements OnInit {
   }
 
   submitNewAsset() {
-    let u = this.debtorsForm.value.selectedUser.split(' ');
-    let newAsset = {
+    const u = this.debtorsForm.value.selectedUser.split(' ');
+    const newAsset = {
       borrowerName: u[0],
       borrowerSurname: u[1],
       borrowerId: u[2],
@@ -66,7 +66,7 @@ export class MyDebtorsComponent implements OnInit {
     this.http.performGet('payments/my-debtors/')
       .subscribe(data => {
         this.debtors = data;
-        console.log(data)
+        console.log(data);
       });
   }
 

@@ -12,6 +12,7 @@
       <tr *ngFor="let debt of debts">
         <td>{{debt.amount}}</td>
         <td>{{debt.description}}</td>
+        <td>{{debt.creationDate | date: 'dd/MM/yyyy'}}</td>
         <td>{{debt.owner}}</td>
       </tr>
       </tbody>

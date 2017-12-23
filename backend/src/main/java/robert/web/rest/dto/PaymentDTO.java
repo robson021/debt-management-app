@@ -1,5 +1,6 @@
 package robert.web.rest.dto;
 
+import java.util.Date;
 import java.util.List;
 
 public class PaymentDTO {
@@ -17,6 +18,8 @@ public class PaymentDTO {
     private double amount;
 
     private String description;
+
+    private Date creationDate;
 
     private List<FeeDTO> fees;
 
@@ -82,5 +85,13 @@ public class PaymentDTO {
 
     public void setFees(List<FeeDTO> fees) {
         this.fees = fees;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 }
