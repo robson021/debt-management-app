@@ -51,7 +51,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<Asset> findUserDebtors(long userId) {
-        return em.createQuery("from Asset a where a.user.id = :id order by a.borrowerSurname, a.amount desc", Asset.class)
+        return em.createQuery("from Asset a where a.user.id = :id order by a.creationDate asc, a.borrowerSurname, a.amount desc", Asset.class)
                 .setParameter("id", userId)
                 .getResultList();
     }
@@ -160,11 +160,8 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     private boolean doesAssetBelongToUser(long assetId, long userId) {
-        long id = assetRepository.findOne(assetId)
-                .getUser()
-                .getId();
-
-        return id == userId;
+        Asset asset = em.getReference(Asset.class, assetId);
+        return userId == asset.getUser().getId();
     }
 
     private double getDifference(Double x, Double y) {

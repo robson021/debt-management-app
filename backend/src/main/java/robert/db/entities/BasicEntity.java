@@ -2,6 +2,7 @@ package robert.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -12,6 +13,7 @@ public abstract class BasicEntity {
 
     @Id
     @GeneratedValue
+    @Column(updatable = false)
     private Long id;
 
     @JsonIgnore
