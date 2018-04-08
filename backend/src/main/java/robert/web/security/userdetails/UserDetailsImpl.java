@@ -2,7 +2,6 @@ package robert.web.security.userdetails;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.Assert;
 import robert.db.entities.User;
 
 import java.util.Collection;
@@ -19,7 +18,6 @@ public class UserDetailsImpl implements UserDetails {
     private final List<? extends GrantedAuthority> authorities;
 
     public UserDetailsImpl(User user) {
-        Assert.notNull(user, "No user has been found");
         this.userId = user.getId();
         this.username = user.getEmail();
         this.password = user.getPassword();
