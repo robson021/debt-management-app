@@ -27,16 +27,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers(HttpMethod.GET, "/", "/**/*.html", "/**/*.css", "/**/*.js", "/**/*.ico").permitAll()
-                .antMatchers("/auth/**", "/login**").permitAll()
+                .antMatchers(HttpMethod.GET, "/**/*.html", "/**/*.css", "/**/*.js", "/**/*.ico").permitAll()
+                .antMatchers("/auth/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
-                .and().httpBasic()
-                //.and().formLogin().loginPage("/login.html").permitAll()
-                //.defaultSuccessUrl("/qwerty.html")
+                .and().formLogin().permitAll()
+                .defaultSuccessUrl("/")
                 //.failureUrl("/error.html")
                 .and().logout().permitAll();
-        //.and().exceptionHandling().authenticationEntryPoint((request, response, authException) -> response.sendError(401));
     }
 
     @Override
