@@ -22,11 +22,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        log.info("Login attempt: {}", email);
-
         User user = userRepository.findOneByEmail(email);
-        UserDetailsImpl userDetails = new UserDetailsImpl(user);
+        if (user == null) {
+            log.warn("User '{}' not found", email);
+            throw new UsernameNotFoundException(email);
+        }
 
+        UserDetailsImpl userDetails = new UserDetailsImpl(user);
         if (log.isDebugEnabled()) {
             log.debug("Loaded: {}", userDetails);
         }
