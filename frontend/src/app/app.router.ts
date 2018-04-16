@@ -10,9 +10,8 @@ import {AdminAreaComponent} from './admin-area/admin-area.component';
 import {NotesComponent} from './notes/notes.component';
 
 export const router: Routes = [
-  {path: '', redirectTo: 'my-debts', pathMatch: 'full'},
-  {path: 'login', redirectTo: '', pathMatch: 'full'},
-  //{path: 'login', component: LoginComponent},
+  {path: '', redirectTo: 'login', pathMatch: 'full'},
+  {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'my-debts', component: MyDebtsComponent},
   {path: 'my-debtors', component: MyDebtorsComponent},
