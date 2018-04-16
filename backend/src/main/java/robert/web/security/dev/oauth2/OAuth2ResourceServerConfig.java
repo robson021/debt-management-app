@@ -1,6 +1,7 @@
-package robert.web.security.oauth2;
+package robert.web.security.dev.oauth2;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -9,6 +10,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 
 @Configuration
 @EnableResourceServer
+@Profile("dev")
 public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override

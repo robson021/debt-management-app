@@ -1,6 +1,7 @@
-package robert.web.security.oauth2;
+package robert.web.security.dev.oauth2;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -10,6 +11,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 
 @Configuration
 @EnableAuthorizationServer
+@Profile("dev")
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     private final AuthenticationManager authenticationManager;
