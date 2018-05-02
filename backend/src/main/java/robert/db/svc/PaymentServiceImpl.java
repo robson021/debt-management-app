@@ -87,6 +87,7 @@ public class PaymentServiceImpl implements PaymentService {
     public void addMutualPayment(PaymentDTO paymentDTO) {
         MutualPayment payment = PaymentAssembler.convertMutualPaymentDTO(paymentDTO);
         mutualPaymentRepository.save(payment);
+        log.info("New mutual payment: '{}'; amount: {}$", payment.getDescription(), payment.getAmount());
     }
 
     @Override
@@ -99,6 +100,8 @@ public class PaymentServiceImpl implements PaymentService {
 
         mutualPayment.addFee(fee);
         mutualPaymentRepository.save(mutualPayment);
+        log.info("Added fee for mutual payment: '{}'; amount: {}$; user: '{}'", //
+                fee.getMutualPayment().getDescription(), feeAmount, fee.getUser().getEmail());
     }
 
     @Override
