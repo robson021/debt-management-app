@@ -15,7 +15,7 @@ export class HttpConnectionService {
   private api: string;
 
   constructor(private http: Http, private router: Router) {
-    this.api = environment.production ? '/' : 'http://localhost:8080/';
+    this.api = environment.production ? '/' : 'http://localhost:9999/';
   }
 
   logUserIn(credentials) {

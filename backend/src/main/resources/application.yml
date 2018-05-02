@@ -9,11 +9,19 @@ logging:
 spring:
   profiles.active: dev
   jackson.serialization.indent_output: true
-  datasource.dbcp2.max-total: 4
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 4
+      pool-name: CustomHikariPool
+      auto-commit: false
 #
-server.undertow:
-  io-threads: 1
-  worker-threads: 4
+server:
+  port: 9999
+  undertow:
+    io-threads: 1
+    worker-threads: 4
 #
 management.contextPath: /actuator
 #
