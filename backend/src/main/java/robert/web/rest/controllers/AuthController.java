@@ -34,7 +34,7 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.OK)
-    public void registerNewUser(@RequestBody UserInfoDTO userDTO) throws Exception {
+    public void registerNewUser(@RequestBody UserInfoDTO userDTO) {
         log.info("Registration attempt: {}", userDTO);
         if (!isRegistrationEnabled) {
             throw new UnsupportedFunctionalityException();
@@ -50,9 +50,8 @@ public class AuthController {
                 .stream()
                 .anyMatch(role -> Objects.equals(role.getAuthority(), "ROLE_ADMIN"));
 
-        if (!isAdmin) {
+        if (!isAdmin)
             throw new NotAnAdminException();
-        }
     }
 
 }

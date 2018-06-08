@@ -17,15 +17,11 @@ public class UserDetailsImpl implements UserDetails {
 
     private final List<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(User user) {
+    UserDetailsImpl(User user) {
         this.userId = user.getId();
         this.username = user.getEmail();
         this.password = user.getPassword();
-        if (user.hasAdminRole()) {
-            this.authorities = Roles.ROLE_ADMIN;
-        } else {
-            this.authorities = Roles.ROLE_USER;
-        }
+        this.authorities = user.hasAdminRole() ? Roles.ROLE_ADMIN : Roles.ROLE_USER;
     }
 
     public long getUserId() {

@@ -29,9 +29,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         UserDetailsImpl userDetails = new UserDetailsImpl(user);
-        if (log.isDebugEnabled()) {
+        if (log.isDebugEnabled())
             log.debug("Loaded: {}", userDetails);
-        }
 
         return userDetails;
     }
