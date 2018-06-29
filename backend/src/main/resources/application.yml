@@ -1,3 +1,5 @@
+server.port: 9999
+#
 logging:
   level:
     robert: debug
@@ -16,12 +18,10 @@ spring:
       maximum-pool-size: 4
       pool-name: CustomHikariPool
       auto-commit: false
-#
-server:
-  port: 9999
-  undertow:
-    io-threads: 1
-    worker-threads: 4
+  h2.console:
+    enabled: true
+    path: /console
+    settings.web-allow-others: true
 #
 management.contextPath: /actuator
 #
