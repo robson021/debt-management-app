@@ -73,7 +73,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void addDebtor(long lenderId, PaymentDTO borrowerInfo) {
-        User lender = userRepository.findOne(lenderId);
+        User lender = userRepository.findById(lenderId).get();
         Asset asset = PaymentAssembler.paymentDtoToAsset(borrowerInfo);
         asset.setUser(lender);
         asset.setCreationDate(new Date());
@@ -92,9 +92,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void addUserFeeToPayment(long userId, long mutualPaymentId, double feeAmount) {
-        MutualPayment mutualPayment = mutualPaymentRepository.findOne(mutualPaymentId);
+        MutualPayment mutualPayment = mutualPaymentRepository.findById(mutualPaymentId).get();
         Fee fee = new Fee();
-        fee.setUser(userRepository.findOne(userId));
+        fee.setUser(userRepository.findById(userId).get());
         fee.setPayedFee(feeAmount);
         fee.setMutualPayment(mutualPayment);
 
@@ -106,7 +106,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Set<Fee> getFeesForMutualPayment(long mutualPaymentId) {
-        MutualPayment mutualPayment = mutualPaymentRepository.findOne(mutualPaymentId);
+        MutualPayment mutualPayment = mutualPaymentRepository.findById(mutualPaymentId).get();
         return mutualPayment.getPayedFees();
     }
 
@@ -129,7 +129,7 @@ public class PaymentServiceImpl implements PaymentService {
                 .setParameter("pid", mutualPaymentId)
                 .executeUpdate();
 
-        mutualPaymentRepository.delete(mutualPaymentId);
+        mutualPaymentRepository.deleteById(mutualPaymentId);
     }
 
     @Override
