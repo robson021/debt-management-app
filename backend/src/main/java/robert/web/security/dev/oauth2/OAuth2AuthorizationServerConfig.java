@@ -9,7 +9,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 
 @Configuration
 @EnableAuthorizationServer
-@Profile("dev")
+@Profile("oauth2")
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Override

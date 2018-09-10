@@ -1,33 +1,16 @@
 server.port: 9999
-#
-logging:
-  level:
-    robert: debug
-    org.hibernate: error
-    org.springframework: error
-    org.springframework.boot.context.embedded: info
-  file: app.log
-#
 spring:
-  profiles.active: dev
-  jackson.serialization.indent_output: true
+  profiles.active: dev,oauth2
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
-      minimum-idle: 1
-      maximum-pool-size: 1
       pool-name: CustomHikariPool
       auto-commit: false
-  h2.console:
-    enabled: true
-    path: /console
-    settings.web-allow-others: true
-  jpa:
-    properties:
-      hibernate:
-        show_sql: true
-        #format_sql: true
-#
+logging:
+  level:
+    robert: debug
+    org.hibernate: warn
+    org.springframework: warn
+    org.springframework.boot.context.embedded: info
+  file: app.log
 management.contextPath: /actuator
-#
-robert.registrationEnabled: true
