@@ -13,5 +13,5 @@ logging:
     org.springframework: warn
     org.springframework.boot.context.embedded: info
   file: app.log
-management.contextPath: /actuator
+management.endpoints.web.exposure.include: logfile,auditevents,httptrace,beans,metrics,info
 robert.registrationEnabled: true
