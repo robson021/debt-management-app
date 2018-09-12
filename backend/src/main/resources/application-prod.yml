@@ -20,5 +20,4 @@ logging:
     org.hibernate: error
     org.springframework: error
     org.springframework.boot.context.embedded: info
-management.contextPath: /actuator
 robert.registrationEnabled: false
