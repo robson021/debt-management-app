@@ -63,7 +63,7 @@ public class PaymentServiceTest extends SpringTest {
     }
 
     @Test
-    public void cancelDebt() throws Exception {
+    public void cancelDebt() {
         List<Asset> assets = paymentService.findUserDebtors(lender.getId());
 
         final int initialAssetsSize = assets.size();
@@ -84,7 +84,7 @@ public class PaymentServiceTest extends SpringTest {
     }
 
     @Test
-    public void addDebtor() throws Exception {
+    public void addDebtor() {
         List<Asset> debtors = paymentService.findUserDebtors(lender.getId());
 
         Assertions.assertThat(debtors)

@@ -44,14 +44,14 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<Asset> findUserDebts(long borrowerId) {
-        return em.createQuery("from Asset a where a.borrowerId = :id", Asset.class)
+        return em.createQuery("from Asset a where a.borrowerId = :id order by creationDate desc", Asset.class)
                 .setParameter("id", borrowerId)
                 .getResultList();
     }
 
     @Override
     public List<Asset> findUserDebtors(long userId) {
-        return em.createQuery("from Asset a where a.user.id = :id", Asset.class)
+        return em.createQuery("from Asset a where a.user.id = :id order by creationDate desc", Asset.class)
                 .setParameter("id", userId)
                 .getResultList();
     }
