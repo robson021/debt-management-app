@@ -32,7 +32,8 @@ public class DevSettings {
         user.setEmail(testUserEmail);
         user.setName("Example");
         user.setSurname("User");
-        user.setPassword("Passwd.123");
+        String testUserPassword = "Passwd.123";
+        user.setPassword(testUserPassword);
         user.setAdminRole(true);
         user.setAccountNo(RandomStringUtils.randomNumeric(10));
 
@@ -50,6 +51,7 @@ public class DevSettings {
 
         userService.saveNewUser(user);
         System.out.println("saved test user: " + user.toString());
+        System.out.println("test user password: " + testUserPassword);
 
         long userId = userService.findUserByEmail(testUserEmail).getId();
         User borrower = userService.findUserById(userId - 1);
