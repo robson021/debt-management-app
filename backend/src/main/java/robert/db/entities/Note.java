@@ -1,6 +1,7 @@
 package robert.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 
@@ -27,7 +28,7 @@ public class Note extends BasicEntity {
     }
 
     public void setText(String text) {
-        this.text = text;
+        this.text = StringUtils.strip(text, "\"");
     }
 
     public User getUser() {

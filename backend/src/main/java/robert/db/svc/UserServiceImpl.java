@@ -91,6 +91,7 @@ public class UserServiceImpl implements UserService {
                 .add(note);
 
         note.setUser(user);
+        log.info("Adding note for user with id: {}; content: {}", userId, note.getText());
     }
 
     @Override
