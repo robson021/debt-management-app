@@ -14,6 +14,7 @@ import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.UserAssembler;
 
 import javax.persistence.EntityManager;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -87,9 +88,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveNewNote(Note note, long userId) {
         User user = em.getReference(User.class, userId);
-        user.getNotes()
-                .add(note);
-
+        note.setCreationDate(new Date());
+        user.getNotes().add(note);
         note.setUser(user);
         log.info("Adding note for user with id: {}; content: {}", userId, note.getText());
     }
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Note> getAllUsersNotes(long userId) {
-        return em.createQuery("from Note n where n.user.id = :id", Note.class)
+        return em.createQuery("from Note n where n.user.id = :id order by creationDate desc", Note.class)
                 .setParameter("id", userId)
                 .getResultList();
     }

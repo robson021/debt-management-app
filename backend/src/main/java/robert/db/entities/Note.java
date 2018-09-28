@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "NOTE")
@@ -16,11 +17,14 @@ public class Note extends BasicEntity {
     @JoinColumn(name = "USER_ID")
     private User user;
 
+    @Column(nullable = false)
+    private Date creationDate;
+
     public Note() {
     }
 
     public Note(String text) {
-        this.text = text;
+        this.text = stripNote(text);
     }
 
     public String getText() {
@@ -28,7 +32,7 @@ public class Note extends BasicEntity {
     }
 
     public void setText(String text) {
-        this.text = StringUtils.strip(text, "\"");
+        this.text = stripNote(text);
     }
 
     public User getUser() {
@@ -37,5 +41,17 @@ public class Note extends BasicEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    private String stripNote(String text) {
+        return StringUtils.strip(text, "\"");
     }
 }
