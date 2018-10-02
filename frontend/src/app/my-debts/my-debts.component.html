@@ -1,4 +1,10 @@
 <div>
+  <p>Your debts balance:
+    <span [ngClass]="{'red-text': debtsBalance < 0, 'green-text': debtsBalance >= 0}">
+      {{debtsBalance | currency:'USD':true:'1.2-2'}}
+    </span>
+  </p>
+  <br>
   <div class="text-center" *ngIf="debts.length > 0">
     <table class="table table-hover table-striped">
       <thead>
@@ -23,9 +29,4 @@
   <div class="text-center" *ngIf="debts.length <= 0">
     <h1>You do not have any debts.</h1>
   </div>
-  <p>Your debts balance:
-    <span [ngClass]="{'red-text': debtsBalance < 0, 'green-text': debtsBalance >= 0}">
-      {{debtsBalance | currency:'USD':true:'1.2-2'}}
-    </span>
-  </p>
 </div>

@@ -8,6 +8,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class NotesComponent implements OnInit {
 
+  private NOTES_URI = 'notes/';
+
   noteForm: FormGroup;
 
   notes = [];
@@ -23,7 +25,8 @@ export class NotesComponent implements OnInit {
   }
 
   loadNotes() {
-    this.http.performGet('credentials/my-notes')
+
+    this.http.performGet(this.NOTES_URI)
       .subscribe(data => {
         this.notes = data.reverse();
       });
@@ -31,14 +34,14 @@ export class NotesComponent implements OnInit {
 
   submitNewNote() {
     let note = this.noteForm.value.noteText;
-    this.http.performPost('credentials/add-note', note)
+    this.http.performPost(this.NOTES_URI, note)
       .subscribe(data => this.loadNotes());
 
     this.noteForm.reset();
   }
 
   deleteNote(noteId) {
-    this.http.performDelete('credentials/remove-note/' + noteId + '/')
+    this.http.performDelete(this.NOTES_URI + noteId + '/')
       .subscribe(data => this.loadNotes());
   }
 

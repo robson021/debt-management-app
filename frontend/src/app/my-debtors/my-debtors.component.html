@@ -1,4 +1,22 @@
 <div>
+  <form class="text-center" *ngIf="otherUsers.length > 0" [formGroup]="debtorsForm">
+    <div class="row-fluid inline-display">
+      <label>Amount:
+        <input formControlName="amount" type="number" min="0" class="form-control"/>
+      </label>
+      <label>Description:
+        <input formControlName="description" type="text" class="form-control"/>
+      </label>
+      <button class="btn btn-success" (click)="submitNewAsset()" [disabled]="!debtorsForm.valid">
+        Submit
+      </button>
+      <br>
+      <select formControlName="selectedUser">
+        <option *ngFor="let u of otherUsers">{{u.name}} {{u.surname}} {{u.id}}</option>
+      </select>
+    </div>
+  </form>
+  <br>
   <div class="text-center" *ngIf="debtors.length > 0">
     <table class="table table-hover table-striped">
       <thead>
@@ -29,22 +47,4 @@
   <div class="text-center" *ngIf="debtors.length <= 0">
     <h1>You do not have any debtors.</h1>
   </div>
-
-  <form class="text-center" *ngIf="otherUsers.length > 0" [formGroup]="debtorsForm">
-    <div class="row-fluid inline-display">
-      <label>Amount:
-        <input formControlName="amount" type="number" min="0" class="form-control"/>
-      </label>
-      <label>Description:
-        <input formControlName="description" type="text" class="form-control"/>
-      </label>
-      <button class="btn btn-success" (click)="submitNewAsset()" [disabled]="!debtorsForm.valid">
-        Submit
-      </button>
-      <br>
-      <select formControlName="selectedUser">
-        <option *ngFor="let u of otherUsers">{{u.name}} {{u.surname}} {{u.id}}</option>
-      </select>
-    </div>
-  </form>
 </div>
