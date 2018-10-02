@@ -32,7 +32,7 @@ public class NotesController {
         noteService.saveNewNote(new Note(note), userDetailsProvider.getUserId());
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void removeNote(@PathVariable long id) {
         noteService.deleteNote(userDetailsProvider.getUserId(), id);
