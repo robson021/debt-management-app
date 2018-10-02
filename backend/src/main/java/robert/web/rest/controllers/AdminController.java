@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import robert.db.entities.Note;
 import robert.db.entities.User;
+import robert.db.svc.api.NoteService;
 import robert.db.svc.api.UserService;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.UserAssembler;
@@ -16,8 +17,11 @@ public class AdminController {
 
     private final UserService userService;
 
-    public AdminController(UserService userService) {
+    private final NoteService noteService;
+
+    public AdminController(UserService userService, NoteService noteService) {
         this.userService = userService;
+        this.noteService = noteService;
     }
 
     @GetMapping("/all-users")
@@ -40,7 +44,7 @@ public class AdminController {
 
     @GetMapping("/all-notes")
     public List<Note> getAllNotes() {
-        return userService.getAllNotes();
+        return noteService.getAllNotes();
     }
 
 }

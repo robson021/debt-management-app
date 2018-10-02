@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import robert.db.entities.Note;
 import robert.db.entities.User;
+import robert.db.svc.api.NoteService;
 import robert.db.svc.api.UserService;
 import robert.tools.SpringWebMvcTest;
 import robert.tools.TestUtils;
@@ -21,6 +22,9 @@ public class AdminControllerTest extends SpringWebMvcTest {
 
     @MockBean
     private UserService userService;
+
+    @MockBean
+    private NoteService noteService;
 
     @Test
     public void getAllUsers() throws Exception {
@@ -56,7 +60,7 @@ public class AdminControllerTest extends SpringWebMvcTest {
         final String TEXT = "abc xyz";
         List<Note> notes = Arrays.asList(new Note(TEXT), new Note(TEXT));
 
-        given(userService.getAllNotes()).willReturn(notes);
+        given(noteService.getAllNotes()).willReturn(notes);
 
         String response = mockMvc.perform(get("/admin/all-notes"))
                 .andExpect(status().isOk())

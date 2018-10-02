@@ -7,17 +7,13 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
-import robert.db.entities.Note;
 import robert.db.entities.User;
 import robert.db.svc.api.UserService;
 import robert.tools.SpringTest;
 import robert.tools.TestUtils;
 import robert.web.rest.dto.UserInfoDTO;
 
-import javax.persistence.NoResultException;
 import java.util.List;
-import java.util.Random;
-import java.util.stream.IntStream;
 
 public class UserServiceTest extends SpringTest {
 
@@ -90,59 +86,6 @@ public class UserServiceTest extends SpringTest {
 
         Assertions.assertThat(newEmail)
                 .isEqualTo(email);
-    }
-
-    @Test
-    public void saveNewNote() {
-        Note note = createNote();
-        userService.saveNewNote(note, user.getId());
-
-        List<Note> allNotes = userService.getAllNotes();
-        Assertions.assertThat(allNotes)
-                .hasSize(1);
-
-        note = allNotes.get(0);
-        Assertions.assertThat(note.getText())
-                .isEqualTo("sample text");
-    }
-
-    @Test(expected = NoResultException.class)
-    public void getAllUserNotesAndDeleteOne() {
-        final int NOTES_COUNT = 5;
-        for (int i = 0; i < NOTES_COUNT; i++) {
-            userService.saveNewNote(createNote(), user.getId());
-        }
-
-        List<Note> allUsersNotes = userService.getAllUsersNotes(user.getId());
-        Assertions.assertThat(allUsersNotes.size())
-                .isEqualTo(NOTES_COUNT);
-
-        int noteId = new Random().nextInt(NOTES_COUNT) + 1;
-        userService.deleteNote(user.getId(), noteId);
-
-        allUsersNotes = userService.getAllUsersNotes(user.getId());
-        Assertions.assertThat(allUsersNotes.size())
-                .isEqualTo(NOTES_COUNT - 1);
-
-        userService.deleteNote(user.getId(), -1L);
-    }
-
-    @Test
-    public void getAllNotes() {
-        final int NOTES_COUNT = 2;
-        IntStream.range(0, NOTES_COUNT)
-                .forEach(i -> userService.saveNewNote(createNote(), user.getId()));
-
-        Assertions.assertThat(userService.getAllNotes()
-                .size())
-                .isGreaterThanOrEqualTo(NOTES_COUNT);
-    }
-
-    private Note createNote() {
-        Note note = new Note();
-        note.setText("sample text");
-
-        return note;
     }
 
 }
