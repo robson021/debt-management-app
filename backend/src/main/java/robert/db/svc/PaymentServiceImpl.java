@@ -65,10 +65,11 @@ public class PaymentServiceImpl implements PaymentService {
                 .setParameter("id", assetId)
                 .getSingleResult();
 
-        log.info("Canceling debt: borrower: '{} {}', lender: '{} {}', amount: '{}', desc: '{}'", //
-                asset.getBorrowerSurname(), asset.getBorrowerName(), asset.getUser().getSurname(), asset.getUser().getName(), asset.getAmount(), asset.getDescription());
-
         em.remove(asset);
+
+        User lender = asset.getUser();
+        log.info("Cancelled debt: '{} {}' --> '{} {}', amount: '{}', desc: '{}'", //
+                lender.getName(), lender.getSurname(), asset.getBorrowerName(), asset.getBorrowerSurname(), asset.getAmount(), asset.getDescription());
     }
 
     @Override
@@ -78,8 +79,8 @@ public class PaymentServiceImpl implements PaymentService {
         asset.setUser(lender);
         asset.setCreationDate(new Date());
         assetRepository.save(asset);
-        log.info("Added debt for '{} {}' (lender '{} {}'): {}, {}$", //
-                asset.getBorrowerName(), asset.getBorrowerSurname(), lender.getName(), lender.getSurname(), asset.getDescription(), asset.getAmount()
+        log.info("Added debt '{} {}' --> '{} {}': {}, {}$", //
+                lender.getName(), lender.getSurname(), asset.getBorrowerName(), asset.getBorrowerSurname(), asset.getDescription(), asset.getAmount()
         );
     }
 

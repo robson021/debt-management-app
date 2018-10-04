@@ -20,7 +20,7 @@ public class Asset extends BasicEntity {
     @Column
     private Date creationDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user; // lender
 
