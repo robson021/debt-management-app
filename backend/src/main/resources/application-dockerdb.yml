@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/debts?useSSL=false&createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/debts?createDatabaseIfNotExist=true&verifyServerCertificate=false&useSSL=false&requireSSL=false
     username: root
     password: password
     driver-class-name: com.mysql.jdbc.Driver

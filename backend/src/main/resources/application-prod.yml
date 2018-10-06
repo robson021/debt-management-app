@@ -3,7 +3,7 @@ server.undertow:
   worker-threads: 4
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/debts?useSSL=false
+    url: jdbc:mysql://localhost:3306/debts?verifyServerCertificate=false&useSSL=false&requireSSL=false
     username: debtsUser
     password: password
     driver-class-name: com.mysql.jdbc.Driver

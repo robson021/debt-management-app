@@ -26,7 +26,7 @@ public class DevSettings {
     }
 
     @PostConstruct
-    void init() {
+    public void init() {
         String testUserEmail = "test@t.pl";
         User user = new User();
         user.setEmail(testUserEmail);
