@@ -7,7 +7,7 @@ import robert.db.entities.User;
 import robert.db.svc.api.UserService;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.rest.dto.asm.UserAssembler;
-import robert.web.svc.UserDetailsProvider;
+import robert.web.security.userdetails.UserDetailsProvider;
 
 import java.util.List;
 

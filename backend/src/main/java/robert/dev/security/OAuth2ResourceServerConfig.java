@@ -1,4 +1,4 @@
-package robert.web.security.dev.oauth2;
+package robert.dev.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

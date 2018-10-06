@@ -1,9 +1,8 @@
-package robert.web.svc;
+package robert.web.security.userdetails;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import robert.web.security.userdetails.UserDetailsImpl;
 
 import java.util.Collection;
 

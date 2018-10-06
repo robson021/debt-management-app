@@ -9,7 +9,7 @@ import robert.db.svc.api.UserService;
 import robert.exeptions.NotAnAdminException;
 import robert.exeptions.UnsupportedFunctionalityException;
 import robert.web.rest.dto.UserInfoDTO;
-import robert.web.svc.UserDetailsProvider;
+import robert.web.security.userdetails.UserDetailsProvider;
 
 import java.util.Objects;
 

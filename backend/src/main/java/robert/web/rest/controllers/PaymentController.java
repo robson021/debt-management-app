@@ -9,7 +9,7 @@ import robert.db.svc.api.PaymentService;
 import robert.web.rest.dto.FeeDTO;
 import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
-import robert.web.svc.UserDetailsProvider;
+import robert.web.security.userdetails.UserDetailsProvider;
 
 import java.util.List;
 import java.util.Set;

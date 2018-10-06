@@ -13,7 +13,7 @@ import robert.db.svc.api.PaymentService;
 import robert.tools.SpringWebMvcTest;
 import robert.tools.TestUtils;
 import robert.web.rest.dto.PaymentDTO;
-import robert.web.svc.UserDetailsProvider;
+import robert.web.security.userdetails.UserDetailsProvider;
 
 import java.util.Arrays;
 
