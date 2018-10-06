@@ -1,6 +1,6 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {HttpConnectionService} from "../http-connection.service";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {HttpConnectionService} from '../http-connection.service';
 
 @Component({
   selector: 'app-mutual-payments',
@@ -25,7 +25,7 @@ export class MutualPaymentsComponent implements OnInit {
 
   cancelPayment(paymentId) {
     this.http.performDelete('payments/delete-mutual-payment/' + paymentId + '/')
-      .subscribe(data => this.loadMutualPayments())
+      .subscribe(data => this.loadMutualPayments());
   }
 
   submitNewFee(paymentId, newFeeAmount) {

@@ -19,11 +19,11 @@ export class HttpConnectionService {
   }
 
   logUserIn(credentials) {
-    let headers: Headers = new Headers();
+    const headers: Headers = new Headers();
     headers.append('Authorization', 'Basic ' + btoa('client:secret'));
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-    let url = `oauth/token?password=${credentials.password}&username=${credentials.email}&grant_type=password&scope=openid&client_secret=secret&client_id=client`;
+    const url = `oauth/token?password=${credentials.password}&username=${credentials.email}&grant_type=password&scope=openid&client_secret=secret&client_id=client`;
 
     this.http
       .post(this.api + url, null, {headers: headers})
@@ -71,10 +71,9 @@ export class HttpConnectionService {
   }
 
   checkTokenAndEnterApplication() {
-    let token = sessionStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (token) {
       this.headers.append('Authorization', token);
-      this.checkAdminPrivileges();
       this.showNavBar();
       this.router.navigate(['/my-debts']);
     }

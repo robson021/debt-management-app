@@ -28,7 +28,7 @@ export class NotesComponent implements OnInit {
 
     this.http.performGet(this.NOTES_URI)
       .subscribe(data => {
-        this.notes = data.reverse();
+        this.notes = data;
       });
   }
 

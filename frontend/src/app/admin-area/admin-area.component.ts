@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpConnectionService} from "../http-connection.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {HttpConnectionService} from '../http-connection.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-admin-area',

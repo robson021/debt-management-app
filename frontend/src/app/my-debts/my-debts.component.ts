@@ -1,5 +1,5 @@
-import {Component, OnInit} from "@angular/core";
-import {HttpConnectionService} from "../http-connection.service";
+import {Component, OnInit} from '@angular/core';
+import {HttpConnectionService} from '../http-connection.service';
 
 @Component({
   selector: 'app-my-debts',
@@ -16,7 +16,7 @@ export class MyDebtsComponent implements OnInit {
 
   ngOnInit() {
     this.http.performGet('payments/my-debts/')
-      .subscribe( data => {
+      .subscribe(data => {
         this.debts = data;
         console.log(this.debts);
       });

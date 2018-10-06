@@ -1,6 +1,6 @@
-import {Component} from "@angular/core";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {HttpConnectionService} from "../http-connection.service";
+import {Component} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {HttpConnectionService} from '../http-connection.service';
 
 @Component({
   selector: 'app-login',
