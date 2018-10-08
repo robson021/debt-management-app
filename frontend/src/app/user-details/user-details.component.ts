@@ -18,7 +18,6 @@ export class UserDetailsComponent implements OnInit {
         this.users = data;
         this.getDebtsDiff();
       });
-    this.http.checkAdminPrivileges();
   }
 
   private getDebtsDiff() {

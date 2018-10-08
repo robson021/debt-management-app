@@ -6,12 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import robert.db.svc.api.UserService;
-import robert.exeptions.NotAnAdminException;
 import robert.exeptions.UnsupportedFunctionalityException;
 import robert.web.rest.dto.UserInfoDTO;
 import robert.web.security.userdetails.UserDetailsProvider;
-
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/auth")
@@ -41,17 +38,6 @@ public class AuthController {
         }
         userService.saveNewUser(userDTO);
         log.info("Registered new user: {}", userDTO);
-    }
-
-    @GetMapping("/am-i-admin")
-    @ResponseStatus(HttpStatus.OK)
-    public void checkIfAdmin() {
-        boolean isAdmin = userDetailsProvider.getAuthorities()
-                .stream()
-                .anyMatch(role -> Objects.equals(role.getAuthority(), "ROLE_ADMIN"));
-
-        if (!isAdmin)
-            throw new NotAnAdminException();
     }
 
 }

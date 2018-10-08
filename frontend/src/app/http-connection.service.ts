@@ -84,7 +84,7 @@ export class HttpConnectionService {
       .get(this.api + 'auth/am-i-admin', {headers: this.headers})
       .subscribe(
         (data) => {
-          this.showAdminButton();
+          // TODO
         },
         (err) => {
         }
@@ -93,12 +93,6 @@ export class HttpConnectionService {
 
   private showNavBar() {
     document.getElementById('navbar').style.display = 'block';
-  }
-
-  private showAdminButton() {
-    document.getElementById('admin-button')
-      .style
-      .display = 'list-item';
   }
 
   private serverError(err: any) {
