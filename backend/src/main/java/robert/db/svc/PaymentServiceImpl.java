@@ -45,7 +45,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @Cacheable(value = "debts", key = "#borrowerId")
+    @Cacheable(value = "debts")
     public List<Asset> findUserDebts(long borrowerId) {
         return em.createQuery("from Asset a where a.borrowerId = :id order by creationDate desc", Asset.class)
                 .setParameter("id", borrowerId)
@@ -53,7 +53,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @Cacheable(value = "debts", key = "#userId")
+    @Cacheable(value = "debtors")
     public List<Asset> findUserDebtors(long userId) {
         return em.createQuery("from Asset a where a.user.id = :id order by creationDate desc", Asset.class)
                 .setParameter("id", userId)
@@ -61,7 +61,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @CacheEvict(value = "debts", allEntries = true)
+    @CacheEvict(cacheNames = {"debts", "debtors", "moneyBalance", "debtBalance"}, allEntries = true)
     public void cancelDebt(long assetId, long userId) {
         if (!doesAssetBelongToUser(assetId, userId))
             throw new BadParameterException("User tried to cancel not his debt");
@@ -78,7 +78,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @CacheEvict(value = "debts", allEntries = true)
+    @CacheEvict(cacheNames = {"debts", "debtors", "debtBalance", "moneyBalance"}, allEntries = true)
     public void addDebtor(long lenderId, PaymentDTO borrowerInfo) {
         User lender = userRepository.findById(lenderId).get();
         Asset asset = PaymentAssembler.paymentDtoToAsset(borrowerInfo);
@@ -140,7 +140,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @Cacheable(value = "debts", key = "#userId")
+    @Cacheable(value = "debtBalance")
     public double getUserDebtBalance(long userId) {
         Double debtorsSum = em.createQuery("select sum(amount) from Asset a where a.user.id = :id", Double.class)
                 .setParameter("id", userId)
@@ -154,7 +154,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @Cacheable(value = "debts", key = "#userId")
+    @Cacheable(value = "moneyBalance")
     public double getMoneyBalanceWithOtherUser(long userId, long otherUserId) {
         final String query = "select sum(amount) from Asset a where a.user.id = :id1 and borrowerId = :id2";
 
