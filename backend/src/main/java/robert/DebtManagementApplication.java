@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -16,6 +17,7 @@ import robert.svc.api.MailerService;
 @EntityScan(basePackages = "robert.db.entities")
 @EnableJpaRepositories(basePackages = "robert.db.repo")
 @EnableTransactionManagement
+@EnableCaching
 public class DebtManagementApplication {
 
     public static void main(String[] args) {
