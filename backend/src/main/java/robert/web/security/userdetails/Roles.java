@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-class Roles {
+final class Roles {
 
     static final List<SimpleGrantedAuthority> ROLE_USER;
 

@@ -1,5 +1,7 @@
 package robert.db.svc;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @CacheEvict(value = "otherUsers", allEntries = true)
     public User saveNewUser(User user) {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
@@ -37,6 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @CacheEvict(value = "otherUsers", allEntries = true)
     public User saveNewUser(UserInfoDTO userDTO) {
         User user = UserAssembler.convertDtoToUser(userDTO);
         return this.saveNewUser(user);
@@ -53,6 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable("otherUsers")
     public List<User> findOtherUsersExceptGiven(long userId) {
         return em.createQuery("from User u where u.id != :id order by u.surname", User.class)
                 .setParameter("id", userId)

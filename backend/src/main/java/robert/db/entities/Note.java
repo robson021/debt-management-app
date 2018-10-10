@@ -54,4 +54,12 @@ public class Note extends BasicEntity {
     private String stripNote(String text) {
         return StringUtils.strip(text, "\"");
     }
+
+    @Override
+    public String toString() {
+        return "Note{" +
+                "text='" + text + '\'' +
+                ", creationDate=" + creationDate +
+                '}';
+    }
 }
