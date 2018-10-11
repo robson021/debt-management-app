@@ -2,10 +2,10 @@ package robert.db.svc;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import robert.cache.annotations.notes.UserNotesCache;
+import robert.cache.annotations.notes.UserNotesCacheEvict;
 import robert.db.entities.Note;
 import robert.db.entities.User;
 import robert.db.svc.api.NoteService;
@@ -27,7 +27,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    @CacheEvict(value = "notes", key = "#userId")
+    @UserNotesCacheEvict
     public void saveNewNote(Note note, long userId) {
         User user = em.getReference(User.class, userId);
         note.setCreationDate(new Date());
@@ -37,7 +37,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    @CacheEvict(value = "notes", key = "#userId")
+    @UserNotesCacheEvict
     public void deleteNote(long userId, long noteId) {
         Note note = em.createQuery("from Note n where n.id = :nid and n.user.id = :uid", Note.class)
                 .setParameter("nid", noteId)
@@ -49,7 +49,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    @Cacheable(value = "notes", key = "#userId")
+    @UserNotesCache
     public List<Note> getAllUsersNotes(long userId) {
         return em.createQuery("from Note n where n.user.id = :id order by creationDate desc", Note.class)
                 .setParameter("id", userId)

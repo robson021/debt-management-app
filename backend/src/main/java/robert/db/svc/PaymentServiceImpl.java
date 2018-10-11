@@ -2,10 +2,9 @@ package robert.db.svc;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import robert.cache.annotations.payments.*;
 import robert.db.entities.Asset;
 import robert.db.entities.Fee;
 import robert.db.entities.MutualPayment;
@@ -45,7 +44,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @Cacheable(value = "debts")
+    @DebtsCache
     public List<Asset> findUserDebts(long borrowerId) {
         return em.createQuery("from Asset a where a.borrowerId = :id order by creationDate desc", Asset.class)
                 .setParameter("id", borrowerId)
@@ -53,7 +52,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @Cacheable(value = "debtors")
+    @DebtorsCache
     public List<Asset> findUserDebtors(long userId) {
         return em.createQuery("from Asset a where a.user.id = :id order by creationDate desc", Asset.class)
                 .setParameter("id", userId)
@@ -61,7 +60,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @CacheEvict(cacheNames = {"debts", "debtors", "moneyBalance", "debtBalance"}, allEntries = true)
+    @PaymentsCacheEvict
     public void cancelDebt(long assetId, long userId) {
         if (!doesAssetBelongToUser(assetId, userId))
             throw new BadParameterException("User tried to cancel not his debt");
@@ -78,7 +77,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @CacheEvict(cacheNames = {"debts", "debtors", "debtBalance", "moneyBalance"}, allEntries = true)
+    @PaymentsCacheEvict
     public void addDebtor(long lenderId, PaymentDTO borrowerInfo) {
         User lender = userRepository.findById(lenderId).get();
         Asset asset = PaymentAssembler.paymentDtoToAsset(borrowerInfo);
@@ -140,7 +139,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @Cacheable(value = "debtBalance")
+    @DebtBalanceCache
     public double getUserDebtBalance(long userId) {
         Double debtorsSum = em.createQuery("select sum(amount) from Asset a where a.user.id = :id", Double.class)
                 .setParameter("id", userId)
@@ -154,7 +153,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @Cacheable(value = "moneyBalance")
+    @MoneyBalanceCache
     public double getMoneyBalanceWithOtherUser(long userId, long otherUserId) {
         final String query = "select sum(amount) from Asset a where a.user.id = :id1 and borrowerId = :id2";
 
