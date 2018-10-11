@@ -1,6 +1,6 @@
 server.port: 9999
 spring:
-  profiles.active: dev,oauth2
+  profiles.active: dev,oauth2,h2
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
