@@ -12,6 +12,8 @@ logging:
     org.hibernate: warn
     org.springframework: warn
     org.springframework.boot.context.embedded: info
-  file: app.log
+  file: logs/app.log
 management.endpoints.web.exposure.include: logfile,auditevents,httptrace,beans,metrics,info
-robert.registrationEnabled: true
+robert:
+  registrationEnabled: true
+  defaultMailReceiver: test@123.pl

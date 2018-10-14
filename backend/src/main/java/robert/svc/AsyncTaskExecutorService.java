@@ -16,12 +16,9 @@ public class AsyncTaskExecutorService {
 
     public AsyncTaskExecutorService() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(4);
-        executor.setQueueCapacity(3);
-        executor.setMaxPoolSize(8);
         executor.setKeepAliveSeconds(30);
+        executor.initialize();
         this.taskExecutor = executor;
-        this.taskExecutor.initialize();
     }
 
     void submit(Runnable task) {
