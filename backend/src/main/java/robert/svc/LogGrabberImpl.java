@@ -35,9 +35,7 @@ public class LogGrabberImpl implements LogGrabber {
 
     @Override
     public void findAndSendArchivedLogs() {
-        File dir = new File("./logs");
-        File[] files = dir.listFiles(fileFilter);
-
+        File[] files = new File("./logs").listFiles(fileFilter);
         if (files != null && files.length > 0) {
             log.info("Current archived logs: {}", Arrays.toString(files));
             mailSender.sendEmail(mailReceiver, "Archived logs", "Gathered logs", true, files);

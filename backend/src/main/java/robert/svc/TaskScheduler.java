@@ -15,7 +15,7 @@ public class TaskScheduler {
         this.logGrabber = logGrabber;
     }
 
-    @Scheduled(cron = "0 0 6 * * *")
+    @Scheduled(cron = "0 0 4 * * *")
     public void reportCurrentTime() {
         logGrabber.findAndSendArchivedLogs();
     }
