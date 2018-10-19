@@ -47,6 +47,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User findUserByEmail(String email) {
         return userRepository.findOneByEmail(email);
     }
@@ -58,6 +59,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @OtherUsersCache
+    @Transactional(readOnly = true)
     public List<User> findOtherUsersExceptGiven(long userId) {
         return em.createQuery("from User u where u.id != :id order by u.surname", User.class)
                 .setParameter("id", userId)
@@ -65,6 +67,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> findAllUsers() {
         return (List<User>) userRepository.findAll();
     }

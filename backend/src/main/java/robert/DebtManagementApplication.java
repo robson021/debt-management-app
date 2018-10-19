@@ -32,7 +32,7 @@ public class DebtManagementApplication {
     @Lazy
     @ConditionalOnMissingBean
     public MailerService mailerService() {
-        Logger log = LoggerFactory.getLogger("MockMailSender");
+        final Logger log = LoggerFactory.getLogger("MockMailService");
         return (receiverEmail, topic, body, file, deleteFileAfterIsSent) -> log.info("Sending mail to {}", receiverEmail);
     }
 

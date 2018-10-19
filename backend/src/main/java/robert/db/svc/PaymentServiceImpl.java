@@ -45,6 +45,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @DebtsCache
+    @Transactional(readOnly = true)
     public List<Asset> findUserDebts(long borrowerId) {
         return em.createQuery("from Asset a where a.borrowerId = :id order by creationDate desc", Asset.class)
                 .setParameter("id", borrowerId)
@@ -53,6 +54,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @DebtorsCache
+    @Transactional(readOnly = true)
     public List<Asset> findUserDebtors(long userId) {
         return em.createQuery("from Asset a where a.user.id = :id order by creationDate desc", Asset.class)
                 .setParameter("id", userId)
@@ -111,12 +113,14 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Set<Fee> getFeesForMutualPayment(long mutualPaymentId) {
         MutualPayment mutualPayment = mutualPaymentRepository.findById(mutualPaymentId).get();
         return mutualPayment.getPayedFees();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<MutualPayment> getAllMutualPayments() {
         return mutualPaymentRepository.findAll();
     }
@@ -140,6 +144,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @DebtBalanceCache
+    @Transactional(readOnly = true)
     public double getUserDebtBalance(long userId) {
         Double debtorsSum = em.createQuery("select sum(amount) from Asset a where a.user.id = :id", Double.class)
                 .setParameter("id", userId)
@@ -154,6 +159,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @MoneyBalanceCache
+    @Transactional(readOnly = true)
     public double getMoneyBalanceWithOtherUser(long userId, long otherUserId) {
         final String query = "select sum(amount) from Asset a where a.user.id = :id1 and borrowerId = :id2";
 

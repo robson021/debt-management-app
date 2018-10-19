@@ -50,6 +50,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     @UserNotesCache
+    @Transactional(readOnly = true)
     public List<Note> getAllUsersNotes(long userId) {
         return em.createQuery("from Note n where n.user.id = :id order by creationDate desc", Note.class)
                 .setParameter("id", userId)
@@ -57,6 +58,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Note> getAllNotes() {
         return em.createQuery("from Note", Note.class)
                 .getResultList();
