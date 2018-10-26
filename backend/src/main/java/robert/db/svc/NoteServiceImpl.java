@@ -31,8 +31,8 @@ public class NoteServiceImpl implements NoteService {
     public void saveNewNote(Note note, long userId) {
         User user = em.getReference(User.class, userId);
         note.setCreationDate(new Date());
-        user.getNotes().add(note);
         note.setUser(user);
+        em.persist(note);
         log.info("Adding note for user: {}; content: {}", user.getEmail(), note.getText());
     }
 
