@@ -1,7 +1,6 @@
 spring:
   datasource:
     hikari:
-      minimum-idle: 1
       maximum-pool-size: 1
   h2.console:
     enabled: true

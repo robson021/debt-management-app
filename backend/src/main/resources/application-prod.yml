@@ -8,7 +8,6 @@ spring:
     password: password
     driver-class-name: com.mysql.jdbc.Driver
     hikari:
-      minimum-idle: 1
       maximum-pool-size: 4
   jpa:
     generate-ddl: true
