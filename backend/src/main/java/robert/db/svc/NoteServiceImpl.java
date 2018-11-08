@@ -33,7 +33,7 @@ public class NoteServiceImpl implements NoteService {
         note.setCreationDate(new Date());
         note.setUser(user);
         em.persist(note);
-        log.info("Adding note for user: {}; content: {}", user.getEmail(), note.getText());
+        log.info("Adding note '{}' for user {}", note.getText(), user.getEmail());
     }
 
     @Override
