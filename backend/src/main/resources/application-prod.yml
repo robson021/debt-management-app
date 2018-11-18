@@ -20,4 +20,6 @@ logging:
     org.hibernate: error
     org.springframework: error
     org.springframework.boot.context.embedded: info
-robert.registrationEnabled: false
+robert:
+  registrationEnabled: false
+  defaultMailReceiver: invoice.writer@gmail.com
