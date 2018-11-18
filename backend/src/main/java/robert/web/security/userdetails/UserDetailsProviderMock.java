@@ -1,6 +1,6 @@
 package robert.web.security.userdetails;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import robert.DevSettings;
@@ -8,7 +8,7 @@ import robert.DevSettings;
 import java.util.Collection;
 
 @Service
-@ConditionalOnMissingClass
+@ConditionalOnMissingBean(name = "UserDetailsProvider")
 public class UserDetailsProviderMock implements UserDetailsProvider {
 
     @Override

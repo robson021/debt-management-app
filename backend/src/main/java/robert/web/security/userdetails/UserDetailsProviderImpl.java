@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
-@Service
+@Service("UserDetailsProvider")
 @Profile("prod")
 public class UserDetailsProviderImpl implements UserDetailsProvider {
 
