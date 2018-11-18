@@ -3,7 +3,7 @@ package robert.web.security.userdetails;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
-import robert.dev.DevSettings;
+import robert.DevSettings;
 
 import java.util.Collection;
 

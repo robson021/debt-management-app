@@ -1,4 +1,4 @@
-package robert.dev;
+package robert;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.context.annotation.Profile;
@@ -40,7 +40,6 @@ public class DevSettings {
     public void init() {
         userService.saveNewUser(USER);
         System.out.println("saved test USER: " + USER.toString());
-        System.out.println("test USER password: " + USER.getPassword());
 
         Stream.of(new User(), new User(), new User(), new User())
                 .forEach(u -> {
