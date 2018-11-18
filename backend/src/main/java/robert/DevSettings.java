@@ -43,7 +43,7 @@ public class DevSettings {
 
         Stream.of(new User(), new User(), new User(), new User())
                 .forEach(u -> {
-                    u.setEmail("USER@mail." + RandomStringUtils.randomAlphabetic(3).toLowerCase());
+                    u.setEmail("USER@mail." + RandomStringUtils.randomAlphabetic(6).toLowerCase());
                     u.setName(RandomStringUtils.randomAlphabetic(6));
                     u.setSurname(RandomStringUtils.randomAlphabetic(6));
                     String password = "P.1" + RandomStringUtils.randomAlphanumeric(7);
@@ -63,7 +63,8 @@ public class DevSettings {
                     p.setBorrowerSurname(borrower.getSurname());
                     p.setBorrowerName(borrower.getName());
                     p.setBorrowerId(borrower.getId());
-                    paymentService.addDebtor(userId, p);
+                    // TODO: fix on mysql profile
+                    //paymentService.addDebtor(userId, p);
                 });
     }
 }
