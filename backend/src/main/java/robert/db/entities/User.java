@@ -24,7 +24,7 @@ public class User extends BasicEntity {
     @Column(nullable = false)
     private String accountNo;
 
-    @Column(nullable = false)
+    @Column(name = "role", nullable = false)
     private Boolean adminRole = false;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
