@@ -1,6 +1,5 @@
 import {RouterModule, Routes} from '@angular/router';
 import {ModuleWithProviders} from '@angular/core';
-import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {MyDebtsComponent} from './my-debts/my-debts.component';
 import {MyDebtorsComponent} from './my-debtors/my-debtors.component';
@@ -10,8 +9,9 @@ import {AdminAreaComponent} from './admin-area/admin-area.component';
 import {NotesComponent} from './notes/notes.component';
 
 export const router: Routes = [
-  {path: '', redirectTo: 'login', pathMatch: 'full'},
-  {path: 'login', component: LoginComponent},
+  // {path: '', redirectTo: 'login', pathMatch: 'full'},
+  // {path: 'login', component: LoginComponent},
+  {path: '', redirectTo: '/', pathMatch: 'full'},
   {path: 'register', component: RegisterComponent},
   {path: 'my-debts', component: MyDebtsComponent},
   {path: 'my-debtors', component: MyDebtorsComponent},
