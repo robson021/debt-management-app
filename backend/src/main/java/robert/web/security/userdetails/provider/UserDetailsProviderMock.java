@@ -19,7 +19,7 @@ public class UserDetailsProviderMock implements UserDetailsProvider {
 
     @Override
     public String getUserEmail() {
-        return DevSettings.USER.getName();
+        return DevSettings.TEST_USER.getName();
     }
 
     @Override

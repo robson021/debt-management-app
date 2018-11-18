@@ -33,7 +33,7 @@ public class AuthController {
             throw new UnsupportedFunctionalityException();
         }
         userService.saveNewUser(userDTO);
-        log.info("Registered new USER: {}", userDTO);
+        log.info("Registered new TEST_USER: {}", userDTO);
     }
 
 }

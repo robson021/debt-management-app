@@ -49,23 +49,23 @@ public class PaymentController {
     }
 
     @DeleteMapping("/cancel-debt/{id}/")
-    public HttpStatus cancelDebt(@PathVariable long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public void cancelDebt(@PathVariable long id) {
         long userId = userDetailsProvider.getUserId();
         paymentService.cancelDebt(id, userId);
-        return HttpStatus.OK;
     }
 
     @PostMapping("/add-mutual-payment")
-    public HttpStatus addNewMutualPayment(@RequestBody PaymentDTO paymentDTO) {
+    @ResponseStatus(HttpStatus.OK)
+    public void addNewMutualPayment(@RequestBody PaymentDTO paymentDTO) {
         paymentService.addMutualPayment(paymentDTO);
-        return HttpStatus.OK;
     }
 
     @PostMapping("/add-fee/{id}/{amount}/")
-    public HttpStatus addFeeToMutualPayment(@PathVariable long id, @PathVariable double amount) {
+    @ResponseStatus(HttpStatus.OK)
+    public void addFeeToMutualPayment(@PathVariable long id, @PathVariable double amount) {
         long userId = userDetailsProvider.getUserId();
         paymentService.addUserFeeToPayment(userId, id, amount);
-        return HttpStatus.OK;
     }
 
     @GetMapping("/mutual-payment-fees/{id}/")
@@ -81,16 +81,16 @@ public class PaymentController {
     }
 
     @DeleteMapping("/delete-my-fees/{id}/")
-    public HttpStatus deleteMyFees(@PathVariable long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteMyFees(@PathVariable long id) {
         long userId = userDetailsProvider.getUserId();
         paymentService.deleteUserFees(userId, id);
-        return HttpStatus.OK;
     }
 
     @DeleteMapping("/delete-mutual-payment/{id}/")
-    public HttpStatus deleteMutualPayment(@PathVariable long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteMutualPayment(@PathVariable long id) {
         paymentService.deleteMutualPayment(id);
-        return HttpStatus.OK;
     }
 
     @GetMapping("/money-balance")

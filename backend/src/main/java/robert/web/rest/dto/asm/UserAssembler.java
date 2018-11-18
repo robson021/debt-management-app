@@ -25,7 +25,7 @@ public class UserAssembler {
         return user;
     }
 
-    public static UserInfoDTO convertToUserInfoDTO(User user) {
+    private static UserInfoDTO convertToUserInfoDTO(User user) {
         UserInfoDTO userInfoDTO = new UserInfoDTO();
         userInfoDTO.setId(user.getId());
         userInfoDTO.setName(user.getName());
