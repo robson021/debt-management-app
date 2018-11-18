@@ -5,7 +5,7 @@ import javax.validation.constraints.Pattern;
 import java.util.Set;
 
 @Entity
-@Table(name = "TEST_USER")
+@Table(name = "USER")
 public class User extends BasicEntity {
 
     @Column(nullable = false)
