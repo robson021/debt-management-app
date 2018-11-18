@@ -1,4 +1,4 @@
-package robert.web.security.userdetails;
+package robert.web.security.userdetails.provider;
 
 import org.springframework.security.core.GrantedAuthority;
 

@@ -6,11 +6,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-final class Roles {
+public final class Roles {
 
     public static final List<SimpleGrantedAuthority> ROLE_ADMIN;
 
-    static final List<SimpleGrantedAuthority> ROLE_USER;
+    public static final List<SimpleGrantedAuthority> ROLE_USER;
 
     static {
         SimpleGrantedAuthority roleUser = new SimpleGrantedAuthority("ROLE_USER");

@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import robert.db.entities.Note;
 import robert.db.svc.api.NoteService;
-import robert.web.security.userdetails.UserDetailsProvider;
+import robert.web.security.userdetails.provider.UserDetailsProvider;
 
 import java.util.List;
 

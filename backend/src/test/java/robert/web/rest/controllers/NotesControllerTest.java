@@ -9,7 +9,7 @@ import robert.db.entities.Note;
 import robert.db.svc.api.NoteService;
 import robert.tools.SpringWebMvcTest;
 import robert.tools.TestUtils;
-import robert.web.security.userdetails.UserDetailsProvider;
+import robert.web.security.userdetails.provider.UserDetailsProvider;
 
 import java.util.Arrays;
 import java.util.List;

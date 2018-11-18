@@ -1,9 +1,10 @@
-package robert.web.security.userdetails;
+package robert.web.security.userdetails.provider;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import robert.DevSettings;
+import robert.web.security.userdetails.Roles;
 
 import java.util.Collection;
 

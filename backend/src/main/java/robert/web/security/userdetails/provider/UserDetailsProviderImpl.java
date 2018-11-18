@@ -1,9 +1,10 @@
-package robert.web.security.userdetails;
+package robert.web.security.userdetails.provider;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import robert.web.security.userdetails.UserDetailsImpl;
 
 import java.util.Collection;
 

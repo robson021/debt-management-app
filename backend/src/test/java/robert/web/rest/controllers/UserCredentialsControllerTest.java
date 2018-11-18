@@ -9,7 +9,7 @@ import robert.db.entities.User;
 import robert.db.svc.api.UserService;
 import robert.tools.SpringWebMvcTest;
 import robert.tools.TestUtils;
-import robert.web.security.userdetails.UserDetailsProvider;
+import robert.web.security.userdetails.provider.UserDetailsProvider;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
