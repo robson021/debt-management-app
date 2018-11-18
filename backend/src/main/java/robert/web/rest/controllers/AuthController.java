@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import robert.db.svc.api.UserService;
 import robert.exeptions.UnsupportedFunctionalityException;
 import robert.web.rest.dto.UserInfoDTO;
-import robert.web.security.userdetails.UserDetailsProvider;
 
 @RestController
 @RequestMapping("/auth")
@@ -18,12 +17,9 @@ public class AuthController {
 
     private final UserService userService;
 
-    private final UserDetailsProvider userDetailsProvider;
-
     private final boolean isRegistrationEnabled;
 
-    public AuthController(@Value("${robert.registrationEnabled}") String registration, UserDetailsProvider userDetailsProvider, UserService userService) {
-        this.userDetailsProvider = userDetailsProvider;
+    public AuthController(@Value("${robert.registrationEnabled}") String registration, UserService userService) {
         this.userService = userService;
         this.isRegistrationEnabled = Boolean.parseBoolean(registration);
         log.info("Is registration enabled? - {}", isRegistrationEnabled);
@@ -37,7 +33,7 @@ public class AuthController {
             throw new UnsupportedFunctionalityException();
         }
         userService.saveNewUser(userDTO);
-        log.info("Registered new user: {}", userDTO);
+        log.info("Registered new USER: {}", userDTO);
     }
 
 }

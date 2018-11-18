@@ -8,9 +8,9 @@ import java.util.List;
 
 final class Roles {
 
-    static final List<SimpleGrantedAuthority> ROLE_USER;
+    public static final List<SimpleGrantedAuthority> ROLE_ADMIN;
 
-    static final List<SimpleGrantedAuthority> ROLE_ADMIN;
+    static final List<SimpleGrantedAuthority> ROLE_USER;
 
     static {
         SimpleGrantedAuthority roleUser = new SimpleGrantedAuthority("ROLE_USER");

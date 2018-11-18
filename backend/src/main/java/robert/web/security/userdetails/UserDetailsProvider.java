@@ -1,31 +1,14 @@
 package robert.web.security.userdetails;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
-@Service
-public class UserDetailsProvider {
+public interface UserDetailsProvider {
 
-    private UserDetailsImpl getUserDetails() {
-        Object principal = SecurityContextHolder.getContext()
-                .getAuthentication()
-                .getPrincipal();
+    long getUserId();
 
-        return (UserDetailsImpl) principal;
-    }
+    String getUserEmail();
 
-    public long getUserId() {
-        return getUserDetails().getUserId();
-    }
-
-    public String getUserEmail() {
-        return getUserDetails().getUsername();
-    }
-
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getUserDetails().getAuthorities();
-    }
+    Collection<? extends GrantedAuthority> getAuthorities();
 }

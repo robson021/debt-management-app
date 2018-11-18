@@ -23,7 +23,7 @@ public class GlobalRestExceptionHandler {
         if (ipAddress == null)
             ipAddress = request.getRemoteAddr();
 
-        log.error("Error: '{}', uri: '{}', ip: '{}', user: '{}'", ex.getMessage(), request.getRequestURI(), ipAddress, auth.getName());
+        log.error("Error: '{}', uri: '{}', ip: '{}', USER: '{}'", ex.getMessage(), request.getRequestURI(), ipAddress, auth.getName());
 
         return ResponseEntity //
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)

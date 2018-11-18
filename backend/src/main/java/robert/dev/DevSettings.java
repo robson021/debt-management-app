@@ -16,6 +16,8 @@ import java.util.stream.Stream;
 @Component
 public class DevSettings {
 
+    public static final User USER = new User();
+
     private final UserService userService;
 
     private final PaymentService paymentService;
@@ -25,21 +27,24 @@ public class DevSettings {
         this.paymentService = paymentService;
     }
 
+    static {
+        USER.setEmail("test@t.pl");
+        USER.setName("Example");
+        USER.setSurname("User");
+        USER.setPassword("Passwd.123");
+        USER.setAdminRole(true);
+        USER.setAccountNo(RandomStringUtils.randomNumeric(10));
+    }
+
     @PostConstruct
     public void init() {
-        String testUserEmail = "test@t.pl";
-        User user = new User();
-        user.setEmail(testUserEmail);
-        user.setName("Example");
-        user.setSurname("User");
-        String testUserPassword = "Passwd.123";
-        user.setPassword(testUserPassword);
-        user.setAdminRole(true);
-        user.setAccountNo(RandomStringUtils.randomNumeric(10));
+        userService.saveNewUser(USER);
+        System.out.println("saved test USER: " + USER.toString());
+        System.out.println("test USER password: " + USER.getPassword());
 
         Stream.of(new User(), new User(), new User(), new User())
                 .forEach(u -> {
-                    u.setEmail("user@mail." + RandomStringUtils.randomAlphabetic(3).toLowerCase());
+                    u.setEmail("USER@mail." + RandomStringUtils.randomAlphabetic(3).toLowerCase());
                     u.setName(RandomStringUtils.randomAlphabetic(6));
                     u.setSurname(RandomStringUtils.randomAlphabetic(6));
                     String password = "P.1" + RandomStringUtils.randomAlphanumeric(7);
@@ -49,17 +54,13 @@ public class DevSettings {
                     userService.saveNewUser(u);
                 });
 
-        userService.saveNewUser(user);
-        System.out.println("saved test user: " + user.toString());
-        System.out.println("test user password: " + testUserPassword);
-
-        long userId = userService.findUserByEmail(testUserEmail).getId();
-        User borrower = userService.findUserById(userId - 1);
+        long userId = userService.findUserByEmail(USER.getEmail()).getId();
+        User borrower = userService.findUserById(userId + 1);
 
         Stream.of(new PaymentDTO(), new PaymentDTO())
                 .forEach(p -> {
                     p.setAmount(ThreadLocalRandom.current().nextDouble() * 150);
-                    p.setDescription("Example Paymnet");
+                    p.setDescription("Example Payment");
                     p.setBorrowerSurname(borrower.getSurname());
                     p.setBorrowerName(borrower.getName());
                     p.setBorrowerId(borrower.getId());
