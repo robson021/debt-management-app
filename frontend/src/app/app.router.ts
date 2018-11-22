@@ -11,7 +11,7 @@ import {NotesComponent} from './notes/notes.component';
 export const router: Routes = [
   // {path: '', redirectTo: 'login', pathMatch: 'full'},
   // {path: 'login', component: LoginComponent},
-  {path: '', redirectTo: 'user-details', pathMatch: 'full'},
+  {path: '', redirectTo: 'my-debts', pathMatch: 'full'},
   {path: 'register', component: RegisterComponent},
   {path: 'my-debts', component: MyDebtsComponent},
   {path: 'my-debtors', component: MyDebtorsComponent},
