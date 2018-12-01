@@ -1,6 +1,6 @@
-package robert.cache.annotations.notes;
+package robert.annotations.cache.notes;
 
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@Cacheable(value = "notes", key = "#userId")
-public @interface UserNotesCache {
+@CacheEvict(value = "notes", key = "#userId")
+public @interface UserNotesCacheEvict {
 }

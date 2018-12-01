@@ -1,4 +1,4 @@
-package robert.cache.annotations.users;
+package robert.annotations.cache.payments;
 
 import org.springframework.cache.annotation.Cacheable;
 
@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@Cacheable("otherUsers")
-public @interface OtherUsersCache {
+@Cacheable("debtors")
+public @interface DebtorsCache {
 }

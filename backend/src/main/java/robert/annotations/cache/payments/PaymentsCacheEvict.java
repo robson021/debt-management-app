@@ -1,4 +1,4 @@
-package robert.cache.annotations.notes;
+package robert.annotations.cache.payments;
 
 import org.springframework.cache.annotation.CacheEvict;
 
@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@CacheEvict(value = "notes", key = "#userId")
-public @interface UserNotesCacheEvict {
+@CacheEvict(cacheNames = {"debts", "debtors", "moneyBalance", "debtBalance"}, allEntries = true)
+public @interface PaymentsCacheEvict {
 }
