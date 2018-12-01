@@ -4,22 +4,21 @@ import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import robert.svc.api.LogGrabber;
 import robert.svc.api.MailerService;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Arrays;
 
 @Service
-@Lazy
 public class LogGrabberImpl implements LogGrabber {
 
     private static final Logger log = LoggerFactory.getLogger(LogGrabber.class);
 
-    private final FilenameFilter fileFilter;
+    private final FilenameFilter fileFilter = new WildcardFileFilter("*.log.*.gz");
 
     private final MailerService mailSender;
 
@@ -28,9 +27,11 @@ public class LogGrabberImpl implements LogGrabber {
     public LogGrabberImpl(@Value("${robert.defaultMailReceiver}") String mailReceiver, MailerService mailSender) {
         this.mailSender = mailSender;
         this.mailReceiver = mailReceiver;
-        String logFilePattern = "*.log.*.gz";
-        this.fileFilter = new WildcardFileFilter(logFilePattern);
-        log.info("Log file name pattern to search: {}", logFilePattern);
+    }
+
+    @PostConstruct
+    void run() {
+        findAndSendArchivedLogs();
     }
 
     @Override

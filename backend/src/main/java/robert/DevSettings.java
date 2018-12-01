@@ -35,7 +35,7 @@ public class DevSettings {
     @PostConstruct
     public void init() {
         userService.saveNewUser(TEST_USER);
-        System.out.println("saved test TEST_USER: " + TEST_USER.toString());
+        System.out.println("saved TEST_USER: " + TEST_USER.toString());
 
         Stream.of(new User(), new User(), new User(), new User())
                 .forEach(u -> {
