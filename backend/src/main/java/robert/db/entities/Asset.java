@@ -1,11 +1,16 @@
 package robert.db.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.text.DecimalFormat;
 import java.util.Date;
 
 @Entity
 @Table(name = "ASSET")
+@Getter
+@Setter
 public class Asset extends BasicEntity {
 
     @Transient
@@ -45,61 +50,5 @@ public class Asset extends BasicEntity {
                 .replace(',', '.');
 
         this.amount = Double.valueOf(formatted);
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getBorrowerEmail() {
-        return borrowerEmail;
-    }
-
-    public void setBorrowerEmail(String borrowerEmail) {
-        this.borrowerEmail = borrowerEmail;
-    }
-
-    public String getBorrowerName() {
-        return borrowerName;
-    }
-
-    public void setBorrowerName(String borrowerName) {
-        this.borrowerName = borrowerName;
-    }
-
-    public String getBorrowerSurname() {
-        return borrowerSurname;
-    }
-
-    public void setBorrowerSurname(String borrowerSurname) {
-        this.borrowerSurname = borrowerSurname;
-    }
-
-    public long getBorrowerId() {
-        return borrowerId;
-    }
-
-    public void setBorrowerId(long borrowerId) {
-        this.borrowerId = borrowerId;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
     }
 }

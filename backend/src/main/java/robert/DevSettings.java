@@ -1,5 +1,6 @@
 package robert;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -13,15 +14,12 @@ import java.util.stream.Stream;
 
 @Profile("dev")
 @Component
+@RequiredArgsConstructor
 public class DevSettings {
 
     public static final User TEST_USER = new User();
 
     private final UserService userService;
-
-    public DevSettings(UserService userService) {
-        this.userService = userService;
-    }
 
     static {
         TEST_USER.setEmail("test@t.pl");

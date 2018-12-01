@@ -1,5 +1,6 @@
 package robert.web.rest.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,16 +14,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/credentials")
+@RequiredArgsConstructor
 public class UserCredentialsController {
 
     private final UserService userService;
 
     private final UserDetailsProvider userDetailsProvider;
-
-    public UserCredentialsController(UserService userService, UserDetailsProvider userDetailsProvider) {
-        this.userService = userService;
-        this.userDetailsProvider = userDetailsProvider;
-    }
 
     @GetMapping("/other-users")
     public List<UserInfoDTO> getOtherUsersDetails() {

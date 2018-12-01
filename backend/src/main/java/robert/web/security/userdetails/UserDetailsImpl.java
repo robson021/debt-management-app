@@ -21,7 +21,7 @@ public class UserDetailsImpl implements UserDetails {
         this.userId = user.getId();
         this.username = user.getEmail();
         this.password = user.getPassword();
-        this.authorities = user.hasAdminRole() ? Roles.ROLE_ADMIN : Roles.ROLE_USER;
+        this.authorities = user.getAdminRole() ? Roles.ROLE_ADMIN : Roles.ROLE_USER;
     }
 
     public long getUserId() {

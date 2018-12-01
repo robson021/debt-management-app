@@ -1,5 +1,6 @@
 package robert.web.rest.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import robert.db.entities.Asset;
@@ -16,16 +17,12 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/payments")
+@RequiredArgsConstructor
 public class PaymentController {
 
     private final UserDetailsProvider userDetailsProvider;
 
     private final PaymentService paymentService;
-
-    public PaymentController(UserDetailsProvider userDetailsProvider, PaymentService paymentService) {
-        this.userDetailsProvider = userDetailsProvider;
-        this.paymentService = paymentService;
-    }
 
     @PostMapping("/add-assets-to-user")
     @ResponseStatus(HttpStatus.OK)

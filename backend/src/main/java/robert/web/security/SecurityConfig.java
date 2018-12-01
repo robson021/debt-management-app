@@ -1,5 +1,6 @@
 package robert.web.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -10,13 +11,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @EnableWebSecurity
 @ConditionalOnMissingBean(name = "SecurityConfigDev")
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final DaoAuthenticationProvider authenticationProvider;
-
-    public SecurityConfig(DaoAuthenticationProvider authenticationProvider) {
-        this.authenticationProvider = authenticationProvider;
-    }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {

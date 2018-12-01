@@ -1,5 +1,6 @@
 package robert.db.svc;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import java.util.Set;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
 
     private static final Logger log = LoggerFactory.getLogger(PaymentService.class);
@@ -35,13 +37,6 @@ public class PaymentServiceImpl implements PaymentService {
     private final UserRepository userRepository;
 
     private final MutualPaymentRepository mutualPaymentRepository;
-
-    public PaymentServiceImpl(EntityManager em, AssetRepository assetRepository, UserRepository userRepository, MutualPaymentRepository mutualPaymentRepository) {
-        this.em = em;
-        this.assetRepository = assetRepository;
-        this.userRepository = userRepository;
-        this.mutualPaymentRepository = mutualPaymentRepository;
-    }
 
     @Override
     @DebtsCache

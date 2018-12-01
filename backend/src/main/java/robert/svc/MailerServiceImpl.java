@@ -1,5 +1,6 @@
 package robert.svc;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import java.io.IOException;
 
 @Service
 @Profile("mailer")
+@RequiredArgsConstructor
 public class MailerServiceImpl implements MailerService {
 
     private static final Logger log = LoggerFactory.getLogger(MailerServiceImpl.class);
@@ -24,11 +26,6 @@ public class MailerServiceImpl implements MailerService {
     private final JavaMailSender mailSender;
 
     private final AsyncTaskExecutorService asyncTaskExecutorService;
-
-    public MailerServiceImpl(JavaMailSender mailSender, AsyncTaskExecutorService asyncTaskExecutorService) {
-        this.mailSender = mailSender;
-        this.asyncTaskExecutorService = asyncTaskExecutorService;
-    }
 
     @Override
     public void sendEmail(String receiverEmail, String topic, String body, boolean deleteFilesAfterIsSent, File... files) {
