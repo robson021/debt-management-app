@@ -2,6 +2,7 @@ package robert.web.rest.dto;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class PaymentDTO {
 
     private String owner;
 
-    private double amount;
+    private BigDecimal amount;
 
     private String description;
 

@@ -12,6 +12,7 @@ import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
 import robert.web.security.userdetails.provider.UserDetailsProvider;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
@@ -60,7 +61,7 @@ public class PaymentController {
 
     @PostMapping("/add-fee/{id}/{amount}/")
     @ResponseStatus(HttpStatus.OK)
-    public void addFeeToMutualPayment(@PathVariable long id, @PathVariable double amount) {
+    public void addFeeToMutualPayment(@PathVariable long id, @PathVariable BigDecimal amount) {
         long userId = userDetailsProvider.getUserId();
         paymentService.addUserFeeToPayment(userId, id, amount);
     }
@@ -91,15 +92,15 @@ public class PaymentController {
     }
 
     @GetMapping("/money-balance")
-    public double getMoneyBalance() {
+    public String getMoneyBalance() {
         long userId = userDetailsProvider.getUserId();
-        return paymentService.getUserDebtBalance(userId);
+        return paymentService.getUserDebtBalance(userId).toString();
     }
 
     @GetMapping("/money-balance-with-other-user/{id}/")
-    public double getMoneyBalanceWithOtherUser(@PathVariable long id) {
+    public String getMoneyBalanceWithOtherUser(@PathVariable long id) {
         long userId = userDetailsProvider.getUserId();
-        return paymentService.getMoneyBalanceWithOtherUser(userId, id);
+        return paymentService.getMoneyBalanceWithOtherUser(userId, id).toString();
     }
 
 }

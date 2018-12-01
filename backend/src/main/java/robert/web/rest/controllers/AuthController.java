@@ -1,7 +1,6 @@
 package robert.web.rest.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +10,8 @@ import robert.web.rest.dto.UserInfoDTO;
 
 @RestController
 @RequestMapping("/auth")
+@Slf4j
 public class AuthController {
-
-    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
     private final UserService userService;
 

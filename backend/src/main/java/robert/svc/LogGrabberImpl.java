@@ -1,8 +1,8 @@
 package robert.svc;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import robert.svc.api.LogGrabber;
@@ -14,9 +14,8 @@ import java.io.FilenameFilter;
 import java.util.Arrays;
 
 @Service
+@Slf4j
 public class LogGrabberImpl implements LogGrabber {
-
-    private static final Logger log = LoggerFactory.getLogger(LogGrabber.class);
 
     private final FilenameFilter fileFilter = new WildcardFileFilter("*.log.*.gz");
 
@@ -37,7 +36,7 @@ public class LogGrabberImpl implements LogGrabber {
     @Override
     public void findAndSendArchivedLogs() {
         File[] files = new File("./logs").listFiles(fileFilter);
-        if (files != null && files.length > 0) {
+        if (ArrayUtils.isNotEmpty(files)) {
             log.info("Current archived logs: {}", Arrays.toString(files));
             mailSender.sendEmail(mailReceiver, "Archived logs", "Gathered logs", true, files);
         } else {

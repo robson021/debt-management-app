@@ -1,7 +1,6 @@
 package robert.web.rest.controllers.handlers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +10,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 
-@RestControllerAdvice
 @Profile("prod")
+@RestControllerAdvice
+@Slf4j
 public class GlobalRestExceptionHandler {
-
-    private static final Logger log = LoggerFactory.getLogger(GlobalRestExceptionHandler.class);
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleAccessDeniedException(Exception ex, HttpServletRequest request, Authentication auth) {

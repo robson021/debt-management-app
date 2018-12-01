@@ -1,8 +1,7 @@
 package robert.db.svc;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import robert.annotations.cache.notes.UserNotesCache;
@@ -17,10 +16,9 @@ import java.util.List;
 
 @Service
 @Transactional
+@Slf4j
 @RequiredArgsConstructor
 public class NoteServiceImpl implements NoteService {
-
-    private static final Logger log = LoggerFactory.getLogger(NoteService.class);
 
     private final EntityManager em;
 

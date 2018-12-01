@@ -14,12 +14,12 @@ public class UserDetailsProviderMock implements UserDetailsProvider {
 
     @Override
     public long getUserId() {
-        return 1L;
+        return DevSettings.TEST_USER_ID;
     }
 
     @Override
     public String getUserEmail() {
-        return DevSettings.TEST_USER.getName();
+        return DevSettings.TEST_USER.getEmail();
     }
 
     @Override

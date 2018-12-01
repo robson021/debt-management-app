@@ -11,6 +11,7 @@ import robert.db.svc.api.UserService;
 import robert.tools.SpringTest;
 import robert.tools.TestUtils;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class PaymentServiceTest extends SpringTest {
@@ -43,10 +44,10 @@ public class PaymentServiceTest extends SpringTest {
 
         Assertions.assertThat(userDebts.get(0)
                 .getAmount())
-                .isGreaterThan(.0);
+                .isGreaterThan(BigDecimal.ZERO);
 
         userDebts.forEach(userDebt -> Assertions.assertThat(userDebt.getAmount())
-                .isGreaterThan(.0));
+                .isGreaterThan(BigDecimal.ZERO));
     }
 
     @Test
@@ -57,9 +58,9 @@ public class PaymentServiceTest extends SpringTest {
                 .isEqualTo(2);
 
         userDebtors.stream()
-                .mapToDouble(Asset::getAmount)
+                .map(Asset::getAmount)
                 .forEach(amount -> Assertions.assertThat(amount)
-                        .isGreaterThan(.0));
+                        .isGreaterThan(BigDecimal.ZERO));
     }
 
     @Test
@@ -93,18 +94,18 @@ public class PaymentServiceTest extends SpringTest {
 
     @Test
     public void getBalance() {
-        double balance = paymentService.getUserDebtBalance(lender.getId());
+        BigDecimal balance = paymentService.getUserDebtBalance(lender.getId());
         Assertions.assertThat(balance)
-                .isGreaterThan(0);
+                .isGreaterThan(BigDecimal.ZERO);
     }
 
     @Test
     public void getBalanceBetweenUsers() {
         paymentService.addDebtor(lender.getId(), TestUtils.generatePayment(borrower));
-        double debt = paymentService.getMoneyBalanceWithOtherUser(lender.getId(), borrower.getId());
+        BigDecimal debt = paymentService.getMoneyBalanceWithOtherUser(lender.getId(), borrower.getId());
 
         Assertions.assertThat(debt)
-                .isGreaterThan(.0);
+                .isGreaterThan(BigDecimal.ZERO);
     }
 
 }

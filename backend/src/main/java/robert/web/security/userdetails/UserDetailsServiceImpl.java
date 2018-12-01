@@ -1,8 +1,7 @@
 package robert.web.security.userdetails;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,10 +10,9 @@ import robert.db.entities.User;
 import robert.db.repo.UserRepository;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-
-    private static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
     private final UserRepository userRepository;
 

@@ -7,6 +7,8 @@ import org.springframework.test.util.ReflectionTestUtils;
 import robert.db.entities.User;
 import robert.web.rest.dto.PaymentDTO;
 
+import java.math.BigDecimal;
+
 public class TestUtils {
 
     private static final ObjectMapper mapper = new ObjectMapper();
@@ -39,7 +41,7 @@ public class TestUtils {
 
     public static PaymentDTO generatePayment(User borrower) {
         PaymentDTO paymentDTO = new PaymentDTO();
-        paymentDTO.setAmount(RandomUtils.nextDouble(1, 9999));
+        paymentDTO.setAmount(BigDecimal.valueOf(RandomUtils.nextDouble(1, 9999)));
         paymentDTO.setDescription("test payment");
         paymentDTO.setBorrowerId(borrower.getId());
         paymentDTO.setBorrowerName(borrower.getName());

@@ -5,6 +5,7 @@ import robert.db.entities.Fee;
 import robert.db.entities.MutualPayment;
 import robert.web.rest.dto.PaymentDTO;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
@@ -20,7 +21,7 @@ public interface PaymentService {
 
     void addMutualPayment(PaymentDTO paymentDTO);
 
-    void addUserFeeToPayment(long userId, long mutualPaymentId, double feeAmount);
+    void addUserFeeToPayment(long userId, long mutualPaymentId, BigDecimal feeAmount);
 
     Set<Fee> getFeesForMutualPayment(long mutualPaymentId);
 
@@ -30,7 +31,7 @@ public interface PaymentService {
 
     void deleteMutualPayment(long mutualPaymentId);
 
-    double getUserDebtBalance(long userId);
+    BigDecimal getUserDebtBalance(long userId);
 
-    double getMoneyBalanceWithOtherUser(long userId, long otherUserId);
+    BigDecimal getMoneyBalanceWithOtherUser(long userId, long otherUserId);
 }

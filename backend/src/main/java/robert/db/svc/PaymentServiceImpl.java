@@ -1,8 +1,7 @@
 package robert.db.svc;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import robert.annotations.cache.payments.*;
@@ -19,16 +18,16 @@ import robert.web.rest.dto.PaymentDTO;
 import robert.web.rest.dto.asm.PaymentAssembler;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 @Service
 @Transactional
+@Slf4j
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
-
-    private static final Logger log = LoggerFactory.getLogger(PaymentService.class);
 
     private final EntityManager em;
 
@@ -94,7 +93,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void addUserFeeToPayment(long userId, long mutualPaymentId, double feeAmount) {
+    public void addUserFeeToPayment(long userId, long mutualPaymentId, BigDecimal feeAmount) {
         MutualPayment mutualPayment = mutualPaymentRepository.findById(mutualPaymentId).get();
         Fee fee = new Fee();
         fee.setUser(userRepository.findById(userId).get());
@@ -140,12 +139,12 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     @DebtBalanceCache
     @Transactional(readOnly = true)
-    public double getUserDebtBalance(long userId) {
-        Double debtorsSum = em.createQuery("select sum(amount) from Asset a where a.user.id = :id", Double.class)
+    public BigDecimal getUserDebtBalance(long userId) {
+        BigDecimal debtorsSum = em.createQuery("select sum(amount) from Asset a where a.user.id = :id", BigDecimal.class)
                 .setParameter("id", userId)
                 .getSingleResult();
 
-        Double userSum = em.createQuery("select sum(amount) from Asset a where a.borrowerId = :id", Double.class)
+        BigDecimal userSum = em.createQuery("select sum(amount) from Asset a where a.borrowerId = :id", BigDecimal.class)
                 .setParameter("id", userId)
                 .getSingleResult();
 
@@ -155,20 +154,17 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     @MoneyBalanceCache
     @Transactional(readOnly = true)
-    public double getMoneyBalanceWithOtherUser(long userId, long otherUserId) {
-        final String query = "select sum(amount) from Asset a where a.user.id = :id1 and borrowerId = :id2";
+    public BigDecimal getMoneyBalanceWithOtherUser(long userId, long otherUserId) {
+        BigDecimal otherUserDebts = getSingleResult(userId, otherUserId);
+        BigDecimal userDebts = getSingleResult(otherUserId, userId);
+        return getDifference(otherUserDebts, userDebts);
+    }
 
-        Double otherUserDebts = em.createQuery(query, Double.class)
+    private BigDecimal getSingleResult(long userId, long otherUserId) {
+        return em.createQuery("select sum(amount) from Asset a where a.user.id = :id1 and borrowerId = :id2", BigDecimal.class)
                 .setParameter("id1", userId)
                 .setParameter("id2", otherUserId)
                 .getSingleResult();
-
-        Double userDebts = em.createQuery(query, Double.class)
-                .setParameter("id1", otherUserId)
-                .setParameter("id2", userId)
-                .getSingleResult();
-
-        return getDifference(otherUserDebts, userDebts);
     }
 
     private boolean doesAssetBelongToUser(long assetId, long userId) {
@@ -176,10 +172,9 @@ public class PaymentServiceImpl implements PaymentService {
         return userId == asset.getUser().getId();
     }
 
-    private double getDifference(Double x, Double y) {
-        double a = x == null ? .0 : x;
-        double b = y == null ? .0 : y;
-
-        return a - b;
+    private BigDecimal getDifference(BigDecimal x, BigDecimal y) {
+        BigDecimal a = x == null ? BigDecimal.ZERO : x;
+        BigDecimal b = y == null ? BigDecimal.ZERO : y;
+        return a.subtract(b);
     }
 }
