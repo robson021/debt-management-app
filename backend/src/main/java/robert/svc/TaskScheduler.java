@@ -11,7 +11,7 @@ public class TaskScheduler {
 
     private final LogGrabber logGrabber;
 
-    @Scheduled(cron = "0 0 4 * * *")
+    @Scheduled(fixedDelay = 24 * 3600 * 1000)
     public void sendArchivedLogs() {
         logGrabber.findAndSendArchivedLogs();
     }
