@@ -31,7 +31,9 @@ public class MailerServiceImpl implements MailerService {
             try {
                 mailSender.send(createMessage(receiverEmail, topic, body, files));
                 log.info("Mail has been sent to {}", receiverEmail);
-                deleteFilesIfRequired(deleteFilesAfterIsSent, files);
+                if (deleteFilesAfterIsSent) {
+                    deleteFilesIfRequired(files);
+                }
             } catch (Exception ex) {
                 log.error("Error while sending email to {} - {}", receiverEmail, ex.getMessage());
             }
@@ -44,16 +46,17 @@ public class MailerServiceImpl implements MailerService {
         helper.setTo(receiverEmail);
         helper.setSubject(topic);
         helper.setText(body);
-        if (files != null && files.length > 0)
+        if (files != null && files.length > 0) {
             for (File file : files) {
                 FileSystemResource attachment = new FileSystemResource(file);
                 helper.addAttachment(attachment.getFilename(), attachment);
             }
+        }
         return mimeMessage;
     }
 
-    private void deleteFilesIfRequired(boolean deleteFilesAfterIsSent, File[] files) throws IOException {
-        if (deleteFilesAfterIsSent && files != null && files.length > 0) {
+    private void deleteFilesIfRequired(File[] files) throws IOException {
+        if (files != null && files.length > 0) {
             for (File file : files)
                 FileUtils.forceDelete(file);
         }
