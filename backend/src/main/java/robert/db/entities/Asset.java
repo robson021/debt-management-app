@@ -13,7 +13,7 @@ import java.util.Date;
 @Setter
 public class Asset extends BasicEntity {
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "decimal", precision = 10, scale = 2)
     private BigDecimal amount;
 
     @Column(nullable = false)

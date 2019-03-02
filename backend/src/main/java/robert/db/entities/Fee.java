@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Setter
 public class Fee extends BasicEntity {
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "decimal", precision = 10, scale = 2)
     private BigDecimal payedFee;
 
     @ManyToOne(fetch = FetchType.LAZY)
