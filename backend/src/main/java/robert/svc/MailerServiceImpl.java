@@ -14,6 +14,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 @Service
 @Profile("mailer")
@@ -32,7 +33,7 @@ public class MailerServiceImpl implements MailerService {
                 mailSender.send(createMessage(receiverEmail, topic, body, files));
                 log.info("Mail has been sent to {}", receiverEmail);
                 if (deleteFilesAfterIsSent) {
-                    deleteFilesIfRequired(files);
+                    deleteFilesIfExists(files);
                 }
             } catch (Exception ex) {
                 log.error("Error while sending email to {} - {}", receiverEmail, ex.getMessage());
@@ -55,10 +56,12 @@ public class MailerServiceImpl implements MailerService {
         return mimeMessage;
     }
 
-    private void deleteFilesIfRequired(File[] files) throws IOException {
+    private void deleteFilesIfExists(File[] files) throws IOException {
         if (files != null && files.length > 0) {
-            for (File file : files)
+            log.info("Deleting files: {}", Arrays.toString(files));
+            for (File file : files) {
                 FileUtils.forceDelete(file);
+            }
         }
     }
 
