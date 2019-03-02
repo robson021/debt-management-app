@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @MappedSuperclass
 @EqualsAndHashCode
-public abstract class BasicEntity {
+abstract class BasicEntity {
 
     @Id
     @GeneratedValue

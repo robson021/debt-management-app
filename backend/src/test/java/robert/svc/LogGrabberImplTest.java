@@ -1,5 +1,6 @@
 package robert.svc;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,19 +48,20 @@ public class LogGrabberImplTest {
         // given
         String logFilename1 = "1st.log.xyz.gz";
         String logFilename2 = "2nd.log.xyz.gz";
-        createLogFile(logFilename1);
-        createLogFile(logFilename2);
+        File logFile1 = createLogFile(logFilename1);
+        File logFile2 = createLogFile(logFilename2);
 
         // when
         logGrabber.findAndSendArchivedLogs();
 
         // then
-        verify(mailerService, times(1)).sendEmail(eq(MAIL_RECEIVER), anyString(), anyString(), anyBoolean(), any());
+        verify(mailerService).sendEmail(eq(MAIL_RECEIVER), anyString(), anyString(), anyBoolean(), any());
 
-        // todo - cleanup files
+        FileUtils.forceDeleteOnExit(logFile1);
+        FileUtils.forceDeleteOnExit(logFile2);
     }
 
-    private void createLogFile(String logFilename) throws IOException {
+    private File createLogFile(String logFilename) throws IOException {
         String logsDirName = "logs";
         Path path = Paths.get(logsDirName);
         if (Files.notExists(path))
@@ -69,5 +71,7 @@ public class LogGrabberImplTest {
 
         List<String> lines = Arrays.asList("The first line", "The second line");
         Files.write(file, lines, Charset.forName("UTF-8"));
+
+        return path.toFile();
     }
 }
