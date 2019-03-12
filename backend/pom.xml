@@ -24,7 +24,7 @@
         <java.version>11</java.version>
 
         <!--artifact versions-->
-        <spring-cloud.version>Finchley.SR1</spring-cloud.version>
+        <!--<spring-cloud.version>Finchley.SR1</spring-cloud.version>-->
         <apache.commons-lang.version>3.4</apache.commons-lang.version>
         <apache.commons-io.version>2.6</apache.commons-io.version>
     </properties>
