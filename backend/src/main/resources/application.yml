@@ -11,6 +11,7 @@ spring:
     hikari:
       pool-name: CustomHikariPool
       auto-commit: false
+logging.file: app.log
 management.endpoints.web.exposure.include: logfile,auditevents,httptrace,beans,metrics,info
 robert:
   registrationEnabled: true
