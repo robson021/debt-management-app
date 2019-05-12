@@ -45,7 +45,7 @@ public class DevSettings {
 
         Stream.of(new User(), new User(), new User(), new User())
                 .forEach(u -> {
-                    u.setEmail("TEST_USER@mail." + RandomStringUtils.randomAlphabetic(6).toLowerCase());
+                    u.setEmail("testuser@mail." + RandomStringUtils.randomAlphabetic(6).toLowerCase());
                     u.setName(RandomStringUtils.randomAlphabetic(6));
                     u.setSurname(RandomStringUtils.randomAlphabetic(6));
                     String password = "P.1" + RandomStringUtils.randomAlphanumeric(7);
