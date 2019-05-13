@@ -1,5 +1,6 @@
 package robert.web.security.userdetails;
 
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import robert.db.entities.User;
@@ -7,6 +8,7 @@ import robert.db.entities.User;
 import java.util.Collection;
 import java.util.List;
 
+@ToString(of = { "userId", "username", "authorities" })
 public class UserDetailsImpl implements UserDetails {
 
     private final long userId;
@@ -61,11 +63,6 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "UserDetailsImpl{" + "userId=" + userId + ", username='" + username + '\'' + ", authorities=" + authorities + '}';
     }
 
 }

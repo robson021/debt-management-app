@@ -1,6 +1,5 @@
 package robert;
 
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -35,7 +34,7 @@ public class DebtManagementApplication {
     @Lazy
     @ConditionalOnMissingBean
     public MailerService mailerService() {
-        final Logger log = LoggerFactory.getLogger("MockMailService");
+        var log = LoggerFactory.getLogger("MockMailService");
         return (receiverEmail, topic, body, file, deleteFileAfterIsSent) -> log.info("Sending mail to {}", receiverEmail);
     }
 
@@ -46,7 +45,7 @@ public class DebtManagementApplication {
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider(PasswordEncoder passwordEncoder, UserDetailsService userDetailsService) {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        var authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder);
         return authProvider;

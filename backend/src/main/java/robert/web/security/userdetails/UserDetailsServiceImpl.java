@@ -24,9 +24,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException(email);
         }
 
-        UserDetailsImpl userDetails = new UserDetailsImpl(user);
-        if (log.isDebugEnabled())
-            log.debug("Loaded: {}", userDetails);
+        var userDetails = new UserDetailsImpl(user);
+
+        log.debug("Loaded: {}", userDetails);
 
         return userDetails;
     }
